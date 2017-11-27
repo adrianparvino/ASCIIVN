@@ -1,0 +1,3 @@
+/home/myrl/Development/ASCIIVN/CMakeFiles/rebuild_cache.dir
+/home/myrl/Development/ASCIIVN/CMakeFiles/edit_cache.dir
+/home/myrl/Development/ASCIIVN/CMakeFiles/asciivn.dir

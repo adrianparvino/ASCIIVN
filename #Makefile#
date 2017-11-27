@@ -1,0 +1,18 @@
+.PHONY: all debug clean
+
+all: asciivn asciibuffer.o asciibufferaa.o
+
+main.o: main.c asciibufferaa.o
+	gcc -c main.c -o main.o
+asciibuffer.o: asciibuffer.c
+	gcc -c asciibuffer.c -o asciibuffer.o
+asciibufferaa.o: asciibufferaa.c
+	gcc -c asciibufferaa.c -I/-o asciibufferaa.o
+
+asciivn: main.o
+	gcc -laa main.o asciibufferaa.o -o asciivn
+
+clean:
+	rm main.o asciibuffer.o asciibufferaa.o
+
+Debug: all

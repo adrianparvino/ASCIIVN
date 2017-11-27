@@ -1,0 +1,635 @@
+The system is: Linux - 4.9.61 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/myrl/Development/ASCIIVN/CMakeFiles/3.8.2/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/home/myrl/Development/ASCIIVN/CMakeFiles/3.8.2/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_13505/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_13505.dir/build.make CMakeFiles/cmTC_13505.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_13505.dir/testCCompiler.c.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc    -o CMakeFiles/cmTC_13505.dir/testCCompiler.c.o   -c /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_13505
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_13505.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc      -rdynamic CMakeFiles/cmTC_13505.dir/testCCompiler.c.o  -o cmTC_13505 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_4d212/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_4d212.dir/build.make CMakeFiles/cmTC_4d212.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc    -o CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o   -c /nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/share/cmake-3.8/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_4d212
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4d212.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc     -v -rdynamic CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o  -o cmTC_4d212 
+Using built-in specs.
+COLLECT_GCC=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/bin/gcc
+COLLECT_LTO_WRAPPER=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper
+Target: x86_64-unknown-linux-gnu
+Configured with: 
+Thread model: posix
+gcc version 6.4.0 (GCC) 
+COMPILER_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_4d212' '-B' '/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-B' '/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/' '-idirafter' '/nix/store/gdh720icim8hkx1y4j498d7cry2zcpmv-glibc-2.25-49-dev/include' '-idirafter' '/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/include-fixed' '-B' '/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/' '-isystem' '/nix/store/h8mval4jdp8fqdp01hf34pyg032mpxwg-aalib-1.4rc5-dev/include' '-O2' '-D' '_FORTIFY_SOURCE=2' '-fstack-protector-strong' '--param' 'ssp-buffer-size=4' '-fPIC' '-fno-strict-overflow' '-Wformat=1' '-Wformat-security' '-Werror=format-security' '-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib' '-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib' '-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-mtune=generic' '-march=x86-64'
+ /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/collect2 -plugin /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/liblto_plugin.so -plugin-opt=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper -plugin-opt=-fresolution=/run/user/1000/ccZAn0ON.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib64/ld-linux-x86-64.so.2 -o cmTC_4d212 /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crt1.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crti.o /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtbegin.o -L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../.. -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/ld-linux-x86-64.so.2 CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib64 -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtend.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_4d212' '-B' '/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-B' '/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/' '-idirafter' '/nix/store/gdh720icim8hkx1y4j498d7cry2zcpmv-glibc-2.25-49-dev/include' '-idirafter' '/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/include-fixed' '-B' '/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/' '-isystem' '/nix/store/h8mval4jdp8fqdp01hf34pyg032mpxwg-aalib-1.4rc5-dev/include' '-O2' '-D' '_FORTIFY_SOURCE=2' '-fstack-protector-strong' '--param' 'ssp-buffer-size=4' '-fPIC' '-fno-strict-overflow' '-Wformat=1' '-Wformat-security' '-Werror=format-security' '-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib' '-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib' '-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_4d212/fast"]
+  ignore line: [/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_4d212.dir/build.make CMakeFiles/cmTC_4d212.dir/build]
+  ignore line: [make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc    -o CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o   -c /nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/share/cmake-3.8/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_4d212]
+  ignore line: [/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4d212.dir/link.txt --verbose=1]
+  ignore line: [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc     -v -rdynamic CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o  -o cmTC_4d212 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/bin/gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 6.4.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_4d212' '-B' '/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-B' '/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/' '-idirafter' '/nix/store/gdh720icim8hkx1y4j498d7cry2zcpmv-glibc-2.25-49-dev/include' '-idirafter' '/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/include-fixed' '-B' '/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/' '-isystem' '/nix/store/h8mval4jdp8fqdp01hf34pyg032mpxwg-aalib-1.4rc5-dev/include' '-O2' '-D' '_FORTIFY_SOURCE=2' '-fstack-protector-strong' '--param' 'ssp-buffer-size=4' '-fPIC' '-fno-strict-overflow' '-Wformat=1' '-Wformat-security' '-Werror=format-security' '-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib' '-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib' '-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-mtune=generic' '-march=x86-64']
+  link line: [ /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/collect2 -plugin /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/liblto_plugin.so -plugin-opt=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper -plugin-opt=-fresolution=/run/user/1000/ccZAn0ON.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib64/ld-linux-x86-64.so.2 -o cmTC_4d212 /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crt1.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crti.o /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtbegin.o -L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../.. -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/ld-linux-x86-64.so.2 CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib64 -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtend.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crtn.o]
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/run/user/1000/ccZAn0ON.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_4d212] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crt1.o] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crti.o] ==> ignore
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtbegin.o] ==> ignore
+    arg [-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib] ==> dir [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib]
+    arg [-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+    arg [-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+    arg [-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+    arg [-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+    arg [-L/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin] ==> dir [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin]
+    arg [-L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0] ==> dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0]
+    arg [-L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64] ==> dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64]
+    arg [-L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../..] ==> dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../..]
+    arg [-dynamic-linker] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/ld-linux-x86-64.so.2] ==> ignore
+    arg [CMakeFiles/cmTC_4d212.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-rpath] ==> ignore
+    arg [/nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib64] ==> ignore
+    arg [-rpath] ==> ignore
+    arg [/nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtend.o] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crtn.o] ==> ignore
+  remove lib [gcc]
+  remove lib [gcc_s]
+  remove lib [gcc]
+  remove lib [gcc_s]
+  collapse library dir [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib] ==> [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib]
+  collapse library dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+  collapse library dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+  collapse library dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+  collapse library dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+  collapse library dir [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin] ==> [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin]
+  collapse library dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0] ==> [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0]
+  collapse library dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64] ==> [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib64]
+  collapse library dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../..] ==> [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib]
+  implicit libs: [c]
+  implicit dirs: [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib;/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib;/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib;/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin;/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0;/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib64;/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_e4ff7/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_e4ff7.dir/build.make CMakeFiles/cmTC_e4ff7.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e4ff7.dir/feature_tests.c.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc   -std=c11 -o CMakeFiles/cmTC_e4ff7.dir/feature_tests.c.o   -c /home/myrl/Development/ASCIIVN/CMakeFiles/feature_tests.c
+Linking C executable cmTC_e4ff7
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e4ff7.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc      -rdynamic CMakeFiles/cmTC_e4ff7.dir/feature_tests.c.o  -o cmTC_e4ff7 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_9616f/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_9616f.dir/build.make CMakeFiles/cmTC_9616f.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9616f.dir/feature_tests.c.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc   -std=c99 -o CMakeFiles/cmTC_9616f.dir/feature_tests.c.o   -c /home/myrl/Development/ASCIIVN/CMakeFiles/feature_tests.c
+Linking C executable cmTC_9616f
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9616f.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc      -rdynamic CMakeFiles/cmTC_9616f.dir/feature_tests.c.o  -o cmTC_9616f 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_9b3e3/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_9b3e3.dir/build.make CMakeFiles/cmTC_9b3e3.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9b3e3.dir/feature_tests.c.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc   -std=c90 -o CMakeFiles/cmTC_9b3e3.dir/feature_tests.c.o   -c /home/myrl/Development/ASCIIVN/CMakeFiles/feature_tests.c
+Linking C executable cmTC_9b3e3
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9b3e3.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc      -rdynamic CMakeFiles/cmTC_9b3e3.dir/feature_tests.c.o  -o cmTC_9b3e3 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_1ebea/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_1ebea.dir/build.make CMakeFiles/cmTC_1ebea.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_1ebea.dir/testCXXCompiler.cxx.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++     -o CMakeFiles/cmTC_1ebea.dir/testCXXCompiler.cxx.o -c /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_1ebea
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1ebea.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++       -rdynamic CMakeFiles/cmTC_1ebea.dir/testCXXCompiler.cxx.o  -o cmTC_1ebea 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_559d7/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_559d7.dir/build.make CMakeFiles/cmTC_559d7.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++     -o CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o -c /nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_559d7
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_559d7.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++      -v -rdynamic CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_559d7 
+Using built-in specs.
+COLLECT_GCC=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/bin/g++
+COLLECT_LTO_WRAPPER=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper
+Target: x86_64-unknown-linux-gnu
+Configured with: 
+Thread model: posix
+gcc version 6.4.0 (GCC) 
+COMPILER_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_559d7' '-B' '/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-B' '/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/' '-idirafter' '/nix/store/gdh720icim8hkx1y4j498d7cry2zcpmv-glibc-2.25-49-dev/include' '-idirafter' '/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/include-fixed' '-B' '/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/' '-isystem' '/nix/store/h8mval4jdp8fqdp01hf34pyg032mpxwg-aalib-1.4rc5-dev/include' '-O2' '-D' '_FORTIFY_SOURCE=2' '-fstack-protector-strong' '--param' 'ssp-buffer-size=4' '-fPIC' '-fno-strict-overflow' '-Wformat=1' '-Wformat-security' '-Werror=format-security' '-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib' '-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib' '-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/collect2 -plugin /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/liblto_plugin.so -plugin-opt=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper -plugin-opt=-fresolution=/run/user/1000/ccptDbZq.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib64/ld-linux-x86-64.so.2 -o cmTC_559d7 /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crt1.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crti.o /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtbegin.o -L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../.. -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/ld-linux-x86-64.so.2 CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib64 -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtend.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_559d7' '-B' '/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-B' '/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/' '-idirafter' '/nix/store/gdh720icim8hkx1y4j498d7cry2zcpmv-glibc-2.25-49-dev/include' '-idirafter' '/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/include-fixed' '-B' '/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/' '-isystem' '/nix/store/h8mval4jdp8fqdp01hf34pyg032mpxwg-aalib-1.4rc5-dev/include' '-O2' '-D' '_FORTIFY_SOURCE=2' '-fstack-protector-strong' '--param' 'ssp-buffer-size=4' '-fPIC' '-fno-strict-overflow' '-Wformat=1' '-Wformat-security' '-Werror=format-security' '-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib' '-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib' '-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_559d7/fast"]
+  ignore line: [/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_559d7.dir/build.make CMakeFiles/cmTC_559d7.dir/build]
+  ignore line: [make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++     -o CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o -c /nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_559d7]
+  ignore line: [/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_559d7.dir/link.txt --verbose=1]
+  ignore line: [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++      -v -rdynamic CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_559d7 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/bin/g++]
+  ignore line: [COLLECT_LTO_WRAPPER=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 6.4.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib/:/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/:/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64/:/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_559d7' '-B' '/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-B' '/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/' '-idirafter' '/nix/store/gdh720icim8hkx1y4j498d7cry2zcpmv-glibc-2.25-49-dev/include' '-idirafter' '/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/include-fixed' '-B' '/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/' '-isystem' '/nix/store/h8mval4jdp8fqdp01hf34pyg032mpxwg-aalib-1.4rc5-dev/include' '-O2' '-D' '_FORTIFY_SOURCE=2' '-fstack-protector-strong' '--param' 'ssp-buffer-size=4' '-fPIC' '-fno-strict-overflow' '-Wformat=1' '-Wformat-security' '-Werror=format-security' '-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib' '-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib' '-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/collect2 -plugin /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/liblto_plugin.so -plugin-opt=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper -plugin-opt=-fresolution=/run/user/1000/ccptDbZq.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib64/ld-linux-x86-64.so.2 -o cmTC_559d7 /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crt1.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crti.o /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtbegin.o -L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib -L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib -L/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64 -L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../.. -dynamic-linker /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/ld-linux-x86-64.so.2 CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib64 -rpath /nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtend.o /nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crtn.o]
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/libexec/gcc/x86_64-unknown-linux-gnu/6.4.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/run/user/1000/ccptDbZq.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_559d7] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crt1.o] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crti.o] ==> ignore
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtbegin.o] ==> ignore
+    arg [-L/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib] ==> dir [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib]
+    arg [-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+    arg [-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+    arg [-L/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+    arg [-L/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+    arg [-L/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin] ==> dir [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin]
+    arg [-L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0] ==> dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0]
+    arg [-L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64] ==> dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64]
+    arg [-L/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../..] ==> dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../..]
+    arg [-dynamic-linker] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/ld-linux-x86-64.so.2] ==> ignore
+    arg [CMakeFiles/cmTC_559d7.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-rpath] ==> ignore
+    arg [/nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib64] ==> ignore
+    arg [-rpath] ==> ignore
+    arg [/nix/store/57fj3izack45rlhqmi72v21702g9xxzk-TamagoC/lib] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/crtend.o] ==> ignore
+    arg [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib/crtn.o] ==> ignore
+  remove lib [gcc_s]
+  remove lib [gcc]
+  remove lib [gcc_s]
+  remove lib [gcc]
+  collapse library dir [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib] ==> [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib]
+  collapse library dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+  collapse library dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+  collapse library dir [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib] ==> [/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib]
+  collapse library dir [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib] ==> [/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib]
+  collapse library dir [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin] ==> [/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin]
+  collapse library dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0] ==> [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0]
+  collapse library dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../../../lib64] ==> [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib64]
+  collapse library dir [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0/../../..] ==> [/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib]
+  implicit libs: [stdc++;m;c]
+  implicit dirs: [/nix/store/8h555s8cavnsqbqk5csfbkr8f5dqzv95-aalib-1.4rc5/lib;/nix/store/h1a1ncbkkhapzm0509plqjlfrgxw22f3-glibc-2.25-49/lib;/nix/store/lai5w1ri6qxkpih86sj543wfwbzl05yw-gcc-6.4.0-lib/lib;/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin;/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib/gcc/x86_64-unknown-linux-gnu/6.4.0;/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib64;/nix/store/rmmcf5d82czvfz8drbhc842dy1psrx11-gcc-6.4.0/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_70747/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_70747.dir/build.make CMakeFiles/cmTC_70747.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_70747.dir/feature_tests.cxx.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++    -std=c++1z -o CMakeFiles/cmTC_70747.dir/feature_tests.cxx.o -c /home/myrl/Development/ASCIIVN/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_70747
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_70747.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++       -rdynamic CMakeFiles/cmTC_70747.dir/feature_tests.cxx.o  -o cmTC_70747 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_c3c99/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_c3c99.dir/build.make CMakeFiles/cmTC_c3c99.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_c3c99.dir/feature_tests.cxx.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++    -std=c++14 -o CMakeFiles/cmTC_c3c99.dir/feature_tests.cxx.o -c /home/myrl/Development/ASCIIVN/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_c3c99
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3c99.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++       -rdynamic CMakeFiles/cmTC_c3c99.dir/feature_tests.cxx.o  -o cmTC_c3c99 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_14636/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_14636.dir/build.make CMakeFiles/cmTC_14636.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_14636.dir/feature_tests.cxx.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++    -std=c++11 -o CMakeFiles/cmTC_14636.dir/feature_tests.cxx.o -c /home/myrl/Development/ASCIIVN/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_14636
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_14636.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++       -rdynamic CMakeFiles/cmTC_14636.dir/feature_tests.cxx.o  -o cmTC_14636 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp
+
+Run Build Command:"/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make" "cmTC_e74b1/fast"
+/nix/store/614rxvzn5c58s4vqllvkixiyc5zz01dg-gnumake-4.2.1/bin/make -f CMakeFiles/cmTC_e74b1.dir/build.make CMakeFiles/cmTC_e74b1.dir/build
+make[1]: Entering directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e74b1.dir/feature_tests.cxx.o
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++    -std=c++98 -o CMakeFiles/cmTC_e74b1.dir/feature_tests.cxx.o -c /home/myrl/Development/ASCIIVN/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_e74b1
+/nix/store/wvnj828fpihafpmwafsmsxkrzgdr3k9r-cmake-3.8.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e74b1.dir/link.txt --verbose=1
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/g++       -rdynamic CMakeFiles/cmTC_e74b1.dir/feature_tests.cxx.o  -o cmTC_e74b1 
+make[1]: Leaving directory '/home/myrl/Development/ASCIIVN/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates

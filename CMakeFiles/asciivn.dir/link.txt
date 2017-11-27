@@ -1,0 +1,1 @@
+/nix/store/1737rmrjh317jf90ifc7m6ddpx06qpm7-gcc-wrapper-6.4.0/bin/gcc   -rdynamic CMakeFiles/asciivn.dir/main.c.o CMakeFiles/asciivn.dir/asciibuffer.c.o CMakeFiles/asciivn.dir/asciibufferfill.c.o CMakeFiles/asciivn.dir/asciibufferssim.c.o CMakeFiles/asciivn.dir/testimage.c.o  -o asciivn 
