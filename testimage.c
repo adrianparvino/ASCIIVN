@@ -1,3 +1,8 @@
+#include "xbmutils.h"
+
+#include "fonts/FixedsysExcelsior/slash.xbm"
+#include "fonts/FixedsysExcelsior/backslash.xbm"
+
 unsigned char smiley[8][8] = {
   { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00 },
   { 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff },
@@ -30,3 +35,13 @@ unsigned char blank[8][8] = {
   { 0, 0, 0, 0, 0, 0, 0, 0 },
   { 0, 0, 0, 0, 0, 0, 0, 0 }
 };
+
+unsigned char *test_slash()
+{
+  return xbm_to_unsigned_char_arr(slash_bits, slash_width, slash_height);
+}
+
+unsigned char *test_backslash()
+{
+  return xbm_to_unsigned_char_arr(backslash_bits, backslash_width, backslash_height);
+}

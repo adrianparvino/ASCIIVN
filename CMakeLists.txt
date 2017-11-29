@@ -7,12 +7,16 @@ set(HEADERS
   asciibuffer.h
   asciibufferfill.h
   asciibufferssim.h
+  xbmutils.h
+  charset.h
   testimage.h)
 set(SOURCES
   main.c
   asciibuffer.c
   asciibufferfill.c
   asciibufferssim.c
+  xbmutils.c
+  charset.c
   testimage.c)
 
 #Sends the -std=c99 flag to the gcc compiler

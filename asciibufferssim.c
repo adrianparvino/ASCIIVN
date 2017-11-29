@@ -5,55 +5,60 @@
 #include "asciibufferssim.h"
 #include "asciibufferfill.h"
 
-#include "fonts/FixedsysExcelsior/backslash.xbm"
-#include "fonts/FixedsysExcelsior/slash.xbm"
+#include "charset.h"
 
 #include <math.h>
 
-#define rotr8(x) ((x >> 1) | ((x & 1) << 7))
 #define pow2(x) (x*x)
-
-unsigned char *xbm_to_char_arr(char *src, size_t width, size_t height);
-float ssim__int(int n, int dest[n], int src[n]);
 
 int render_ssim(struct asciibuffer *dest,
                      unsigned char *source,
                      size_t width, size_t height,
                      char fontname[])
 {
+  struct charset *font_charset;
+  size_t chardescs;
   if (!strcmp(fontname, ""))
     {
-      fprintf(stderr, "Warning: no fontname provided. Attempting fallback.");
+      fprintf(stderr, "Warning: no fontname provided. Using fallback.\n");
+      font_charset = generate_test_charset(&chardescs);
     }
 
-  return 0;
-}
-
-unsigned char *xbm_to_char_arr(char *src, size_t width, size_t height)
-{
-  unsigned char *dest = malloc(width*height);
-
-  size_t i = 0;
-  size_t row_index = 0;
-
-  int bytes_per_row = (width + 7)/8; // Number of bytes per row, rounded up
-  
-  while(i < width*height)
+  for (int i = 0; i < width; i += font_charset->width)
     {
-      for (size_t mask = 0x80, column_index = 0;
-           column_index < width;
-           ++column_index, ++i, mask = rotr8(mask))
-        {
-          printf("%lu\n", row_index*bytes_per_row + column_index/8);
-          dest[i] = (src[row_index*bytes_per_row + column_index/8] & mask) ? 0xff : 0x00;
-        }
-      ++row_index;
+      for (int j = 0; j < height; j += font_charset->height)
+	{
+	  struct chardesc *best_ssim_char;
+	  float best_ssim_value = 0;
+	  for (int i = 0; i < chardescs; ++i)
+	    {
+	      int current_ssim_value =
+		ssim__unsigned_char(font_charset->width*font_charset->height,
+				    i*font_charset->width, j*font_charset->height,
+				    width, width,
+				    source, font_charset->characters[i].glyph
+				    );
+	      if (current_ssim_value > best_ssim_value)
+		{
+		  best_ssim_char = font_charset->characters + i;
+		  best_ssim_value = current_ssim_value;
+		}
+	    }
+	  dest->buffer[0] = best_ssim_char->character;
+	}
     }
+  
+  return 0;
 
-  return dest;
 }
 
-float ssim__int(int n, int x[n], int y[n])
+float ssim__unsigned_char(unsigned char n,
+			  size_t column_offset,
+			  size_t row_offset,
+			  size_t row_width,
+			  size_t image_width,
+			  unsigned char x[n],
+			  unsigned char y[n])
 {
   if (n == 0)
     {
@@ -68,13 +73,14 @@ float ssim__int(int n, int x[n], int y[n])
   // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online
   for (int i = 0; i < n; ++i)
     {
-      float dx = x[i] - mean_x;
+      size_t x_index = i/row_width*image_width + i%row_width + row_offset;
+      float dx = x[x_index] - mean_x;
       float dy = y[i] - mean_y;
       
       mean_x += dx/(i + 1);
       mean_y += dy/(i + 1);
 
-      comoment_xx += dx * (x[i] - mean_x);
+      comoment_xx += dx * (x[x_index] - mean_x);
       comoment_yy += dy * (y[i] - mean_y);
       comoment_xy += dx * (y[i] - mean_y);
     }
