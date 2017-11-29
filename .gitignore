@@ -1,2 +1,5 @@
 *.o
 asciivn
+Makefile
+CMakeFiles/*
+cmake_install.cmake
