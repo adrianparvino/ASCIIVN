@@ -9,6 +9,8 @@ set(HEADERS
   asciibufferssim.h
   xbmutils.h
   charset.h
+  imagebuffer.h
+  imagemanip.h
   testimage.h)
 set(SOURCES
   main.c
@@ -17,9 +19,11 @@ set(SOURCES
   asciibufferssim.c
   xbmutils.c
   charset.c
+  imagebuffer.c
+  imagemanip.c
   testimage.c)
 
 #Sends the -std=c99 flag to the gcc compiler
-add_definitions(-std=c99 -O0 -g -Wall -lmath)
+add_definitions(-std=c99 -O0 -g -Wall -lmath -Werror=incompatible-pointer-types)
 #This tells CMake to main.c and name it asciivn
 add_executable(asciivn main.c ${SOURCES})

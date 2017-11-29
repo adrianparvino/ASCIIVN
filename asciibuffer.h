@@ -5,8 +5,9 @@
 
 struct asciibuffer
 {
-  size_t size, width;
-  char buffer[];
+  size_t height, width;
+  char *buffer;
+  char in_buffer[];
 };
 
 struct asciibuffer *new_asciibuffer(size_t width, size_t height);

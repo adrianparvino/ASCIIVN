@@ -26,3 +26,12 @@ struct charset* generate_test_charset(size_t *chardescs)
   *chardescs = 2;
   return test_charset;
 }
+
+void free_charset(struct charset* charset, size_t chardescs)
+{
+  for (int i = 0; i < chardescs; ++i)
+    {
+      free(charset->characters[i].glyph);
+    }
+  free(charset);
+}

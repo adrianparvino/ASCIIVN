@@ -1,13 +1,12 @@
 #include "asciibufferfill.h"
 
 int render_fill(struct asciibuffer *dest,
-                unsigned char *source,
-                size_t width, size_t height)
+                struct imagebuffer *src)
 {
-  for (int i = 0; i < dest->size; ++i)
+  for (int i = 0; i < dest->height * dest->width; ++i)
     {
-      int x = (i % dest->width) * width / dest->width;
-      int y = (i / dest->width) * height / (dest->size/dest->width);
-      dest->buffer[i] = (source[y*width + x] > 128) ? '$' : ' ';
+      size_t x = (i % dest->width) * src->width / dest->width;
+      size_t y = (i / dest->width) * src->height / dest->height;
+      dest->buffer[i] = (src->buffer[y*(src->width) + x] > 128) ? '$' : ' ';
     }
 }

@@ -1,6 +1,9 @@
+#include<malloc.h>
+
 #include "xbmutils.h"
 
 #define rotr8(x) ((x >> 1) | ((x & 1) << 7))
+#define rotl8(x) (((x << 1) | ((x & 0x80) >> 7)) & 0xff)
 
 unsigned char *xbm_to_unsigned_char_arr(char *src, size_t width, size_t height)
 {
@@ -13,9 +16,9 @@ unsigned char *xbm_to_unsigned_char_arr(char *src, size_t width, size_t height)
   
   while(i < width*height)
     {
-      for (size_t mask = 0x80, column_index = 0;
+      for (size_t mask = 0x01, column_index = 0;
            column_index < width;
-           ++column_index, ++i, mask = rotr8(mask))
+           ++column_index, ++i, mask = rotl8(mask))
         {
           dest[i] = (src[row_index*bytes_per_row + column_index/8] & mask) ? 0xff : 0x00;
         }
