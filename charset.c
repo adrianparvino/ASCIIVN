@@ -14,13 +14,13 @@ struct charset* generate_test_charset(size_t *chardescs)
   test_charset->height = slash_height;
   test_charset->characters[0] = (struct chardesc)
     {
-      '/',
-      test_slash()
+      '\\',
+      test_backslash()
     };
   test_charset->characters[1] = (struct chardesc)
     {
-      '\\',
-      test_backslash()
+      '/',
+      test_slash()
     };
 
   *chardescs = 2;

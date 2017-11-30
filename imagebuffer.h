@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 struct imagebuffer {
-  size_t height, width;
+  size_t width, height;
   unsigned char *buffer;
   unsigned char in_buffer[];
 };

@@ -26,12 +26,17 @@ int render_ssim(struct asciibuffer *dest,
       font_charset = generate_test_charset(&chardescs);
     }
 
-  for (int y = 0; y < src->height; y += font_charset->height)
+  struct imagebuffer *src_scaled = src;
+    //     new_imagebuffer(font_charset->width * dest->width,
+                      //                     font_charset->height * dest->height);
+  //  scale_nearest(src_scaled, src);
+
+  for (size_t y = 0, y_ = 0; y < src_scaled->height; y += font_charset->height, ++y_)
     {
-      for (int x = 0; x < src->width; x += font_charset->width)
+      for (size_t x = 0, x_ = 0; x < src_scaled->width; x += font_charset->width, ++x_)
 	{
 	  char best_ssim_char = 0;
-	  float best_ssim_value = 0;
+	  float best_ssim_value = 0.00001;
 
           struct imagebuffer glyph_imagebuffer =
             {
@@ -43,25 +48,29 @@ int render_ssim(struct asciibuffer *dest,
 	  for (int i = 0; i < chardescs; ++i)
 	    {
               glyph_imagebuffer.buffer = font_charset->characters[i].glyph;
-	      int current_ssim_value =
+	      float current_ssim_value =
 		ssim_imagebuffer(x,
                                  y,
-                                 src,
+                                 src_scaled,
                                  &glyph_imagebuffer
                                  );
-              
-	      if (current_ssim_value > best_ssim_value)
+
+	      if (current_ssim_value >= best_ssim_value)
 		{
 		  best_ssim_char = font_charset->characters[i].character;
 		  best_ssim_value = current_ssim_value;
 		}
 	    }
-	  dest->buffer[x + y] = best_ssim_char;
+
+          printf("%d, %d = %d, %d\n", x, y, x_, y_);
+	  dest->buffer[y_*(dest->width) + x_] = best_ssim_char;
 	}
     }
 
   if (font_charset != NULL)
     free_charset(font_charset, chardescs);
+  //  free(src_scaled);
+  
   return 0;
 
 }
@@ -84,7 +93,9 @@ float ssim_imagebuffer(size_t column_offset,
   // https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online
   for (int i = 0; i < y->height * y->width; ++i)
     {
-      size_t x_index = i/(y->width)*(x->width) + i%(y->width) + column_offset;
+      size_t x_index = i/(y->width)*(x->width) + i%(y->width)
+                     + row_offset*(x->width) + column_offset;
+      printf("%d = %d*%d + %d\n", x_index, x->width, i/y->width, i%y->width);
 
       float dx = x->buffer[x_index] - mean_x;
       float dy = y->buffer[i] - mean_y;

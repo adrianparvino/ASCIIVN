@@ -5,7 +5,7 @@
 
 struct asciibuffer
 {
-  size_t height, width;
+  size_t width, height;
   char *buffer;
   char in_buffer[];
 };
@@ -13,5 +13,6 @@ struct asciibuffer
 struct asciibuffer *new_asciibuffer(size_t width, size_t height);
 void flatten(struct asciibuffer *asciibuffer);
 void clear(struct asciibuffer *asciibuffer);
+void show_asciibuffer(struct asciibuffer *asciibuffer);
 
 #endif

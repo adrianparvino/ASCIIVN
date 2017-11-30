@@ -27,3 +27,9 @@ void clear(struct asciibuffer *asciibuffer)
 {
   memset(asciibuffer->buffer, 0, asciibuffer->height * asciibuffer->width);
 }
+
+void show_asciibuffer(struct asciibuffer *asciibuffer)
+{
+  for (int i = 0; i < asciibuffer->height; ++i)
+    printf("%.*s\n", asciibuffer->width, asciibuffer->buffer + i*asciibuffer->width);
+}
