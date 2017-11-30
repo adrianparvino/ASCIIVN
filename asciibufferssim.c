@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "imagemanip.h"
+
 #include "asciibufferssim.h"
 #include "asciibufferfill.h"
 
@@ -29,14 +31,14 @@ int render_ssim(struct asciibuffer *dest,
   struct imagebuffer *src_scaled =
     new_imagebuffer(font_charset->width * dest->width,
                     font_charset->height * dest->height);
-  scale_bilinear(src_scaled, src);
+  scale_nearest(src_scaled, src);
   
   for (size_t y = 0, y_ = 0; y < src_scaled->height; y += font_charset->height, ++y_)
     {
       for (size_t x = 0, x_ = 0; x < src_scaled->width; x += font_charset->width, ++x_)
 	{
 	  char best_ssim_char = 0;
-	  float best_ssim_value = 0.1;
+	  float best_ssim_value = 0.00001;
 
           struct imagebuffer glyph_imagebuffer =
             {
@@ -45,7 +47,7 @@ int render_ssim(struct asciibuffer *dest,
               .buffer = NULL
             };
 
-	  for (int i = 0; i < chardescs; ++i)
+	  for (size_t i = 0; i < chardescs; ++i)
 	    {
               glyph_imagebuffer.buffer = font_charset->characters[i].glyph;
 	      float current_ssim_value =

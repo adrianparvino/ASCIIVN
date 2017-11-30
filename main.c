@@ -8,19 +8,15 @@
 
 #include "fonts/FixedsysExcelsior/slash.xbm"
 #include "fonts/FixedsysExcelsior/backslash.xbm"
+#include "fonts/FixedsysExcelsior/pipe.xbm"
 
 int main()
 {
-  printf("Hello World!\n");
-
-  int width = backslash_width*16;
-  int height = backslash_height;
-  
-  int caretwidth = 2;
-  int caretheight = 2;
+  int caretwidth = 16;
+  int caretheight = 8;
   
   struct asciibuffer *asciibuffer = new_asciibuffer(caretwidth, caretheight);
-  struct asciibuffer *asciibuffer_2 = new_asciibuffer(caretwidth*9, caretheight*17);
+  struct asciibuffer *asciibuffer2 = new_asciibuffer(caretwidth, caretheight);
 
   // render_fill(asciibuffer, smiley_flat, 8, 8);
   struct imagebuffer backslash =
@@ -37,29 +33,33 @@ int main()
       .buffer = test_slash()
     };
 
+  struct imagebuffer pipe =
+    {
+      .height = pipe_height,
+      .width = pipe_width,
+      .buffer = test_pipe()
+    };
+
   struct imagebuffer hs =
     {
       .height = 8,
       .width = 8,
-      .buffer = half_smiley
+      .buffer = smiley_flat
     };
   
   struct imagebuffer *caret = side_by_side(&slash, &backslash);
   struct imagebuffer *caret_flip = side_by_side(&backslash, &slash);
   struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
-  render_fill(asciibuffer_2, diamond);
-  render_ssim(asciibuffer, diamond, "");
+  render_ssim(asciibuffer, &hs, "");
+  render_fill(asciibuffer2, &hs, "");
   flatten(asciibuffer);
 
-  //  for (int i = 0; i < height; ++i)
-  //     printf("%.*s\n", width, asciibuffer_2->buffer + i*width);
-  
   show_asciibuffer(asciibuffer);
-  show_asciibuffer(asciibuffer_2);
+  show_asciibuffer(asciibuffer2);
   
   free(asciibuffer);
-  free(asciibuffer_2);
+  free(asciibuffer2);
 
   free(backslash.buffer);
   free(slash.buffer);

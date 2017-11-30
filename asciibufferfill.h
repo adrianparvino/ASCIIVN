@@ -4,6 +4,7 @@
 #include "imagebuffer.h"
 #include "asciibuffer.h"
 
-int render_fill(struct asciibuffer *dest,
-                struct imagebuffer *src);
+void render_fill(struct asciibuffer *dest,
+                 struct imagebuffer *src,
+                 char fontname[]);
 #endif

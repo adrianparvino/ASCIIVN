@@ -4,11 +4,10 @@
 #include "testimage.h"
 
 #include "fonts/FixedsysExcelsior/slash.xbm"
-#include "fonts/FixedsysExcelsior/backslash.xbm"
 
 struct charset* generate_test_charset(size_t *chardescs)
 {
-  struct charset *test_charset = malloc(sizeof(struct charset) + 2*sizeof(struct chardesc));
+  struct charset *test_charset = malloc(sizeof(struct charset) + 6*sizeof(struct chardesc));
   
   test_charset->width = slash_width;
   test_charset->height = slash_height;
@@ -22,14 +21,34 @@ struct charset* generate_test_charset(size_t *chardescs)
       '/',
       test_slash()
     };
+  test_charset->characters[2] = (struct chardesc)
+    {
+      '|',
+      test_pipe()
+    };
+  test_charset->characters[3] = (struct chardesc)
+    {
+      ',',
+      test_comma()
+    };
+  test_charset->characters[4] = (struct chardesc)
+    {
+      '.',
+      test_dot()
+    };
+  test_charset->characters[5] = (struct chardesc)
+    {
+      '$',
+      test_dollar()
+    };
 
-  *chardescs = 2;
+  *chardescs = 6;
   return test_charset;
 }
 
 void free_charset(struct charset* charset, size_t chardescs)
 {
-  for (int i = 0; i < chardescs; ++i)
+  for (size_t i = 0; i < chardescs; ++i)
     {
       free(charset->characters[i].glyph);
     }
