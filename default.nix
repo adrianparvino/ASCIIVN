@@ -1,7 +1,6 @@
 { pkgs ? (import <nixpkgs> {})
 , stdenv ? pkgs.stdenv
 , cmake ? pkgs.cmake
-, aalib ? pkgs.aalib
 }:
 
 stdenv.mkDerivation rec {
@@ -11,5 +10,5 @@ stdenv.mkDerivation rec {
   src = ./.;
 
   buildInputs =
-    [ cmake aalib.dev ];
+    [ cmake ];
 }
