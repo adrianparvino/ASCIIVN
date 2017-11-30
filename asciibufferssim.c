@@ -120,6 +120,6 @@ float ssim_imagebuffer(size_t column_offset,
 
   // Direct translation of SSIM formula
   // https://en.wikipedia.org/wiki/Structural_similarity#Algorithm
-  return ((2*pow2(mean_y) + pow2(c_1))*(2*covar_xy + c_2))/
+  return ((2*mean_x*mean_y + pow2(c_1))*(2*covar_xy + c_2))/
     ((pow2(mean_x) + pow2(mean_y) + c_1)*(var_x+var_y+c_2));
 }
