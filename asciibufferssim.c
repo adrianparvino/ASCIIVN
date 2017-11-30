@@ -11,7 +11,7 @@
 
 #include <math.h>
 
-#define pow2(x) (x*x)
+#define pow2(x) ((x)*(x))
 
 int render_ssim(struct asciibuffer *dest,
                 struct imagebuffer *src,
