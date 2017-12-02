@@ -65,6 +65,7 @@ void *scale_nearest(struct imagebuffer *dest,
     }
 }
 
+/* NB: Probably Broken Implementation */
 void *scale_bilinear(struct imagebuffer *dest,
                      struct imagebuffer *src)
 {
