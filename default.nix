@@ -1,6 +1,7 @@
 { pkgs ? (import <nixpkgs> {})
 , stdenv ? pkgs.stdenv
 , cmake ? pkgs.cmake
+, libpng ? pkgs.libpng
 }:
 
 stdenv.mkDerivation rec {
@@ -10,5 +11,5 @@ stdenv.mkDerivation rec {
   src = ./.;
 
   buildInputs =
-    [ cmake ];
+    [ cmake libpng ];
 }

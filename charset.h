@@ -18,6 +18,7 @@ struct charset
 };
 
 struct charset* generate_test_charset(size_t *chardescs);
+struct charset* generate_test_charset_ssim(size_t *chardescs);
 void free_charset(struct charset* charset, size_t chardescs);
 
 #endif

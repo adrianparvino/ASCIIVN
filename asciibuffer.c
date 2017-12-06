@@ -1,6 +1,8 @@
 #include "asciibuffer.h"
+#include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<png.h>
 
 struct asciibuffer *new_asciibuffer(size_t width, size_t height)
 {
@@ -31,5 +33,5 @@ void clear(struct asciibuffer *asciibuffer)
 void show_asciibuffer(struct asciibuffer *asciibuffer)
 {
   for (int i = 0; i < asciibuffer->height; ++i)
-    printf("%.*s\n", asciibuffer->width, asciibuffer->buffer + i*asciibuffer->width);
+    printf("%.*s\n", (int) asciibuffer->width, asciibuffer->buffer + i*asciibuffer->width);
 }

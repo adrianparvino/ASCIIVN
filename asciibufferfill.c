@@ -19,7 +19,7 @@ void render_fill(struct asciibuffer *dest,
       font_charset = generate_test_charset(&chardescs);
     }
   
-  scale_nearest((struct imagebuffer *)dest, src);
+  scale_bilinear((struct imagebuffer *)dest, src);
 
   float cache_value[chardescs];
   char cache_character[chardescs];
@@ -43,17 +43,19 @@ void render_fill(struct asciibuffer *dest,
     {
       float best_value = 1.0/0;
       char best_character = 0;
+      
       for (size_t j = 0; j < chardescs; ++j)
         {
-          float current_value = fabs(src->buffer[i] - cache_value[j]);
-          
+          float current_value = fabs(((unsigned char*)(dest->buffer))[i] - cache_value[j]);
           if (current_value < best_value)
             {
               best_value = current_value;
               best_character = cache_character[j];
             }
-          
-          dest->buffer[i] = best_character;
         }
+      
+      dest->buffer[i] = best_character;
     }
+
+  free_charset(font_charset, chardescs);
 }
