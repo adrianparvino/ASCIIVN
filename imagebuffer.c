@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "imagebuffer.h"
 
 struct imagebuffer *new_imagebuffer(size_t width, size_t height)

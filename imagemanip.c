@@ -58,8 +58,8 @@ struct imagebuffer *top_bottom(struct imagebuffer *x,
   return imagebuffer;
 }
 
-void *scale_nearest(struct imagebuffer *dest,
-                    struct imagebuffer *src)
+void scale_nearest(struct imagebuffer *dest,
+                   struct imagebuffer *src)
 {
   for (int i = 0; i < dest->height * dest->width; ++i)
     {
@@ -71,7 +71,7 @@ void *scale_nearest(struct imagebuffer *dest,
 }
 
 /* NB: Probably Broken Implementation */
-void *scale_bilinear(struct imagebuffer *dest,
+void scale_bilinear(struct imagebuffer *dest,
                      struct imagebuffer *src)
 {
   for (size_t j = 0; j < dest->height; ++j)
