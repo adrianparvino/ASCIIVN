@@ -20,7 +20,7 @@ struct asciibuffer *new_asciibuffer(size_t width, size_t height)
 
 void flatten(struct asciibuffer *asciibuffer)
 {
-  for (int i = 0; i < asciibuffer->height * asciibuffer->width; ++i)
+  for (size_t i = 0; i < asciibuffer->height * asciibuffer->width; ++i)
     if (asciibuffer->buffer[i] == '\0')
       asciibuffer->buffer[i] = ' ';
 }
