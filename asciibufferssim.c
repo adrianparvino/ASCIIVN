@@ -64,20 +64,13 @@ int render_ssim_charset_unsafe(struct asciibuffer *dest,
               .width = font_charset->width,
               .buffer = NULL
             };
-
-          struct imagebuffer *extracted_buffer =
-            extract(x_ * font_charset->width,
-                    y_ * font_charset->height,
-                    font_charset->width,
-                    font_charset->height,
-                    src);
               
 	  for (size_t i = 0; i < font_charset->n; ++i)
 	    {
               glyph_imagebuffer.buffer = font_charset->characters[i].glyph;
 
               float current_ssim_value =
-                ssim_imagebuffer(0, 0, extracted_buffer, &glyph_imagebuffer);
+                ssim_imagebuffer(x, y, src, &glyph_imagebuffer);
 
 	      if (current_ssim_value > best_ssim_value)
 		{
@@ -86,14 +79,11 @@ int render_ssim_charset_unsafe(struct asciibuffer *dest,
 		}
 
 	    }
-          free(extracted_buffer);
-          
 	  dest->buffer[y_*(dest->width) + x_] = best_ssim_char;
 	}
     }
 
   return 0;
-
 }
 
 float ssim_imagebuffer(size_t column_offset,
