@@ -12,8 +12,8 @@
 
 int main()
 {
-  int caretwidth = 16;
-  int caretheight = 8;
+  int caretwidth  = 64;
+  int caretheight = 32;
   
   struct asciibuffer *asciibuffer = new_asciibuffer(caretwidth, caretheight);
   struct asciibuffer *asciibuffer2 = new_asciibuffer(caretwidth, caretheight);
@@ -51,9 +51,10 @@ int main()
   struct imagebuffer *caret_flip = side_by_side(&backslash, &slash);
   struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
-  render_ssim(asciibuffer, &hs, "");
-  render_fill(asciibuffer2, &hs, "");
+  render_ssim(asciibuffer, diamond, "");
+  render_fill(asciibuffer2, diamond, "");
   flatten(asciibuffer);
+  flatten(asciibuffer2);
 
   show_asciibuffer(asciibuffer);
   show_asciibuffer(asciibuffer2);
@@ -63,12 +64,13 @@ int main()
 
   free(backslash.buffer);
   free(slash.buffer);
+  free(pipe.buffer);
   
   free(diamond);
   free(caret_flip);
   free(caret);
 
-  //  Printf("%f", ssim__unsigned_char(backslash_width*backslash_height,
+  //  printf("%f", ssim__unsigned_char(backslash_width*backslash_height,
   //				   0, 0,
   //				   backslash_width, backslash_width,
   //				   test_backslash(),

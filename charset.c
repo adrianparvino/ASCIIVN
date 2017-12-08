@@ -5,12 +5,14 @@
 
 #include "fonts/FixedsysExcelsior/slash.xbm"
 
-struct charset* generate_test_charset(size_t *chardescs)
+struct charset* generate_test_charset()
 {
   struct charset *test_charset = malloc(sizeof(struct charset) + 6*sizeof(struct chardesc));
   
   test_charset->width = slash_width;
   test_charset->height = slash_height;
+
+  test_charset->n = 6;
   test_charset->characters[0] = (struct chardesc)
     {
       '\\',
@@ -42,13 +44,49 @@ struct charset* generate_test_charset(size_t *chardescs)
       test_dollar()
     };
 
-  *chardescs = 6;
   return test_charset;
 }
 
-void free_charset(struct charset* charset, size_t chardescs)
+struct charset* generate_test_charset_ssim()
 {
-  for (size_t i = 0; i < chardescs; ++i)
+  struct charset *test_charset = malloc(sizeof(struct charset) + 5*sizeof(struct chardesc));
+  
+  test_charset->width = slash_width;
+  test_charset->height = slash_height;
+  
+  test_charset->n = 5;
+  test_charset->characters[0] = (struct chardesc)
+    {
+      '\\',
+      test_backslash()
+    };
+  test_charset->characters[1] = (struct chardesc)
+    {
+      '/',
+      test_slash()
+    };
+  test_charset->characters[2] = (struct chardesc)
+    {
+      '|',
+      test_pipe()
+    };
+  test_charset->characters[3] = (struct chardesc)
+    {
+      ',',
+      test_comma()
+    };
+  test_charset->characters[4] = (struct chardesc)
+    {
+      '.',
+      test_dot()
+    };
+
+  return test_charset;
+}
+
+void free_charset(struct charset* charset)
+{
+  for (size_t i = 0; i < charset->n; ++i)
     {
       free(charset->characters[i].glyph);
     }

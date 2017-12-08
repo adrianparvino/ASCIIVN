@@ -23,7 +23,7 @@ set(SOURCES
   imagemanip.c
   testimage.c)
 
-#Sends the -std=c99 flag to the gcc compiler
-add_definitions(-std=c99 -O0 -g -Wall -lmath -Werror=incompatible-pointer-types)
-#This tells CMake to main.c and name it asciivn
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lm -std=c11 -g -Wall -Werror=incompatible-pointer-types")
+# add_definitions(-lm -std=c11 -g -Wall -Werror=incompatible-pointer-types)
+# This tells CMake to main.c and name it asciivn
 add_executable(asciivn main.c ${SOURCES})
