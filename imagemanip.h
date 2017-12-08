@@ -12,10 +12,10 @@ struct imagebuffer *extract(size_t column_offset,
                             size_t height,
                             struct imagebuffer *x);
 
-void *scale_nearest(struct imagebuffer *dest,
+void scale_nearest(struct imagebuffer *dest,
                     struct imagebuffer *src);
 
-void *scale_bilinear(struct imagebuffer *dest,
+void scale_bilinear(struct imagebuffer *dest,
                      struct imagebuffer *src);
 
 #endif
