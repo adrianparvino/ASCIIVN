@@ -110,24 +110,6 @@ void scale_bilinear(struct imagebuffer *dest,
         }
     }
 }
-
-struct imagebuffer *extract(size_t column_offset,
-                            size_t row_offset,
-                            size_t width,
-                            size_t height,
-                            struct imagebuffer *x)
-{
-  struct imagebuffer *extract_buffer = new_imagebuffer(width, height);
-
-  for (size_t i = 0; i < height*width; ++i)
-    {
-      extract_buffer->buffer[i] =
-        index(x, column_offset + i%width, row_offset + i/width);
-    }
-
-  return extract_buffer;
-}
-
 struct imagebuffer *extract(size_t column_offset,
                             size_t row_offset,
                             size_t width,
