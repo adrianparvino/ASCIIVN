@@ -12,8 +12,8 @@
 
 int main()
 {
-  int caretwidth  = 64;
-  int caretheight = 32;
+  int caretwidth  = 128; 
+  int caretheight = 64;
   
   struct asciibuffer *asciibuffer = new_asciibuffer(caretwidth, caretheight);
   struct asciibuffer *asciibuffer2 = new_asciibuffer(caretwidth, caretheight);
@@ -51,20 +51,28 @@ int main()
   struct imagebuffer *caret_flip = side_by_side(&backslash, &slash);
   struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
-  render_ssim(asciibuffer, diamond, "");
-  render_fill(asciibuffer2, diamond, "");
+  struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
+  
+  struct imagebuffer *dog2 = new_imagebuffer(caretwidth*pipe_width, caretheight*pipe_height);
+  scale_bilinear(dog2, dog);
+
+  render_ssim(asciibuffer, dog2, "");
+  render_fill(asciibuffer2, dog, "");
   flatten(asciibuffer);
   flatten(asciibuffer2);
 
   show_asciibuffer(asciibuffer);
   show_asciibuffer(asciibuffer2);
-  
+   
   free(asciibuffer);
   free(asciibuffer2);
 
   free(backslash.buffer);
   free(slash.buffer);
   free(pipe.buffer);
+  
+  free(dog2);
+  free(dog);
   
   free(diamond);
   free(caret_flip);
