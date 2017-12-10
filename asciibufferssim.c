@@ -33,7 +33,7 @@ int render_ssim(struct asciibuffer *dest,
       font_charset = generate_test_charset_ssim();
       defaultfont = true;
     }
-  
+
   assert(src->width % font_charset->width == 0 && 
          src->height % font_charset->height == 0);
 
@@ -138,7 +138,5 @@ float ssim_imagebuffer(size_t column_offset,
         contrast = (2*sqrt(var_x)*sqrt(var_y) + c_2)/(var_x + var_y + c_2),
         structure = (covar_xy + c_3)/(sqrt(var_x)*sqrt(var_y) + c_3);
 
-  return luminance*contrast*signpow2(structure);
-                                // return ((2*mean_x*mean_y + c_1)*(2*covar_xy + c_2))/
-                                //   ((pow2(mean_x) + pow2(mean_y) + c_1)*(var_x+var_y+c_2));
-                     }
+  return luminance*contrast*structure;
+}
