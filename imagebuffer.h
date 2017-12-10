@@ -10,5 +10,6 @@ struct imagebuffer {
 };
 
 struct imagebuffer *new_imagebuffer(size_t width, size_t height);
+struct imagebuffer *new_imagebuffer_from_png(char image_name[]);
 
 #endif
