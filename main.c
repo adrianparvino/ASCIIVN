@@ -1,3 +1,20 @@
+/* This file is part of ASCIIVN.
+ *
+ * Copyright (C) 2017  Adrian Parvin D. Ouano
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include<stdio.h>
 #include<stdlib.h>
 #include"asciibufferfill.h"
@@ -12,8 +29,8 @@
 
 int main()
 {
-  int caretwidth  = 16; 
-  int caretheight = 8;
+  int caretwidth  = 128; 
+  int caretheight = 64;
   
   struct asciibuffer *asciibuffer = new_asciibuffer(caretwidth, caretheight);
   struct asciibuffer *asciibuffer2 = new_asciibuffer(caretwidth, caretheight);
@@ -51,21 +68,28 @@ int main()
   struct imagebuffer *caret_flip = side_by_side(&backslash, &slash);
   struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
-  render_ssim(asciibuffer, &hs, "");
-  render_fill(asciibuffer2, &hs, "");
+  struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
+  
+  struct imagebuffer *dog2 = new_imagebuffer(caretwidth*pipe_width, caretheight*pipe_height);
+  scale_bilinear(dog2, dog);
+
+  render_ssim(asciibuffer, dog2, "");
+  render_fill(asciibuffer2, dog, "");
   flatten(asciibuffer);
   flatten(asciibuffer2);
 
   show_asciibuffer(asciibuffer);
   show_asciibuffer(asciibuffer2);
-
-  
+   
   free(asciibuffer);
   free(asciibuffer2);
 
   free(backslash.buffer);
   free(slash.buffer);
   free(pipe.buffer);
+  
+  free(dog2);
+  free(dog);
   
   free(diamond);
   free(caret_flip);

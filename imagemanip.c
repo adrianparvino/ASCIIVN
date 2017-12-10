@@ -1,3 +1,20 @@
+/* This file is part of ASCIIVN.
+ *
+ * Copyright (C) 2017  Adrian Parvin D. Ouano
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
@@ -58,8 +75,8 @@ struct imagebuffer *top_bottom(struct imagebuffer *x,
   return imagebuffer;
 }
 
-void *scale_nearest(struct imagebuffer *dest,
-                    struct imagebuffer *src)
+void scale_nearest(struct imagebuffer *dest,
+                   struct imagebuffer *src)
 {
   for (int i = 0; i < dest->height * dest->width; ++i)
     {
@@ -71,7 +88,7 @@ void *scale_nearest(struct imagebuffer *dest,
 }
 
 /* NB: Probably Broken Implementation */
-void *scale_bilinear(struct imagebuffer *dest,
+void scale_bilinear(struct imagebuffer *dest,
                      struct imagebuffer *src)
 {
   for (size_t j = 0; j < dest->height; ++j)
@@ -92,6 +109,23 @@ void *scale_bilinear(struct imagebuffer *dest,
             index(src, min(xi + 1, src->width - 1), min(yi + 1, src->height - 1))*xf*yf;
         }
     }
+}
+
+struct imagebuffer *extract(size_t column_offset,
+                            size_t row_offset,
+                            size_t width,
+                            size_t height,
+                            struct imagebuffer *x)
+{
+  struct imagebuffer *extract_buffer = new_imagebuffer(width, height);
+
+  for (size_t i = 0; i < height*width; ++i)
+    {
+      extract_buffer->buffer[i] =
+        index(x, column_offset + i%width, row_offset + i/width);
+    }
+
+  return extract_buffer;
 }
 
 struct imagebuffer *extract(size_t column_offset,
