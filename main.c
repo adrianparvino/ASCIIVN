@@ -19,6 +19,7 @@
 #include<stdlib.h>
 #include"asciibufferfill.h"
 #include"asciibufferssim.h"
+#include"charset.h"
 #include"xbmutils.h"
 #include"imagemanip.h"
 #include"testimage.h"
@@ -69,12 +70,14 @@ int main()
   struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
   struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
-  
   struct imagebuffer *dog2 = new_imagebuffer(caretwidth*pipe_width, caretheight*pipe_height);
+  
+  struct charset* charset = read_from_directory("./fonts/FixedsysExcelsior");
   scale_bilinear(dog2, dog);
 
-  render_ssim(asciibuffer, dog2, "");
+  render_ssim_charset_unsafe(asciibuffer, dog2, charset);
   render_fill(asciibuffer2, dog, "");
+  
   flatten(asciibuffer);
   flatten(asciibuffer2);
 

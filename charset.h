@@ -35,6 +35,7 @@ struct charset
   struct chardesc characters[];
 };
 
+struct charset* read_from_directory(const char directory[]);
 struct charset* generate_test_charset();
 struct charset* generate_test_charset_ssim();
 void free_charset(struct charset* charset);

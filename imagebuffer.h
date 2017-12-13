@@ -22,6 +22,7 @@
 
 struct imagebuffer {
   size_t width, height;
+
   unsigned char *buffer;
   unsigned char in_buffer[];
 };

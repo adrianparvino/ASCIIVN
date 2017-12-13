@@ -42,7 +42,7 @@ struct imagebuffer *new_imagebuffer_from_png(char image_name[])
   FILE *image_file = fopen(image_name, "rb");
   if (image_file == NULL)
     {
-      exit(1);
+      return NULL;
     }
 
   png_byte header[8];
@@ -50,13 +50,13 @@ struct imagebuffer *new_imagebuffer_from_png(char image_name[])
   if (fread(header, sizeof(*header), sizeof(header), image_file) < sizeof(header))
     {
       fclose(image_file);
-      exit(1);
+      return NULL;
     }
 
   if (png_sig_cmp(header, 0, sizeof(header)))
     {
       fclose(image_file);
-      exit(1);
+      return NULL;
     }
 
   png_structp png_ptr = png_create_read_struct
