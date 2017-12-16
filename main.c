@@ -25,8 +25,6 @@
 #include"testimage.h"
 
 #include "fonts/FixedsysExcelsior/slash.xbm"
-#include "fonts/FixedsysExcelsior/backslash.xbm"
-#include "fonts/FixedsysExcelsior/pipe.xbm"
 
 int main()
 {
@@ -39,22 +37,22 @@ int main()
   // render_fill(asciibuffer, smiley_flat, 8, 8);
   struct imagebuffer backslash =
     {
-      .height = backslash_height,
-      .width = backslash_width,
+      .height = slash_height,
+      .width = slash_width,
       .buffer = test_backslash()
     };
   
   struct imagebuffer slash =
     {
-      .height = backslash_height,
-      .width = backslash_width,
+      .height = slash_height,
+      .width = slash_width,
       .buffer = test_slash()
     };
 
   struct imagebuffer pipe =
     {
-      .height = pipe_height,
-      .width = pipe_width,
+      .height = slash_height,
+      .width = slash_width,
       .buffer = test_pipe()
     };
 
@@ -70,7 +68,7 @@ int main()
   struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
   struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
-  struct imagebuffer *dog2 = new_imagebuffer(caretwidth*pipe_width, caretheight*pipe_height);
+  struct imagebuffer *dog2 = new_imagebuffer(caretwidth*slash_width, caretheight*slash_height);
   
   struct charset* charset = read_from_directory("./fonts/FixedsysExcelsior");
   scale_bilinear(dog2, dog);

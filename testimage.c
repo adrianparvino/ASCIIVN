@@ -18,10 +18,10 @@
 #include "xbmutils.h"
 
 #include "fonts/FixedsysExcelsior/slash.xbm"
-#include "fonts/FixedsysExcelsior/backslash.xbm"
+#include "fonts/FixedsysExcelsior/\.xbm"
 #include "fonts/FixedsysExcelsior/pipe.xbm"
-#include "fonts/FixedsysExcelsior/dot.xbm"
-#include "fonts/FixedsysExcelsior/comma.xbm"
+#include "fonts/FixedsysExcelsior/..xbm"
+#include "fonts/FixedsysExcelsior/,.xbm"
 #include "fonts/FixedsysExcelsior/dollar.xbm"
 
 unsigned char smiley[8][8] = {

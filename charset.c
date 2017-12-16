@@ -82,11 +82,32 @@ struct charset* read_from_directory(const char directory[])
       assert(png_charset->width == font_image->width);
       assert(png_charset->height == font_image->height);
 
+      char character = ' ';
+      if (dirent->d_name[1] == '.')
+        {
+          character = dirent->d_name[0];
+        }
+      else
+        {
+          switch (dirent->d_name[0])
+            {
+            case 'd':
+              character = '$';
+              break;
+            case 's':
+              character = '/';
+              break;
+            case 'p':
+              character = '|';
+              break;
+            }
+        }
+      
       unsigned char *glyph = malloc(png_charset->width * png_charset->height);
       
       memcpy(glyph, font_image->buffer, png_charset->width*png_charset->height);
       png_charset->characters[i] = (struct chardesc) {
-        .character = ' ',
+        .character = character,
         .glyph = glyph
       };
       

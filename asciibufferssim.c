@@ -26,8 +26,6 @@
 #include "asciibufferssim.h"
 #include "asciibufferfill.h"
 
-#include "fonts/FixedsysExcelsior/backslash.xbm"
-
 #include <math.h>
 
 #define index(image, x, y) ((image)->buffer[(int) (((int) (y)) * (image)->width + ((int) (x)))])
