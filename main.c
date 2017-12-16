@@ -67,7 +67,7 @@ int main()
   struct imagebuffer *caret_flip = side_by_side(&backslash, &slash);
   struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
-  struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
+  struct imagebuffer *dog = new_imagebuffer_from_png("EHR.png");
   struct imagebuffer *dog2 = new_imagebuffer(caretwidth*slash_width, caretheight*slash_height);
   
   struct charset* charset = read_from_directory("./fonts/FixedsysExcelsior");

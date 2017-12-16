@@ -115,14 +115,21 @@ struct imagebuffer *new_imagebuffer_from_png(char image_name[])
   int color_type = png_get_color_type(png_ptr, info_ptr),
       bit_depth = png_get_bit_depth(png_ptr, info_ptr);
 
-  // int number_of_passes = png_set_interlace_handling(png_ptr);
+  png_set_interlace_handling(png_ptr);
 
   /* Expand paletted colors into true RGB triplets */
   if (color_type == PNG_COLOR_TYPE_PALETTE)
-    png_set_palette_to_rgb(png_ptr);
+    {
+      png_set_palette_to_rgb(png_ptr);
+      png_set_rgb_to_gray(png_ptr, 1, -1, -1);
+    }
+  
   /* Expand grayscale images to the full 8 bits from 1, 2, or 4 bits/pixel */
   if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
     png_set_expand_gray_1_2_4_to_8(png_ptr);
+  
+  if (bit_depth == 16)
+    png_set_strip_16(png_ptr);
   
   if (color_type == PNG_COLOR_TYPE_RGB ||
       color_type == PNG_COLOR_TYPE_RGB_ALPHA)
@@ -130,7 +137,6 @@ struct imagebuffer *new_imagebuffer_from_png(char image_name[])
       png_set_rgb_to_gray(png_ptr, 1, -1, -1);
     }
   png_set_invert_mono(png_ptr);
-  
   
   png_set_background(png_ptr, image_background,
                      PNG_BACKGROUND_GAMMA_FILE, 0, 1.0);
@@ -141,7 +147,7 @@ struct imagebuffer *new_imagebuffer_from_png(char image_name[])
       height = png_get_image_height(png_ptr, info_ptr);
   color_type = png_get_color_type(png_ptr, info_ptr);
   bit_depth = png_get_bit_depth(png_ptr, info_ptr);
-  
+
   assert(png_get_channels(png_ptr, info_ptr) == 1);
   assert(color_type == PNG_COLOR_TYPE_GRAY);
   assert(bit_depth == 8);
