@@ -22,8 +22,8 @@
 
 struct charset
 {
-  size_t width, height;
-  char (*chars)[];
+	size_t width, height;
+	char (*chars)[];
 };
   
 #endif

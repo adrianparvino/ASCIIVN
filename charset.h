@@ -22,17 +22,17 @@
 
 struct chardesc
 {
-  char character;
+	char character;
   
-  unsigned char *glyph;
+	unsigned char *glyph;
 };
 
 struct charset
 {
-  size_t width, height;
+	size_t width, height;
 
-  size_t n;
-  struct chardesc characters[];
+	size_t n;
+	struct chardesc characters[];
 };
 
 struct charset* read_from_directory(const char directory[]);

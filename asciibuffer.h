@@ -22,9 +22,9 @@
 
 struct asciibuffer
 {
-  size_t width, height;
-  char *buffer;
-  char in_buffer[];
+	size_t width, height;
+	char *buffer;
+	char in_buffer[];
 };
 
 struct asciibuffer *new_asciibuffer(size_t width, size_t height);

@@ -1,110 +1,116 @@
-Require Import QArith Qcanon.
+Require Import QArith.
 
 Open Scope Q_scope.
 
 Definition RPlus := forall R, R > 0.
   
-Inductive QcInfty :=
-  | q : Qc -> QcInfty
-  | infty : QcInfty.
+Inductive QInfty :=
+  | q : Q -> QInfty
+  | infty : QInfty.
                     
-Definition QcInftyPlus (x y : QcInfty) :=
+Definition QInftyPlus (x y : QInfty) :=
   match x, y with
   | q x', q y' => q (x' + y')
   | infty, _ => infty
   | _, infty => infty
   end.
                     
-Definition QcInftyLe (x y : QcInfty) :=
+Definition QInftyLe (x y : QInfty) :=
   match x, y with
   | q x', q y' => x' <= y'
   | _, infty => True
   | _, _ => False
   end.
+                    
+Definition QInftyEq (x y : QInfty) :=
+  match x, y with
+  | q x', q y' => x' == y'
+  | _, _ => False
+  end.
 
-Infix "+" := QcInftyPlus : QcInfty_scope.
-Infix "<=" := QcInftyLe : QcInfty_scope.
+Infix "+" := QInftyPlus : QInfty_scope.
+Infix "<=" := QInftyLe : QInfty_scope.
+Infix "==" := QInftyEq : QInfty_scope.
 
-Open Scope QcInfty_scope.
+Open Scope QInfty_scope.
 
 Record extended_quasimetric_space :=
   { base : Type;
-    d :  base -> base -> QcInfty;
-    indisc : forall (x y : base), d x y = q 0 <-> x = y;
+    d :  base -> base -> QInfty;
+    base_eq :  base -> base -> Prop;
+    indisc : forall (x y : base), d x y == q 0 <-> base_eq x y;
     tri : forall (x y z : base), d x z <= d x z + d y z;
     }.
 
-Definition qdist (x : Qc) (y : Qc) :=
+Definition qdist (x : Q) (y : Q) :=
   if Qle_bool (x : Q) (y : Q)
   then q (y - x)
   else infty.
 
-Lemma q_eq_unwrap : forall (x y : Qc), x = y <-> q x = q y.
+Theorem q_eq_plus_minus : forall (x y z : Q), (x + y == z)%Q <-> (x == z - y)%Q.
 Proof.
   intros.
-  
-  split.
-  intro.
-  subst.
-  reflexivity.
-  
-  injection 1.
-  tauto.
-Qed.
-  
-Lemma q_le_unwrap : forall (x y : Qc), (x <= y)%Qc <-> q x <= q y.
-Proof.
-  intros.
-  
-  split.
-  intro.
-  auto.
 
-  auto.
-Qed.
-
-Lemma qc_eq_plus : forall (x y z : Qc), (x - y)%Qc = z <-> x = (z + y)%Qc.
-Proof.
-  intros.
-  
   split.
-  intro.
+  intros.
   Search "Q" "plus".
-  Search "Q" "eq" "if".
-  rewrite Qcplus_inj_r in H.
+  rewrite <- (Qplus_inj_r (x + y) (z) (-y)) in H.
+  symmetry.
+  unfold Qminus.
   
+  rewrite (Qeq_trans (z + - y) (x + y + - y) x).
+  apply Qeq_refl.
+  
+  
+   rewrite (Qeq_trans (x + y + - y) (z + - y) x).
+  . 
 
   
-Lemma q_monotonous : forall (x y : Qc), Qle x y <-> q x <= q y.
+
+Theorem q_monotonous : forall (x y : Q), q x == q y <-> (x == y)%Q.
 Proof.
   intros.
-
+  
   split.
+  intros.
   auto.
 
+  intros.
   auto.
 Qed.
-  
-Theorem qdist_indisc : forall (x y : Qc), qdist x y = q 0 <-> x = y.
+
+Theorem qdist_indisc : forall (x y : Q), qdist x y == q 0 <-> (x == y)%Q.
 Proof.
   intros.
   unfold qdist.
+  
   destruct Qle_bool eqn:?.
   symmetry.
   split.
   intros.
   subst.
   simpl.
-  unfold Qcminus.
-  Search "Qc" "plus".
-  rewrite Qcplus_opp_r.
-  reflexivity.
+  unfold Qminus.
+  Search "Q" "plus".
+  rewrite <- Qplus_inj_r in H.
+  Unshelve.
+  Focus 4.
+  apply (-x).
+  Search "Q" "opp".
+  pose proof Qplus_opp_r as H1.
+  specialize (H1 x).
+  symmetry in H.
+  Search "Q" "trans".
+  apply  (Qeq_trans (y + - x) (x + - x) 0).
+  
+  assumption.
+  assumption.
 
   intros.
   rewrite Qle_bool_iff in Heqb.
-  rewrite q_monotonous in Heqb.
+  rewrite q_monotonous in H.
   rewrite <- q_le_unwrap in Heqb.
   rewrite <- q_eq_unwrap in H.
     
-  rewrite Qcplus_opp_r in H.
+  rewrite Qplus_opp_r in H.
 

@@ -28,78 +28,78 @@
 
 int main()
 {
-  int caretwidth  = 128; 
-  int caretheight = 64;
+	int caretwidth  = 128; 
+	int caretheight = 64;
   
-  struct asciibuffer *asciibuffer = new_asciibuffer(caretwidth, caretheight);
-  struct asciibuffer *asciibuffer2 = new_asciibuffer(caretwidth, caretheight);
+	struct asciibuffer *asciibuffer = new_asciibuffer(caretwidth, caretheight);
+	struct asciibuffer *asciibuffer2 = new_asciibuffer(caretwidth, caretheight);
 
-  // render_fill(asciibuffer, smiley_flat, 8, 8);
-  struct imagebuffer backslash =
-    {
-      .height = slash_height,
-      .width = slash_width,
-      .buffer = test_backslash()
-    };
+	// render_fill(asciibuffer, smiley_flat, 8, 8);
+	struct imagebuffer backslash =
+		{
+			.height = slash_height,
+			.width = slash_width,
+			.buffer = test_backslash()
+		};
   
-  struct imagebuffer slash =
-    {
-      .height = slash_height,
-      .width = slash_width,
-      .buffer = test_slash()
-    };
+	struct imagebuffer slash =
+		{
+			.height = slash_height,
+			.width = slash_width,
+			.buffer = test_slash()
+		};
 
-  struct imagebuffer pipe =
-    {
-      .height = slash_height,
-      .width = slash_width,
-      .buffer = test_pipe()
-    };
+	struct imagebuffer pipe =
+		{
+			.height = slash_height,
+			.width = slash_width,
+			.buffer = test_pipe()
+		};
 
-  struct imagebuffer hs =
-    {
-      .height = 8,
-      .width = 8,
-      .buffer = smiley_flat
-    };
+	struct imagebuffer hs =
+		{
+			.height = 8,
+			.width = 8,
+			.buffer = smiley_flat
+		};
   
-  struct imagebuffer *caret = side_by_side(&slash, &backslash);
-  struct imagebuffer *caret_flip = side_by_side(&backslash, &slash);
-  struct imagebuffer *diamond = top_bottom(caret, caret_flip);
+	struct imagebuffer *caret = side_by_side(&slash, &backslash);
+	struct imagebuffer *caret_flip = side_by_side(&backslash, &slash);
+	struct imagebuffer *diamond = top_bottom(caret, caret_flip);
 
-  struct imagebuffer *dog = new_imagebuffer_from_png("EHR.png");
-  struct imagebuffer *dog2 = new_imagebuffer(caretwidth*slash_width, caretheight*slash_height);
+	struct imagebuffer *dog = new_imagebuffer_from_png("EHR.png");
+	struct imagebuffer *dog2 = new_imagebuffer(caretwidth*slash_width, caretheight*slash_height);
   
-  struct charset* charset = read_from_directory("./fonts/FixedsysExcelsior");
-  scale_bilinear(dog2, dog);
+	struct charset* charset = read_from_directory("./fonts/FixedsysExcelsior");
+	scale_bilinear(dog2, dog);
 
-  render_ssim_charset_unsafe(asciibuffer, dog2, charset);
-  render_fill(asciibuffer2, dog, "");
+	render_ssim_charset_unsafe(asciibuffer, dog2, charset);
+	render_fill(asciibuffer2, dog, "");
   
-  flatten(asciibuffer);
-  flatten(asciibuffer2);
+	flatten(asciibuffer);
+	flatten(asciibuffer2);
 
-  show_asciibuffer(asciibuffer);
-  show_asciibuffer(asciibuffer2);
+	show_asciibuffer(asciibuffer);
+	show_asciibuffer(asciibuffer2);
    
-  free(asciibuffer);
-  free(asciibuffer2);
+	free(asciibuffer);
+	free(asciibuffer2);
 
-  free(backslash.buffer);
-  free(slash.buffer);
-  free(pipe.buffer);
+	free(backslash.buffer);
+	free(slash.buffer);
+	free(pipe.buffer);
   
-  free(dog2);
-  free(dog);
+	free(dog2);
+	free(dog);
   
-  free(diamond);
-  free(caret_flip);
-  free(caret);
+	free(diamond);
+	free(caret_flip);
+	free(caret);
 
-  //  printf("%f", ssim__unsigned_char(backslash_width*backslash_height,
-  //				   0, 0,
-  //				   backslash_width, backslash_width,
-  //				   test_backslash(),
-  //				   test_slash()));
-  return 0;
+	//  printf("%f", ssim__unsigned_char(backslash_width*backslash_height,
+	//				   0, 0,
+	//				   backslash_width, backslash_width,
+	//				   test_backslash(),
+	//				   test_slash()));
+	return 0;
 }

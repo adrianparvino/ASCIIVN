@@ -30,9 +30,9 @@ struct imagebuffer *extract(size_t column_offset,
                             struct imagebuffer *x);
 
 void scale_nearest(struct imagebuffer *dest,
-                    struct imagebuffer *src);
+                   struct imagebuffer *src);
 
 void scale_bilinear(struct imagebuffer *dest,
-                     struct imagebuffer *src);
+                    struct imagebuffer *src);
 
 #endif

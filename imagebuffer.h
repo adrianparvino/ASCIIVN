@@ -21,10 +21,10 @@
 #include <stddef.h>
 
 struct imagebuffer {
-  size_t width, height;
+	size_t width, height;
 
-  unsigned char *buffer;
-  unsigned char in_buffer[];
+	unsigned char *buffer;
+	unsigned char in_buffer[];
 };
 
 struct imagebuffer *new_imagebuffer(size_t width, size_t height);
