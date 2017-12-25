@@ -18,7 +18,10 @@
 #ifndef IMAGEMANIP_H
 #define IMAGEMANIP_H
 
+#include <png.h>
 #include "imagebuffer.h"
+int color_type_to_bytes(int color_type);
+
 struct imagebuffer *side_by_side(struct imagebuffer *x,
                                  struct imagebuffer *y);
 struct imagebuffer *top_bottom(struct imagebuffer *x,

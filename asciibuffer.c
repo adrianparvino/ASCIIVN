@@ -20,6 +20,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<png.h>
 
 struct asciibuffer *new_asciibuffer(size_t width, size_t height)
 {
@@ -28,6 +29,7 @@ struct asciibuffer *new_asciibuffer(size_t width, size_t height)
 	*asciibuffer = (struct asciibuffer) {
 		.height = height,
 		.width = width,
+		.color_type = PNG_COLOR_TYPE_GRAY,
 		.buffer = asciibuffer->in_buffer
 	};
 	memset(asciibuffer->in_buffer, 0, width*height);
@@ -39,7 +41,7 @@ void flatten(struct asciibuffer *asciibuffer)
 {
 	for (size_t i = 0; i < asciibuffer->height * asciibuffer->width; ++i)
 		if (asciibuffer->buffer[i] == '\0')
-			asciibuffer->buffer[i] = ' ';
+			asciibuffer->buffer[i] = '$';
 }
 
 void clear(struct asciibuffer *asciibuffer)

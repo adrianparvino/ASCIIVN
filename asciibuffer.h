@@ -23,6 +23,10 @@
 struct asciibuffer
 {
 	size_t width, height;
+	
+	int background;
+	int color_type;
+
 	char *buffer;
 	char in_buffer[];
 };

@@ -15,25 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IMAGE_BUFFER_H
-#define IMAGE_BUFFER_H
+#ifndef SLIDES_H
+#define SLIDES_H
 
-#include <stddef.h>
+#include "asciibuffer.h"
+#include "imagebuffer.h"
 
-struct imagebuffer {
-	size_t width, height;
-
-	int background;
-	int color_type;
-
-	unsigned char *buffer;
-	unsigned char in_buffer[];
+struct slides {
+	struct slides *prev;
+	struct imagebuffer image_background, image_foreground;
+	struct asciibuffer cache_background, cache_foreground;
+	struct slides *next;
 };
 
-struct imagebuffer *new_imagebuffer(size_t width, size_t height);
-struct imagebuffer *new_imagebuffer_from_png(char image_name[]);
-
-#define index(image, x, y) ((image)->buffer[((image)->width*((int) (y)) + color_type_to_bytes((image)->color_type)*((int) (x)))])
-int color_type_to_bytes(int color_type);
-
+void slides_init();
+void next_slide(struct slides *slides);
+void previous_slide(struct slides *slides);
+void slides_end();
+	
 #endif
+

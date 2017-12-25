@@ -71,10 +71,10 @@ int main()
 	struct imagebuffer *dog2 = new_imagebuffer(caretwidth*slash_width, caretheight*slash_height);
   
 	struct charset* charset = read_from_directory("./fonts/FixedsysExcelsior");
-	scale_bilinear(dog2, dog);
+	scale_nearest(dog2, dog);
 
-	render_ssim_charset_unsafe(asciibuffer, dog2, charset);
-	render_fill(asciibuffer2, dog, "");
+	render_fill(asciibuffer, dog, "");
+	render_ssim_charset_unsafe(asciibuffer2, dog2, charset);
   
 	flatten(asciibuffer);
 	flatten(asciibuffer2);
@@ -89,17 +89,13 @@ int main()
 	free(slash.buffer);
 	free(pipe.buffer);
   
+	free_charset(charset);
 	free(dog2);
 	free(dog);
   
 	free(diamond);
 	free(caret_flip);
 	free(caret);
-
-	//  printf("%f", ssim__unsigned_char(backslash_width*backslash_height,
-	//				   0, 0,
-	//				   backslash_width, backslash_width,
-	//				   test_backslash(),
-	//				   test_slash()));
+	
 	return 0;
 }

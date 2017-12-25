@@ -112,10 +112,14 @@ struct charset* read_from_directory(const char directory[])
 			};
       
 			++i;
+			
+			free(font_image);
 		}
 
 	png_charset->n = i;
-	png_charset = realloc(png_charset, sizeof(*png_charset) + png_charset->n*sizeof(*png_charset->characters));
+	png_charset = realloc(png_charset,
+	                      sizeof(*png_charset) +
+	                      png_charset->n*sizeof(*png_charset->characters));
 
 	assert(i != 0);
   

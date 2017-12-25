@@ -22,7 +22,6 @@
 
 #define min(x, n) ((x) < (n) ? (x) : (n))
 #define max(x, n) ((x) > (n) ? (x) : (n))
-#define index(image, x, y) ((image)->buffer[(((int) (y)) * (image)->width + ((int) (x)))])
 
 struct imagebuffer *side_by_side(struct imagebuffer *x,
                                  struct imagebuffer *y)
@@ -78,37 +77,39 @@ struct imagebuffer *top_bottom(struct imagebuffer *x,
 void scale_nearest(struct imagebuffer *dest,
                    struct imagebuffer *src)
 {
-	for (int i = 0; i < dest->height * dest->width; ++i)
-		{
-			size_t x = (i % dest->width) * (src->width) / (dest->width);
-			size_t y = (i / dest->width) * (src->height) / (dest->height);
-
-			dest->buffer[i] = src->buffer[y*(src->width) + x];
+	for (int i = 0; i < dest->width; ++i) {
+		for (int j = 0; j < dest->height; ++j) {
+			size_t x = i * (src->width) / (dest->width);
+			size_t y = j * (src->height) / (dest->height);
+			
+			index(dest, i, j) = index(src, x, y);
 		}
+	}
 }
 
 /* NB: Probably Broken Implementation */
 void scale_bilinear(struct imagebuffer *dest,
                     struct imagebuffer *src)
 {
-	for (size_t j = 0; j < dest->height; ++j)
-		{
-			for (size_t i = 0; i < dest->width; ++i)
-				{
-					float x = ((float) i) / (dest->width - 1) * (src->width - 1);
-					float y = ((float) j) / (dest->height - 1) * (src->height - 1);
-
-					float xi, yi;
-					float xf = modff(x, &xi),
-						yf = modff(y, &yi);
-          
-					index(dest, i, j) =
-						index(src, xi                         , yi                          )*(1 - xf)*(1 - yf) +
-						index(src, min(xi + 1, src->width - 1), yi                          )*(1 - yf)*xf +
-						index(src, xi                         , min(yi + 1, src->height - 1))*yf*(1 - xf) +
-						index(src, min(xi + 1, src->width - 1), min(yi + 1, src->height - 1))*xf*yf;
-				}
+	for (size_t j = 0; j < dest->height; ++j) {
+		for (size_t i = 0; i < dest->width; ++i) {
+			float x = ((float) i) / (dest->width - 1) * (src->width - 1);
+			float y = ((float) j) / (dest->height - 1) * (src->height - 1);
+			
+			float xi, yi;
+			float xf = modff(x, &xi),
+				yf = modff(y, &yi);
+			
+			const int xi_ = min(xi + 1, src->width - 1);
+			const int yi_ = min(yi + 1, src->height - 1);
+			
+			index(dest, i, j) =
+				index(src, xi , yi )*(1 - xf)*(1 - yf) +
+				index(src, xi_, yi )*(1 - yf)*xf +
+				index(src, xi , yi_)*yf*(1 - xf) +
+				index(src, xi_, yi_)*xf*yf;
 		}
+	}
 }
 
 struct imagebuffer *extract(size_t column_offset,

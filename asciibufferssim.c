@@ -28,7 +28,6 @@
 
 #include <math.h>
 
-#define index(image, x, y) ((image)->buffer[(int) (((int) (y)) * (image)->width + ((int) (x)))])
 #define pow2(x) ((x)*(x))
 #define signpow2(x) ((x)*fabsf(x))
 #define pow3(x) ((x)*(x)*(x))
@@ -54,10 +53,9 @@ int render_ssim(struct asciibuffer *dest,
 
 	int result = render_ssim_charset_unsafe(dest, src, font_charset);
 
-	if (defaultfont)
-		{
-			free_charset(font_charset);
-		}
+	if (defaultfont) {
+		free_charset(font_charset);
+	}
   
 	return result;
 }
@@ -66,37 +64,34 @@ int render_ssim_charset_unsafe(struct asciibuffer *dest,
                                struct imagebuffer *src,
                                struct charset *font_charset)
 {
-	for (size_t y_ = 0, y = 0; y < src->height; ++y_, y += font_charset->height)
-		{
-			for (size_t x_ = 0, x = 0; x < src->width; ++x_, x += font_charset->width)
-				{
-					char best_ssim_char = 0;
-					float best_ssim_value = 0;
+	for (size_t y_ = 0, y = 0; y < src->height; ++y_, y += font_charset->height) {
+		for (size_t x_ = 0, x = 0; x < src->width; ++x_, x += font_charset->width) {
+			char best_ssim_char = 0;
+			float best_ssim_value = 0;
+			
+			struct imagebuffer glyph_imagebuffer = {
+				.height = font_charset->height,
+				.width = font_charset->width,
+				.buffer = NULL
+			};
+			
+			for (size_t i = 0; i < font_charset->n; ++i) {
+				glyph_imagebuffer.buffer = font_charset->characters[i].glyph;
+				
+				float current_ssim_value =
+					ssim_imagebuffer(x, y, src, &glyph_imagebuffer);
+				
+				if (current_ssim_value > best_ssim_value)
+					{
+						best_ssim_value = current_ssim_value;
+						best_ssim_char = font_charset->characters[i].character;
+					}
+				
+			}
 
-					struct imagebuffer glyph_imagebuffer =
-						{
-							.height = font_charset->height,
-							.width = font_charset->width,
-							.buffer = NULL
-						};
-              
-					for (size_t i = 0; i < font_charset->n; ++i)
-						{
-							glyph_imagebuffer.buffer = font_charset->characters[i].glyph;
-
-							float current_ssim_value =
-								ssim_imagebuffer(x, y, src, &glyph_imagebuffer);
-
-							if (current_ssim_value > best_ssim_value)
-								{
-									best_ssim_value = current_ssim_value;
-									best_ssim_char = font_charset->characters[i].character;
-								}
-
-						}
-					dest->buffer[y_*(dest->width) + x_] = best_ssim_char;
-				}
+			index(dest, x_, y_) = best_ssim_char;
 		}
+	}
 
 	return 0;
 }
@@ -119,19 +114,21 @@ float ssim_imagebuffer(size_t column_offset,
   
 	// Online computation for covariance, adapted for variance.
 	// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online
-	for (size_t i = 0; i < n; ++i) {
-		size_t x_index = (i/(y->width) + row_offset)*(x->width)
-			+  i%(y->width) + column_offset;
+	for (size_t j = 0; j < y->height; ++j) {
+		for (size_t i = 0; i < y->width; ++i) {
+			size_t xi = i + column_offset;
+			size_t xj = j + row_offset;
 
-		float dx = x->buffer[x_index] - mean_x;
-		float dy = y->buffer[i] - mean_y;
-      
-		mean_x += dx/(i + 1);
-		mean_y += dy/(i + 1);
-
-		comoment_xx += dx * (x->buffer[x_index] - mean_x);
-		comoment_yy += dy * (y->buffer[i] - mean_y);
-		comoment_xy += dx * (y->buffer[i] - mean_y);
+			float dx = index(x, xi, xj) - mean_x;
+			float dy = index(y,  i,  j) - mean_y;
+			
+			mean_x += dx/(j*y->width + i + 1);
+			mean_y += dy/(j*y->width + i + 1);
+			
+			comoment_xx += dx * (index(x, xi, xj) - mean_x);
+			comoment_yy += dy * (index(y,  i,  j) - mean_y);
+			comoment_xy += dx * (index(y,  i,  j) - mean_y);
+		}
 	}
 
 	float var_x    = comoment_xx/n,
