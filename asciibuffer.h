@@ -18,17 +18,12 @@
 #ifndef ASCII_BUFFER_H
 #define ASCII_BUFFER_H
 
-#include<stddef.h>
+#include "imagebuffer.h"
+#include <stddef.h>
 
 struct asciibuffer
 {
-	size_t width, height;
-	
-	int background;
-	int color_type;
-
-	char *buffer;
-	char in_buffer[];
+	IMAGEBUFFER_BODY
 };
 
 struct asciibuffer *new_asciibuffer(size_t width, size_t height);

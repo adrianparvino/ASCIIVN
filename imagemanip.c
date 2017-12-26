@@ -31,18 +31,9 @@ struct imagebuffer *side_by_side(struct imagebuffer *x,
 	int width = (x->width + y->width);
 
 	struct imagebuffer *imagebuffer = new_imagebuffer(width, x->height);
-  
-	for (int i = 0; i < x->width; ++i) {
-		for (int j = 0; j < x->height; ++j) {
-			index(imagebuffer, i, j) = index(x, i, j);
-		}
-	}
-	
-	for (int i = 0; i < y->width; ++i) {
-		for (int j = 0; j < y->height; ++j) {
-			index(imagebuffer, i + x->width, j) = index(y, i, j);
-		}
-	}
+
+	compose(imagebuffer, x, 0, 0);
+	compose(imagebuffer, y, x->width, 0);
 
 	return imagebuffer;
 }
@@ -56,17 +47,8 @@ struct imagebuffer *top_bottom(struct imagebuffer *x,
 
 	struct imagebuffer *imagebuffer = new_imagebuffer(x->width, height);
 	
-	for (int i = 0; i < x->width; ++i) {
-		for (int j = 0; j < x->height; ++j) {
-			index(imagebuffer, i, j) = index(x, i, j);
-		}
-	}
-	
-	for (int i = 0; i < y->width; ++i) {
-		for (int j = 0; j < y->height; ++j) {
-			index(imagebuffer, i, j + x->height) = index(y, i, j);
-		}
-	}
+	compose(imagebuffer, x, 0, 0);
+	compose(imagebuffer, y, 0, x->height);
 
 	return imagebuffer;
 }
@@ -125,4 +107,21 @@ struct imagebuffer *extract(size_t column_offset,
 		}
 
 	return extract_buffer;
+}
+
+// TODO: Compose with alpha awareness.
+void compose(struct imagebuffer *bg,
+             struct imagebuffer *fg,
+             size_t column_offset,
+             size_t row_offset)
+{
+	assert(fg->width + column_offset <= bg->width);
+	assert(fg->height + row_offset <= bg->height);
+	
+	for (size_t i = 0; i < fg->width; ++i)
+		for (size_t j = 0; j < fg->height; ++j)
+		{
+			index(bg, column_offset + i, row_offset + j) =
+				index(fg, i, j);
+		}
 }

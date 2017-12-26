@@ -20,20 +20,25 @@
 
 #include <stddef.h>
 
-struct imagebuffer {
-	size_t width, height;
-
-	int background;
-	int color_type;
-
-	unsigned char *buffer;
+#define IMAGEBUFFER_BODY \
+	size_t width, height; \
+ \
+	int background; \
+	int color_type; \
+ \
+	unsigned char *buffer; \
 	unsigned char in_buffer[];
+
+struct imagebuffer {
+	IMAGEBUFFER_BODY
 };
 
 struct imagebuffer *new_imagebuffer(size_t width, size_t height);
 struct imagebuffer *new_imagebuffer_from_png(char image_name[]);
 
 #define index(image, x, y) ((image)->buffer[color_type_to_bytes((image)->color_type) * ((image)->width*((int) (y)) + ((int) (x)))])
+#define index_i(image, x, y, offset) ((image)->buffer[color_type_to_bytes((image)->color_type) * ((image)->width*((int) (y)) + ((int) (x)))] + offset)
+
 int color_type_to_bytes(int color_type);
 
 #define DEFAULT_COLOR_TYPE PNG_COLOR_TYPE_GRAY_ALPHA

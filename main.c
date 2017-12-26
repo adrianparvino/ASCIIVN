@@ -73,7 +73,7 @@ int main()
 	struct charset* charset = read_from_directory("./fonts/FixedsysExcelsior");
 	scale_bilinear(dog2, dog);
 
-	render_fill(asciibuffer, dog2, "");
+	render_fill(asciibuffer, dog, "");
 	render_ssim_charset_unsafe(asciibuffer2, dog2, charset);
   
 	flatten(asciibuffer);

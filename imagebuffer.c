@@ -153,6 +153,7 @@ struct imagebuffer *new_imagebuffer_from_png(char image_name[])
 	if (bit_depth == 16) {
 		png_set_strip_16(png_ptr);
 	}
+
 	/* Set 0x00 to white and 0xff to black */
 	png_set_invert_mono(png_ptr);
 	

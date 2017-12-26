@@ -39,9 +39,13 @@ struct asciibuffer *new_asciibuffer(size_t width, size_t height)
 
 void flatten(struct asciibuffer *asciibuffer)
 {
-	for (size_t i = 0; i < asciibuffer->height * asciibuffer->width; ++i)
-		if (asciibuffer->buffer[i] == '\0')
-			asciibuffer->buffer[i] = '$';
+	for (size_t i = 0; i < asciibuffer->width; ++i) {
+		for (size_t j = 0; j < asciibuffer->height; ++j) {
+			if (index(asciibuffer, i, j) == '\0') {
+				index(asciibuffer, i, j) = ' ';
+			}
+		}
+	}
 }
 
 void clear(struct asciibuffer *asciibuffer)

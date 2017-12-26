@@ -38,4 +38,9 @@ void scale_nearest(struct imagebuffer *dest,
 void scale_bilinear(struct imagebuffer *dest,
                     struct imagebuffer *src);
 
+void compose(struct imagebuffer *bg,
+             struct imagebuffer *fg,
+             size_t column_offset,
+             size_t row_offset);
+
 #endif
