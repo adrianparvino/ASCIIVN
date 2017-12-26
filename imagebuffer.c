@@ -41,16 +41,17 @@ int color_type_to_bytes(int color_type)
 
 struct imagebuffer *new_imagebuffer(size_t width, size_t height)
 {
-	struct imagebuffer *imagebuffer = malloc(sizeof(struct imagebuffer) + width*height*2);
+	size_t size = width*height*color_type_to_bytes(DEFAULT_COLOR_TYPE);
+	struct imagebuffer *imagebuffer = malloc(sizeof(struct imagebuffer) + size);
 
 	*imagebuffer = (struct imagebuffer) {
 		.width = width,
 		.height = height,
-		.color_type = PNG_COLOR_TYPE_GRAY_ALPHA,
+		.color_type =  DEFAULT_COLOR_TYPE,
 		.buffer = imagebuffer->in_buffer
 	};
 	
-	memset(imagebuffer->in_buffer, 0, width*height*2);
+	memset(imagebuffer->in_buffer, 0, size);
   
 	return imagebuffer;
 }

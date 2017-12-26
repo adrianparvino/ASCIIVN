@@ -50,7 +50,7 @@ void render_fill(struct asciibuffer *dest,
 			font_charset = generate_test_charset();
 		}
   
-	scale_bilinear((struct imagebuffer *)dest, src);
+	scale_nearest((struct imagebuffer *)dest, src);
 
 	struct cache cache[font_charset->n];
 	memset(cache, 0, sizeof(cache));

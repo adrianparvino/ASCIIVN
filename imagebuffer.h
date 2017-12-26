@@ -33,7 +33,9 @@ struct imagebuffer {
 struct imagebuffer *new_imagebuffer(size_t width, size_t height);
 struct imagebuffer *new_imagebuffer_from_png(char image_name[]);
 
-#define index(image, x, y) ((image)->buffer[((image)->width*((int) (y)) + color_type_to_bytes((image)->color_type)*((int) (x)))])
+#define index(image, x, y) ((image)->buffer[color_type_to_bytes((image)->color_type) * ((image)->width*((int) (y)) + ((int) (x)))])
 int color_type_to_bytes(int color_type);
+
+#define DEFAULT_COLOR_TYPE PNG_COLOR_TYPE_GRAY_ALPHA
 
 #endif

@@ -32,21 +32,17 @@ struct imagebuffer *side_by_side(struct imagebuffer *x,
 
 	struct imagebuffer *imagebuffer = new_imagebuffer(width, x->height);
   
-	for (int i = 0; i < x->height; ++i)
-		{
-			for (int j = 0; j < x->width; ++j)
-				{
-					imagebuffer->buffer[i*width + j] = x->buffer[i*x->width + j];
-				}
+	for (int i = 0; i < x->width; ++i) {
+		for (int j = 0; j < x->height; ++j) {
+			index(imagebuffer, i, j) = index(x, i, j);
 		}
-  
-	for (int i = 0; i < y->height; ++i)
-		{
-			for (int j = 0; j < y->width; ++j)
-				{
-					imagebuffer->buffer[i*width + j + x->width] = y->buffer[i*y->width + j];
-				}
+	}
+	
+	for (int i = 0; i < y->width; ++i) {
+		for (int j = 0; j < y->height; ++j) {
+			index(imagebuffer, i + x->width, j) = index(y, i, j);
 		}
+	}
 
 	return imagebuffer;
 }
@@ -59,18 +55,19 @@ struct imagebuffer *top_bottom(struct imagebuffer *x,
 	int height = (x->height + y->height);
 
 	struct imagebuffer *imagebuffer = new_imagebuffer(x->width, height);
+	
+	for (int i = 0; i < x->width; ++i) {
+		for (int j = 0; j < x->height; ++j) {
+			index(imagebuffer, i, j) = index(x, i, j);
+		}
+	}
+	
+	for (int i = 0; i < y->width; ++i) {
+		for (int j = 0; j < y->height; ++j) {
+			index(imagebuffer, i, j + x->height) = index(y, i, j);
+		}
+	}
 
-	int i;
-	for (i = 0; i < x->width * x->height; ++i)
-		{
-			imagebuffer->buffer[i] = x->buffer[i];
-		}
-  
-	for (int j = 0; i < x->width * height; ++i, ++j)
-		{
-			imagebuffer->buffer[i] = y->buffer[j];
-		}
-  
 	return imagebuffer;
 }
 
@@ -120,10 +117,11 @@ struct imagebuffer *extract(size_t column_offset,
 {
 	struct imagebuffer *extract_buffer = new_imagebuffer(width, height);
 
-	for (size_t i = 0; i < height*width; ++i)
+	for (size_t i = 0; i < width; ++i)
+		for (size_t j = 0; j < height; ++j)
 		{
-			extract_buffer->buffer[i] =
-				index(x, column_offset + i%width, row_offset + i/width);
+			index(extract_buffer, i, j) =
+				index(x, column_offset + i, row_offset + j);
 		}
 
 	return extract_buffer;
