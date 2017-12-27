@@ -16,5 +16,3 @@
  */
 
 #include "asciibuffercharset.h"
-
-

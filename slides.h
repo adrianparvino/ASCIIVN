@@ -21,10 +21,13 @@
 #include "asciibuffer.h"
 #include "imagebuffer.h"
 
-struct slides {
+struct slides
+{
 	struct slides *prev;
-	struct imagebuffer image_background, image_foreground;
-	struct asciibuffer cache_background, cache_foreground;
+	struct imagebuffer image_background,
+	  image_foreground;
+	struct asciibuffer cache_background,
+	  cache_foreground;
 	struct slides *next;
 };
 
@@ -32,6 +35,5 @@ void slides_init();
 void next_slide(struct slides *slides);
 void previous_slide(struct slides *slides);
 void slides_end();
-	
-#endif
 
+#endif

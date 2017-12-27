@@ -26,68 +26,76 @@
 
 #define LENGTH(x) (sizeof(x) / sizeof(*x))
 
-struct cache {
+struct cache
+{
 	float value;
 	char character;
 };
 
-int cmp_cache(const void *x, const void *y)
+int
+cmp_cache(const void *x, const void *y)
 {
-	return ceil(((const struct cache*)x)->value -
-	            ((const struct cache*)y)->value);
+	return ceil(((const struct cache *) x)->value -
+							((const struct cache *) y)->value);
 }
 
-void render_fill(struct asciibuffer *dest,
-                 struct imagebuffer *src,
-                 char fontname[])
+void
+render_fill(struct asciibuffer *dest,
+						struct imagebuffer *src, char fontname[])
 {
 	struct charset *font_charset = NULL;
-  
+
 	if (!strcmp(fontname, ""))
 		{
 			fprintf(stderr, "Warning: no fontname provided. Using fallback.\n");
-      
-			font_charset = generate_test_charset();
+
+			font_charset = charset_read_from_directory("./fonts/FixedsysExcelsior");
 		}
-  
-	scale_bilinear((struct imagebuffer *)dest, src);
+
+	scale_bilinear((struct imagebuffer *) dest, src);
 
 	struct cache cache[font_charset->n];
 	memset(cache, 0, sizeof(cache));
 
-	for (size_t character = 0; character < font_charset->n; ++character) {
+	for (size_t character = 0; character < font_charset->n; ++character)
+		{
 
-		// Calculate the arithmetic mean of the glyph
-		const int n = font_charset->width * font_charset->height;
-		for (size_t i = 0; i < n; ++i) {
-			float dx = font_charset->characters[character].glyph[i] -
-				cache[character].value;
-			cache[character].value += dx/(i + 1);
+			// Calculate the arithmetic mean of the glyph
+			const int n = font_charset->width * font_charset->height;
+			for (size_t i = 0; i < n; ++i)
+				{
+					float dx = font_charset->characters[character].glyph[i] -
+						cache[character].value;
+					cache[character].value += dx / (i + 1);
+				}
+
+			cache[character].character =
+				font_charset->characters[character].character;
 		}
-		
-		cache[character].character =
-			font_charset->characters[character].character;
-	}
-	
+
 	qsort(cache, LENGTH(cache), sizeof(*cache), cmp_cache);
 
-	for (size_t i = 0; i < dest->width; ++i) {
-		for (size_t j = 0; j < dest->height; ++j) {
-			float best_value = 0;
-			char best_character = 0;
-			
-			for (size_t k = 0; k < LENGTH(cache); ++k) {
-				if (index(dest, i, j) < cache[k].value) {
-					break;
+	for (size_t i = 0; i < dest->width; ++i)
+		{
+			for (size_t j = 0; j < dest->height; ++j)
+				{
+					float best_value = 0;
+					char best_character = 0;
+
+					for (size_t k = 0; k < LENGTH(cache); ++k)
+						{
+							if (index(dest, i, j) < cache[k].value)
+								{
+									break;
+								}
+
+							best_value = cache[k].value;
+							best_character = cache[k].character;
+						}
+
+					index(dest, i, j) = best_character;
 				}
-				
-				best_value = cache[k].value;
-				best_character = cache[k].character;
-			}
-			
-			index(dest, i, j) = best_character;
 		}
-	}
 
 	free_charset(font_charset);
 }

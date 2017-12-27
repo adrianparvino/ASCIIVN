@@ -29,9 +29,9 @@
 	unsigned char *buffer; \
 	unsigned char in_buffer[];
 
-struct imagebuffer {
-	IMAGEBUFFER_BODY
-};
+struct imagebuffer
+{
+IMAGEBUFFER_BODY};
 
 struct imagebuffer *new_imagebuffer(size_t width, size_t height);
 struct imagebuffer *new_imagebuffer_from_png(char image_name[]);

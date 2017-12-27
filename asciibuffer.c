@@ -22,39 +22,51 @@
 #include<string.h>
 #include<png.h>
 
-struct asciibuffer *new_asciibuffer(size_t width, size_t height)
+struct asciibuffer *
+new_asciibuffer(size_t width, size_t height)
 {
-	struct asciibuffer *asciibuffer = malloc(sizeof(struct asciibuffer) + width*height);
+	struct asciibuffer *asciibuffer =
+		malloc(sizeof(struct asciibuffer) + width * height);
 
-	*asciibuffer = (struct asciibuffer) {
-		.height = height,
-		.width = width,
-		.color_type = PNG_COLOR_TYPE_GRAY,
-		.buffer = asciibuffer->in_buffer
-	};
-	memset(asciibuffer->in_buffer, 0, width*height);
-  
+	*asciibuffer = (struct asciibuffer)
+		{
+			.height = height,
+			.width = width,
+			.color_type = PNG_COLOR_TYPE_GRAY,
+			.buffer = asciibuffer->in_buffer
+		};
+	memset(asciibuffer->in_buffer, 0, width * height);
+
 	return asciibuffer;
 }
 
-void flatten(struct asciibuffer *asciibuffer)
+void
+flatten(struct asciibuffer *asciibuffer)
 {
-	for (size_t i = 0; i < asciibuffer->width; ++i) {
-		for (size_t j = 0; j < asciibuffer->height; ++j) {
-			if (index(asciibuffer, i, j) == '\0') {
-				index(asciibuffer, i, j) = ' ';
-			}
+	for (size_t i = 0; i < asciibuffer->width; ++i)
+		{
+			for (size_t j = 0; j < asciibuffer->height; ++j)
+				{
+					if (index(asciibuffer, i, j) == '\0')
+						{
+							index(asciibuffer, i, j) = ' ';
+						}
+				}
 		}
-	}
 }
 
-void clear(struct asciibuffer *asciibuffer)
+void
+clear(struct asciibuffer *asciibuffer)
 {
 	memset(asciibuffer->buffer, 0, asciibuffer->height * asciibuffer->width);
 }
 
-void show_asciibuffer(struct asciibuffer *asciibuffer)
+void
+show_asciibuffer(struct asciibuffer *asciibuffer)
 {
 	for (size_t i = 0; i < asciibuffer->height; ++i)
-		printf("%.*s\n", (int) asciibuffer->width, asciibuffer->buffer + i*asciibuffer->width);
+		{
+			printf("%.*s\n", (int) asciibuffer->width,
+			       asciibuffer->buffer + i * asciibuffer->width);
+		}
 }

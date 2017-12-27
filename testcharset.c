@@ -18,6 +18,5 @@
 #include "testcharset.h"
 #include ".h"
 
-struct charset testcharset =
-  {
-  };
+struct charset testcharset = {
+};

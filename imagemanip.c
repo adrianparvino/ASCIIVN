@@ -23,8 +23,8 @@
 #define min(x, n) ((x) < (n) ? (x) : (n))
 #define max(x, n) ((x) > (n) ? (x) : (n))
 
-struct imagebuffer *side_by_side(struct imagebuffer *x,
-                                 struct imagebuffer *y)
+struct imagebuffer *
+side_by_side(struct imagebuffer *x, struct imagebuffer *y)
 {
 	assert(x->height == y->height);
 
@@ -38,90 +38,91 @@ struct imagebuffer *side_by_side(struct imagebuffer *x,
 	return imagebuffer;
 }
 
-struct imagebuffer *top_bottom(struct imagebuffer *x,
-                               struct imagebuffer *y)
+struct imagebuffer *
+top_bottom(struct imagebuffer *x, struct imagebuffer *y)
 {
 	assert(x->width == y->width);
 
 	int height = (x->height + y->height);
 
 	struct imagebuffer *imagebuffer = new_imagebuffer(x->width, height);
-	
+
 	compose(imagebuffer, x, 0, 0);
 	compose(imagebuffer, y, 0, x->height);
 
 	return imagebuffer;
 }
 
-void scale_nearest(struct imagebuffer *dest,
-                   struct imagebuffer *src)
+void
+scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 {
-	for (int i = 0; i < dest->width; ++i) {
-		for (int j = 0; j < dest->height; ++j) {
-			size_t x = i * (src->width) / (dest->width);
-			size_t y = j * (src->height) / (dest->height);
-			
-			index(dest, i, j) = index(src, x, y);
+	for (int i = 0; i < dest->width; ++i)
+		{
+			for (int j = 0; j < dest->height; ++j)
+				{
+					size_t x = i * (src->width) / (dest->width);
+					size_t y = j * (src->height) / (dest->height);
+
+					index(dest, i, j) = index(src, x, y);
+				}
 		}
-	}
 }
 
 /* NB: Probably Broken Implementation */
-void scale_bilinear(struct imagebuffer *dest,
-                    struct imagebuffer *src)
+void
+scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 {
-	for (size_t j = 0; j < dest->height; ++j) {
-		for (size_t i = 0; i < dest->width; ++i) {
-			float x = ((float) i) / (dest->width - 1) * (src->width - 1);
-			float y = ((float) j) / (dest->height - 1) * (src->height - 1);
-			
-			float xi, yi;
-			float xf = modff(x, &xi),
-				yf = modff(y, &yi);
-			
-			const int xi_ = min(xi + 1, src->width - 1);
-			const int yi_ = min(yi + 1, src->height - 1);
-			
-			index(dest, i, j) =
-				index(src, xi , yi )*(1 - xf)*(1 - yf) +
-				index(src, xi_, yi )*(1 - yf)*xf +
-				index(src, xi , yi_)*yf*(1 - xf) +
-				index(src, xi_, yi_)*xf*yf;
+	for (size_t j = 0; j < dest->height; ++j)
+		{
+			for (size_t i = 0; i < dest->width; ++i)
+				{
+					float x = ((float) i) / (dest->width - 1) * (src->width - 1);
+					float y = ((float) j) / (dest->height - 1) * (src->height - 1);
+
+					float xi,
+					  yi;
+					float xf = modff(x, &xi),
+						yf = modff(y, &yi);
+
+					const int xi_ = min(xi + 1, src->width - 1);
+					const int yi_ = min(yi + 1, src->height - 1);
+
+					index(dest, i, j) =
+						index(src, xi, yi) * (1 - xf) * (1 - yf) +
+						index(src, xi_, yi) * (1 - yf) * xf +
+						index(src, xi, yi_) * yf * (1 - xf) +
+						index(src, xi_, yi_) * xf * yf;
+				}
 		}
-	}
 }
 
-struct imagebuffer *extract(size_t column_offset,
-                            size_t row_offset,
-                            size_t width,
-                            size_t height,
-                            struct imagebuffer *x)
+struct imagebuffer *
+extract(size_t column_offset,
+				size_t row_offset, size_t width, size_t height, struct imagebuffer *x)
 {
 	struct imagebuffer *extract_buffer = new_imagebuffer(width, height);
 
 	for (size_t i = 0; i < width; ++i)
 		for (size_t j = 0; j < height; ++j)
-		{
-			index(extract_buffer, i, j) =
-				index(x, column_offset + i, row_offset + j);
-		}
+			{
+				index(extract_buffer, i, j) =
+					index(x, column_offset + i, row_offset + j);
+			}
 
 	return extract_buffer;
 }
 
 // TODO: Compose with alpha awareness.
-void compose(struct imagebuffer *bg,
-             struct imagebuffer *fg,
-             size_t column_offset,
-             size_t row_offset)
+void
+compose(struct imagebuffer *bg,
+				struct imagebuffer *fg, size_t column_offset, size_t row_offset)
 {
 	assert(fg->width + column_offset <= bg->width);
 	assert(fg->height + row_offset <= bg->height);
-	
+
 	for (size_t i = 0; i < fg->width; ++i)
 		for (size_t j = 0; j < fg->height; ++j)
-		{
-			index(bg, column_offset + i, row_offset + j) =
-				index(fg, i, j);
-		}
+			{
+				index(bg, column_offset + i, row_offset + j) = index(fg, i, j);
+			}
 }
