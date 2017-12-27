@@ -127,11 +127,14 @@ new_imagebuffer_from_png(char image_name[])
 
 	if (!png_get_bKGD(png_ptr, info_ptr, &image_background))
 		{
-			image_background = &((png_color_16)
-													 {
-													 .index = 255,.red = 65535,.blue = 65535,.green =
-													 65535,.gray = 0,}
-			);
+			image_background =
+				&(png_color_16) {
+				.index = 255,
+				.red = 65535,
+				.blue = 65535,
+				.green = 65535,
+				.gray = 0
+			};
 		}
 
 	int color_type = png_get_color_type(png_ptr, info_ptr),
@@ -189,8 +192,11 @@ new_imagebuffer_from_png(char image_name[])
 
 	*imagebuffer = (struct imagebuffer)
 	{
-	.width = width,.height = height,.buffer =
-			imagebuffer->in_buffer,.color_type = color_type};
+		.width = width,
+		.height = height,
+		.buffer = imagebuffer->in_buffer,
+		.color_type = color_type
+	};
 
 	memset(imagebuffer->in_buffer, 0, buffer_size);
 
