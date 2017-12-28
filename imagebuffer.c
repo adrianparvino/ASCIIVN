@@ -36,7 +36,7 @@ color_type_to_bytes(int color_type)
 			return 2;
 		default:
 			printf("Currently unsupported color type.");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 }
@@ -89,7 +89,7 @@ new_imagebuffer_from_png(char image_name[])
 	if (!png_ptr)
 		{
 			fclose(image_file);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 	png_infop info_ptr = png_create_info_struct(png_ptr);
@@ -98,7 +98,7 @@ new_imagebuffer_from_png(char image_name[])
 			png_destroy_read_struct(&png_ptr, NULL, NULL);
 
 			fclose(image_file);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 	png_infop end_info = png_create_info_struct(png_ptr);
@@ -106,7 +106,7 @@ new_imagebuffer_from_png(char image_name[])
 		{
 			png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 			fclose(image_file);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 	if (setjmp(png_jmpbuf(png_ptr)))
@@ -115,7 +115,7 @@ new_imagebuffer_from_png(char image_name[])
 			png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 
 			fclose(image_file);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 	png_init_io(png_ptr, image_file);

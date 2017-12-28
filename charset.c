@@ -40,14 +40,14 @@ charset_read_from_directory(const char directory[])
 		{
 			if (errno != ERANGE)
 				{
-					exit(1);
+					exit(EXIT_FAILURE);
 				}
 
 			cwd_size *= 1.5;
 
 			if ((cwd = realloc(cwd, cwd_size)) == NULL)
 				{
-					exit(1);
+					exit(EXIT_FAILURE);
 				}
 
 			errno = 0;
@@ -55,7 +55,7 @@ charset_read_from_directory(const char directory[])
 
 	if (chdir(directory) != 0)
 		{
-			exit(1);
+			exit(EXIT_FAILURE);
 		};
 
 	struct charset *png_charset =
@@ -127,7 +127,7 @@ charset_read_from_directory(const char directory[])
 
 	if (chdir(cwd) != 0)
 		{
-			exit(1);
+			exit(EXIT_FAILURE);
 		};
 
 	free(cwd);

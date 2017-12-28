@@ -51,7 +51,7 @@ render_ssim(struct asciibuffer *dest,
 		{
 			// TODO: custom fontset loading
 			fprintf(stderr, "Custom fontset loading is not yet implemented\n");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 
 
