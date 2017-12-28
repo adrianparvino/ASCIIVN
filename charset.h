@@ -19,6 +19,8 @@
 #define ASCII_CHARSET_H
 
 #include<stddef.h>
+#include<png.h>
+#include"imagemanip.h"
 
 struct chardesc
 {

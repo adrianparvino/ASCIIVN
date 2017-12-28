@@ -52,6 +52,7 @@ new_imagebuffer(size_t width, size_t height)
 			.width = width,
 			.height = height,
 			.color_type = DEFAULT_COLOR_TYPE,
+			.pixel_size = color_type_to_bytes(DEFAULT_COLOR_TYPE),
 			.buffer = imagebuffer->in_buffer
 		};
 
@@ -195,7 +196,8 @@ new_imagebuffer_from_png(char image_name[])
 		.width = width,
 		.height = height,
 		.buffer = imagebuffer->in_buffer,
-		.color_type = color_type
+		.color_type = color_type,
+		.pixel_size = color_type_to_bytes(color_type)
 	};
 
 	memset(imagebuffer->in_buffer, 0, buffer_size);

@@ -33,7 +33,8 @@ new_asciibuffer(size_t width, size_t height)
 			.height = height,
 			.width = width,
 			.color_type = PNG_COLOR_TYPE_GRAY,
-			.buffer = asciibuffer->in_buffer
+			.buffer = asciibuffer->in_buffer,
+			.pixel_size = color_type_to_bytes(PNG_COLOR_TYPE_GRAY)
 		};
 	memset(asciibuffer->in_buffer, 0, width * height);
 

@@ -105,13 +105,25 @@ charset_read_from_directory(const char directory[])
 						}
 				}
 
-			unsigned char *glyph = malloc(png_charset->width * png_charset->height);
+			unsigned char *glyph = malloc(png_charset->width *
+			                              png_charset->height *
+			                              color_type_to_bytes(PNG_COLOR_TYPE_GRAY));
 
-			memcpy(glyph, font_image->buffer,
-						 png_charset->width * png_charset->height);
+			compose(&(struct imagebuffer) {
+					.color_type = PNG_COLOR_TYPE_GRAY,
+						.pixel_size = 1,
+						.width = png_charset->width,
+						.height = png_charset->height,
+						.buffer = glyph
+				},
+				font_image,
+				0, 0);
+			
 			png_charset->characters[i] = (struct chardesc)
 			{
-			.character = character,.glyph = glyph};
+				.character = character,
+				.glyph = glyph
+			};
 
 			++i;
 
@@ -143,5 +155,6 @@ free_charset(struct charset *charset)
 		{
 			free(charset->characters[i].glyph);
 		}
+	
 	free(charset);
 }

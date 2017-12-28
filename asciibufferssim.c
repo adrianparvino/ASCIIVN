@@ -84,6 +84,8 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 					struct imagebuffer glyph_imagebuffer = {
 						.height = font_charset->height,
 						.width = font_charset->width,
+						.color_type = PNG_COLOR_TYPE_GRAY,
+						.pixel_size = color_type_to_bytes(PNG_COLOR_TYPE_GRAY),
 						.buffer = NULL
 					};
 

@@ -23,7 +23,8 @@
 
 struct asciibuffer
 {
-IMAGEBUFFER_BODY};
+	IMAGEBUFFER_BODY
+};
 
 struct asciibuffer *new_asciibuffer(size_t width, size_t height);
 void flatten(struct asciibuffer *asciibuffer);

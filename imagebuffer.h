@@ -24,6 +24,7 @@
 	size_t width, height; \
  \
 	int background; \
+	int pixel_size; \
 	int color_type; \
  \
 	unsigned char *buffer; \
@@ -31,13 +32,15 @@
 
 struct imagebuffer
 {
-IMAGEBUFFER_BODY};
+	IMAGEBUFFER_BODY
+};
 
 struct imagebuffer *new_imagebuffer(size_t width, size_t height);
 struct imagebuffer *new_imagebuffer_from_png(char image_name[]);
 
-#define index(image, x, y) ((image)->buffer[color_type_to_bytes((image)->color_type) * ((image)->width*((int) (y)) + ((int) (x)))])
-#define index_i(image, x, y, offset) ((image)->buffer[color_type_to_bytes((image)->color_type) * ((image)->width*((int) (y)) + ((int) (x)))] + offset)
+#define pixelsize(image) ((image)->pixel_size)
+#define index(image, x, y) ((image)->buffer[(pixelsize(image)) * ((image)->width*((int) (y)) + ((int) (x)))])
+#define index_i(image, x, y, offset) ((image)->buffer[(pixelsize(image)) * ((image)->width*((int) (y)) + ((int) (x))) + (offset)])
 
 int color_type_to_bytes(int color_type);
 

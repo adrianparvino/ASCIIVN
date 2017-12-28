@@ -115,7 +115,9 @@ extract(size_t column_offset,
 // TODO: Compose with alpha awareness.
 void
 compose(struct imagebuffer *bg,
-				struct imagebuffer *fg, size_t column_offset, size_t row_offset)
+				struct imagebuffer *fg,
+        size_t column_offset,
+        size_t row_offset)
 {
 	assert(fg->width + column_offset <= bg->width);
 	assert(fg->height + row_offset <= bg->height);
