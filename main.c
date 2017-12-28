@@ -23,7 +23,6 @@
 #include"xbmutils.h"
 #include"imagemanip.h"
 #include"testimage.h"
-#include "keyevent.h"
 
 int
 main()
@@ -43,7 +42,6 @@ main()
 	
 	scale_bilinear(dog2, dog);
 
-	// DEBUGGING REMOVE
 	render_ssim_charset_unsafe(asciibuffer2, dog2, charset);
 	flatten(asciibuffer2);
 	show_asciibuffer(asciibuffer2);
@@ -55,40 +53,5 @@ main()
 	free(dog2);
 	free(dog);
 	
-	return 0;
-	// DEBUGGING REMOVE
-
-	keyevent_start();
-	
-	for (struct keyevent keyevent = keyevent_getenvent();
-	     keyevent.tag == CHAR && keyevent.character != 'e';
-	     keyevent = keyevent_getenvent())
-		{
-			switch (keyevent.tag)
-				{
-				case CHAR:
-					switch (keyevent.character)
-						{
-							case 'q':
-								render_fill(asciibuffer, dog, "");
-								flatten(asciibuffer);
-								show_asciibuffer(asciibuffer);
-								break;
-							case 'w':
-								render_ssim_charset_unsafe(asciibuffer2, dog2, charset);
-								flatten(asciibuffer2);
-								show_asciibuffer(asciibuffer2);
-								break;
-						}
-				}
-		}
-
-	free(asciibuffer);
-	free(asciibuffer2);
-
-	free_charset(charset);
-	free(dog2);
-	free(dog);
-
 	return 0;
 }
