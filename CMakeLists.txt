@@ -25,7 +25,7 @@ set(SOURCES
   keyevent.c
   testimage.c)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpng -lm -std=c11 -g -Wall -Werror=incompatible-pointer-types -O3")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpng -lm -std=c11 -g -Wall -Werror=incompatible-pointer-types -Og")
 # add_definitions(-lm -std=c11 -g -Wall -Werror=incompatible-pointer-types)
 # This tells CMake to main.c and name it asciivn
 add_executable(asciivn main.c ${SOURCES})
