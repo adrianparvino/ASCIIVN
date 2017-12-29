@@ -65,9 +65,30 @@ keyevent_start()
 struct keyevent
 keyevent_getenvent()
 {
-	char c = getchar();
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#else
+	for (;;)
+		{
+			char c = getchar();
+			
+			if (c == '\x1b') // ESC
+				{
+					if (getchar() != '[') // CSI
+						{
+							continue;
+						}
 
-	return (struct keyevent) { .tag = CHAR, .character = c };
+					switch (c = getchar())
+						{
+						case 'A':
+						case 'B':
+							return (struct keyevent) { .tag = c };
+						}
+				}
+			
+			return (struct keyevent) { .tag = CHAR, .character = c };
+		}
+#endif
 }
 
 void

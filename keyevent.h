@@ -19,8 +19,8 @@
 #define KEYEVENT_H
 
 enum KEYEVENT_TAG {
-	UP,
-	DOWN,
+	UP = 'A',
+	DOWN = 'B',
 	CHAR
 };
 
