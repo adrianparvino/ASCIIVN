@@ -74,9 +74,9 @@ void
 keyevent_end()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#else
 	fprintf(stderr, "Windows is not yet supported.\n");
 	exit(EXIT_FAILURE);
+#else
 	tcsetattr (STDIN_FILENO, TCSANOW, &saved_attributes);
 #endif
 }
