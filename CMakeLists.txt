@@ -12,6 +12,8 @@ set(HEADERS
   imagebuffer.h
   imagemanip.h
   keyevent.h
+  terminal.h
+  slides.h
   testimage.h)
 set(SOURCES
   main.c
