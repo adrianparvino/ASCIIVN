@@ -24,6 +24,7 @@
 #include"xbmutils.h"
 #include"imagemanip.h"
 #include"testimage.h"
+#include"keyevent.h"
 
 int
 main()
