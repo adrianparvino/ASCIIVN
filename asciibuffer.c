@@ -26,7 +26,8 @@ struct asciibuffer *
 new_asciibuffer(size_t width, size_t height)
 {
 	struct asciibuffer *asciibuffer =
-		malloc(sizeof(struct asciibuffer) + width * height);
+		malloc(sizeof(struct asciibuffer) +
+		       width*height*color_type_to_bytes(PNG_COLOR_TYPE_GRAY));
 
 	*asciibuffer = (struct asciibuffer)
 		{
@@ -37,6 +38,27 @@ new_asciibuffer(size_t width, size_t height)
 			.pixel_size = color_type_to_bytes(PNG_COLOR_TYPE_GRAY)
 		};
 	memset(asciibuffer->in_buffer, 0, width * height);
+
+	return asciibuffer;
+}
+
+struct asciibuffer *
+new_asciibuffer_alpha(size_t width, size_t height)
+{
+	struct asciibuffer *asciibuffer =
+		malloc(sizeof(struct asciibuffer) +
+		       width*height*color_type_to_bytes(PNG_COLOR_TYPE_GRAY_ALPHA));
+
+	*asciibuffer = (struct asciibuffer)
+		{
+			.height = height,
+			.width = width,
+			.color_type = PNG_COLOR_TYPE_GRAY_ALPHA,
+			.buffer = asciibuffer->in_buffer,
+			.pixel_size = color_type_to_bytes(PNG_COLOR_TYPE_GRAY_ALPHA)
+		};
+	memset(asciibuffer->in_buffer, 0,
+	       width*height*color_type_to_bytes(PNG_COLOR_TYPE_GRAY_ALPHA));
 
 	return asciibuffer;
 }

@@ -64,6 +64,16 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 					size_t y = j * (src->height) / (dest->height);
 
 					*index(dest, i, j) = *index(src, x, y);
+					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+						{
+							unsigned char alpha = 0xff;
+							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+								{
+									alpha = *index_alpha(src, x, y);
+								}
+
+							*index_alpha(dest, i, j) = alpha;
+						}
 				}
 		}
 }
@@ -92,6 +102,22 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 						*index(src, xi_, yi) * (1 - yf) * xf +
 						*index(src, xi, yi_) * yf * (1 - xf) +
 						*index(src, xi_, yi_) * xf * yf;
+
+					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+						{
+							unsigned char alpha = 0xff;
+							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+								{
+									alpha =
+										*index_alpha(src, xi, yi) * (1 - xf) * (1 - yf) +
+										*index_alpha(src, xi_, yi) * (1 - yf) * xf +
+										*index_alpha(src, xi, yi_) * yf * (1 - xf) +
+										*index_alpha(src, xi_, yi_) * xf * yf;
+								}
+
+							*index_alpha(dest, i, j) = alpha;
+						}
+					
 				}
 		}
 }

@@ -105,6 +105,24 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 						}
 
 					*index((struct imagebuffer *) dest, x_, y_) = best_ssim_char;
+					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+						{
+							float alpha = 0xff;
+							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+								{
+									for (size_t j = 0; j < font_charset->height; ++j)
+										{
+											for (size_t i = 0; i < font_charset->width; ++i)
+												{
+													float dy = *index_alpha(src, x + i, y + j) - alpha;
+													alpha += dy / (j * font_charset->width + i + 1);
+												}
+										}
+								}
+
+							alpha = alpha > 0 ? 0xff : 0;
+							*index_alpha((struct imagebuffer *) dest, x_, y_) = (unsigned char) alpha;
+						}
 				}
 		}
 

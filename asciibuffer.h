@@ -27,6 +27,7 @@ struct asciibuffer
 };
 
 struct asciibuffer *new_asciibuffer(size_t width, size_t height);
+struct asciibuffer *new_asciibuffer_alpha(size_t width, size_t height);
 void flatten(struct asciibuffer *asciibuffer);
 void clear(struct asciibuffer *asciibuffer);
 void show_asciibuffer(struct asciibuffer *asciibuffer);
