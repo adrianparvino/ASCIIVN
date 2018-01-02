@@ -124,7 +124,10 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 
 struct imagebuffer *
 extract(size_t column_offset,
-				size_t row_offset, size_t width, size_t height, struct imagebuffer *x)
+        size_t row_offset,
+        size_t width,
+        size_t height,
+        struct imagebuffer *x)
 {
 	struct imagebuffer *extract_buffer = new_imagebuffer(width, height);
 

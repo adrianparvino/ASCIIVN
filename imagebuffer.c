@@ -24,6 +24,10 @@
 #include <png.h>
 
 #include "imagebuffer.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<png.h>
 
 int
 color_type_to_bytes(int color_type)
