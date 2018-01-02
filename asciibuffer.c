@@ -48,9 +48,9 @@ flatten(struct asciibuffer *asciibuffer)
 		{
 			for (size_t j = 0; j < asciibuffer->height; ++j)
 				{
-					if (index(asciibuffer, i, j) == '\0')
+					if (*index((struct imagebuffer*) asciibuffer, i, j) == '\0')
 						{
-							index(asciibuffer, i, j) = ' ';
+							*index((struct imagebuffer*) asciibuffer, i, j) = ' ';
 						}
 				}
 		}

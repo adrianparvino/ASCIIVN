@@ -16,6 +16,7 @@
  */
 
 #include<stdio.h>
+#include<assert.h>
 #include<stdlib.h>
 #include"asciibufferfill.h"
 #include"asciibufferssim.h"
@@ -28,7 +29,7 @@
 int
 main()
 {
-	int caretwidth = 256;
+	int caretwidth = 128;
 	int caretheight = 64;
 
 	struct asciibuffer *asciibuffer = new_asciibuffer(caretwidth, caretheight);
@@ -37,12 +38,19 @@ main()
 	struct charset *charset =
 		charset_read_from_directory("./fonts/Monaco-10");
 	
-	struct imagebuffer *dog = new_imagebuffer_from_png("christmas-anime-lineart.png");
-	struct imagebuffer *dog2 =
+	struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
+	assert(dog->pixel_size == 2);
+	struct imagebuffer *dog_bg = new_imagebuffer_from_png("dog-background.png");
+	assert(dog_bg->pixel_size == 2);
+	compose(dog_bg, dog, 0, 0);
+	struct imagebuffer *dog_bg_scaled =
+		new_imagebuffer(caretwidth * charset->width, caretheight * charset->height);
+	struct imagebuffer *dog_scaled =
 		new_imagebuffer(caretwidth * charset->width, caretheight * charset->height);
 	
-	scale_bilinear(dog2, dog);
-	
+	scale_bilinear(dog_bg_scaled, dog_bg);
+	scale_bilinear(dog_scaled, dog);
+
 	size_t i = 0;
 	struct keyevent keyevent;
 	keyevent_start();
@@ -52,7 +60,7 @@ main()
 			switch (keyevent.tag)
 				{
 				case UP:
-					render_fill(asciibuffer, dog, "");
+					render_fill(asciibuffer, dog2, "");
 					flatten(asciibuffer);
 					show_asciibuffer(asciibuffer);
 					break;
@@ -74,6 +82,7 @@ main()
 
 	free_charset(charset);
 	free(dog2);
+	free(dog_bg);
 	free(dog);
 
 	return 0;

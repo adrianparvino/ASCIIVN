@@ -55,8 +55,6 @@ render_ssim(struct asciibuffer *dest,
 		}
 
 
-	assert(src->width % font_charset->width == 0 &&
-				 src->height % font_charset->height == 0);
 
 	int result = render_ssim_charset_unsafe(dest, src, font_charset);
 
@@ -73,6 +71,8 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 													 struct imagebuffer *src,
 													 struct charset *font_charset)
 {
+	assert(src->width % font_charset->width == 0 &&
+				 src->height % font_charset->height == 0);
 	for (size_t y_ = 0, y = 0; y < src->height; ++y_, y += font_charset->height)
 		{
 			for (size_t x_ = 0, x = 0; x < src->width;
@@ -104,7 +104,7 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 
 						}
 
-					index(dest, x_, y_) = best_ssim_char;
+					*index((struct imagebuffer *) dest, x_, y_) = best_ssim_char;
 				}
 		}
 
@@ -116,6 +116,8 @@ ssim_imagebuffer(size_t column_offset,
 								 size_t row_offset,
 								 struct imagebuffer *x, struct imagebuffer *y)
 {
+	assert(y->width + column_offset <= x->width);
+	assert(y->height + row_offset <= x->height);
 	if (y->height * y->width == 0)
 		{
 			fprintf(stderr, "Warning: The sizes of the compared images is 0");
@@ -139,15 +141,15 @@ ssim_imagebuffer(size_t column_offset,
 					size_t xi = i + column_offset;
 					size_t xj = j + row_offset;
 
-					float dx = index(x, xi, xj) - mean_x;
-					float dy = index(y, i, j) - mean_y;
+					float dx = *index(x, xi, xj) - mean_x;
+					float dy = *index(y, i, j) - mean_y;
 
 					mean_x += dx / (j * y->width + i + 1);
 					mean_y += dy / (j * y->width + i + 1);
 
-					comoment_xx += dx * (index(x, xi, xj) - mean_x);
-					comoment_yy += dy * (index(y, i, j) - mean_y);
-					comoment_xy += dx * (index(y, i, j) - mean_y);
+					comoment_xx += dx * (*index(x, xi, xj) - mean_x);
+					comoment_yy += dy * (*index(y, i, j) - mean_y);
+					comoment_xy += dx * (*index(y, i, j) - mean_y);
 				}
 		}
 

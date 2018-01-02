@@ -38,11 +38,11 @@ struct imagebuffer
 struct imagebuffer *new_imagebuffer(size_t width, size_t height);
 struct imagebuffer *new_imagebuffer_from_png(char image_name[]);
 
-#define pixelsize(image) ((image)->pixel_size)
-#define index(image, x, y) ((image)->buffer[(pixelsize(image)) * ((image)->width*((int) (y)) + ((int) (x)))])
-#define index_i(image, x, y, offset) ((image)->buffer[(pixelsize(image)) * ((image)->width*((int) (y)) + ((int) (x))) + (offset)])
-
 int color_type_to_bytes(int color_type);
+
+unsigned char *index_offset(struct imagebuffer *image, int x, int y, int offset);
+unsigned char *index(struct imagebuffer *image, int x, int y);
+unsigned char *index_alpha(struct imagebuffer *image, int x, int y);
 
 #define DEFAULT_COLOR_TYPE PNG_COLOR_TYPE_GRAY_ALPHA
 

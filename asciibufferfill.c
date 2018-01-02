@@ -55,14 +55,13 @@ render_fill(struct asciibuffer *dest,
 	scale_bilinear((struct imagebuffer *) dest, src);
 
 	struct cache cache[font_charset->n];
-	memset(cache, 0, sizeof(cache));
 
 	for (size_t character = 0; character < font_charset->n; ++character)
 		{
-
 			// Calculate the arithmetic mean of the glyph
-			const int n = font_charset->width * font_charset->height;
-			for (size_t i = 0; i < n; ++i)
+			cache[character].value = 0;
+			
+			for (size_t i = 0; i < font_charset->width * font_charset->height; ++i)
 				{
 					float dx = font_charset->characters[character].glyph[i] -
 						cache[character].value;
@@ -73,7 +72,7 @@ render_fill(struct asciibuffer *dest,
 				font_charset->characters[character].character;
 		}
 
-	qsort(cache, LENGTH(cache), sizeof(*cache), cmp_cache);
+	qsort(cache, font_charset->n, sizeof(*cache), cmp_cache);
 
 	for (size_t i = 0; i < dest->width; ++i)
 		{
@@ -84,7 +83,7 @@ render_fill(struct asciibuffer *dest,
 
 					for (size_t k = 0; k < LENGTH(cache); ++k)
 						{
-							if (index(dest, i, j) < cache[k].value)
+							if (*index((struct imagebuffer *) dest, i, j) < cache[k].value)
 								{
 									break;
 								}
@@ -93,9 +92,9 @@ render_fill(struct asciibuffer *dest,
 							best_character = cache[k].character;
 						}
 
-					index(dest, i, j) = best_character;
+					*index((struct imagebuffer *) dest, i, j) = best_character;
 				}
 		}
 
-	free_charset(font_charset);
+	// free_charset(font_charset);
 }

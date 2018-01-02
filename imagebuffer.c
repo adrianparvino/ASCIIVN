@@ -199,9 +199,6 @@ new_imagebuffer_from_png(char image_name[])
 		.color_type = color_type,
 		.pixel_size = color_type_to_bytes(color_type)
 	};
-
-	memset(imagebuffer->in_buffer, 0, buffer_size);
-
 	for (size_t i = 0; i < height; ++i)
 		{
 			row_pointers[i] = imagebuffer->buffer + i * rowbytes;
@@ -214,4 +211,22 @@ new_imagebuffer_from_png(char image_name[])
 	fclose(image_file);
 
 	return imagebuffer;
+}
+
+unsigned char *
+index_offset(struct imagebuffer *image, int x, int y, int offset)
+{
+	return &image->buffer[image->pixel_size*(image->width*y + x) + offset];
+}
+
+unsigned char *
+index(struct imagebuffer *image, int x, int y)
+{
+	return index_offset(image, x, y, 0);
+}
+
+unsigned char *
+index_alpha(struct imagebuffer *image, int x, int y)
+{
+	return index_offset(image, x, y, 1);
 }

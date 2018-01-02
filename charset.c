@@ -60,9 +60,11 @@ charset_read_from_directory(const char directory[])
 
 	struct charset *png_charset =
 		malloc(sizeof(*png_charset) + 100 * sizeof(*png_charset->characters));
-	png_charset->width = 0;
-	png_charset->height = 0;
-	png_charset->n = 100;
+	*png_charset = (struct charset) {
+		.width = 0,
+		.height = 0,
+		.n = 100
+	};
 
 	size_t i = 0;
 	for (struct dirent * dirent = readdir(dir); dirent != NULL;
@@ -108,17 +110,18 @@ charset_read_from_directory(const char directory[])
 			unsigned char *glyph = malloc(png_charset->width *
 			                              png_charset->height *
 			                              color_type_to_bytes(PNG_COLOR_TYPE_GRAY));
+			memset(glyph, 0, png_charset->width * png_charset->height);
 
 			compose(&(struct imagebuffer) {
 					.color_type = PNG_COLOR_TYPE_GRAY,
-						.pixel_size = 1,
+						.pixel_size = color_type_to_bytes(PNG_COLOR_TYPE_GRAY),
 						.width = png_charset->width,
 						.height = png_charset->height,
 						.buffer = glyph
-				},
+						},
 				font_image,
 				0, 0);
-			
+
 			png_charset->characters[i] = (struct chardesc)
 			{
 				.character = character,

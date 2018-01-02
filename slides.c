@@ -15,26 +15,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdlib.h>
 #include "slides.h"
 
+
 void
-slides_init()
+render_slides(struct slides *slides, int width, int height)
+{
+	
+}
+
+struct slides_context *
+slides_init(struct slides *slides)
+{
+	struct slides_context *context = malloc(sizeof *context);
+
+	*context = (struct slides_context) {
+		.current = slides,
+		.width = 0,
+		.height = 0
+	};
+
+	
+	return context;
+}
+
+void
+slides_loop(struct slides_context *context)
+{
+	
+}
+
+void
+slides_end(struct slides_context *context)
 {
 
 }
 
-void
-next_slide(struct slides *slides)
+struct slides *
+make_slide(struct imagebuffer *image_background,
+           struct imagebuffer *image_foreground)
 {
-}
+	struct slides *slides = malloc(sizeof *slides);
+	*slides = (struct slides) {
+		.prev = NULL,
+		.image_background = image_background,
+		.image_foreground = image_foreground,
+		.cache_background = NULL,
+		.cache_foreground = NULL,
+		.next = NULL
+	};
 
-void
-previous_slide(struct slides *slides)
-{
-}
-
-void
-slides_end()
-{
-
+	return slides;
 }

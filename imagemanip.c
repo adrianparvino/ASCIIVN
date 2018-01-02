@@ -63,7 +63,7 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 					size_t x = i * (src->width) / (dest->width);
 					size_t y = j * (src->height) / (dest->height);
 
-					index(dest, i, j) = index(src, x, y);
+					*index(dest, i, j) = *index(src, x, y);
 				}
 		}
 }
@@ -87,11 +87,11 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 					const int xi_ = min(xi + 1, src->width - 1);
 					const int yi_ = min(yi + 1, src->height - 1);
 
-					index(dest, i, j) =
-						index(src, xi, yi) * (1 - xf) * (1 - yf) +
-						index(src, xi_, yi) * (1 - yf) * xf +
-						index(src, xi, yi_) * yf * (1 - xf) +
-						index(src, xi_, yi_) * xf * yf;
+					*index(dest, i, j) =
+						*index(src, xi, yi) * (1 - xf) * (1 - yf) +
+						*index(src, xi_, yi) * (1 - yf) * xf +
+						*index(src, xi, yi_) * yf * (1 - xf) +
+						*index(src, xi_, yi_) * xf * yf;
 				}
 		}
 }
@@ -105,14 +105,14 @@ extract(size_t column_offset,
 	for (size_t i = 0; i < width; ++i)
 		for (size_t j = 0; j < height; ++j)
 			{
-				index(extract_buffer, i, j) =
-					index(x, column_offset + i, row_offset + j);
+				*index(extract_buffer, i, j) =
+					*index(x, column_offset + i, row_offset + j);
 			}
 
 	return extract_buffer;
 }
 
-// TODO: Compose with alpha awareness.
+// TODO: Compose with alpha awareness, done correctly.
 void
 compose(struct imagebuffer *bg,
 				struct imagebuffer *fg,
@@ -123,8 +123,29 @@ compose(struct imagebuffer *bg,
 	assert(fg->height + row_offset <= bg->height);
 
 	for (size_t i = 0; i < fg->width; ++i)
-		for (size_t j = 0; j < fg->height; ++j)
-			{
-				index(bg, column_offset + i, row_offset + j) = index(fg, i, j);
-			}
+		{
+			for (size_t j = 0; j < fg->height; ++j)
+				{
+					unsigned char fgalpha = 0xff;
+					unsigned char bgalpha = 0xff; 
+					
+					if (fg->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+						{
+							fgalpha = *index_alpha(fg, i, j);
+						}
+					if (bg->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+						{
+							bgalpha = *index_alpha(bg, column_offset + i, row_offset + j);
+							
+							*index_alpha(bg, column_offset + i, row_offset + j) =
+								fgalpha + bgalpha*(0xff - fgalpha)/0xff;
+						}
+
+					unsigned char fg_ = (*index(fg, i, j) * fgalpha)/0xff;
+					unsigned char bg_ = (*index(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
+						
+					*index(bg, column_offset + i, row_offset + j) =
+						fg_ + bg_*(0xff - fgalpha)/0xff;
+				}
+		}
 }
