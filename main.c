@@ -24,7 +24,6 @@
 #include"xbmutils.h"
 #include"imagemanip.h"
 #include"testimage.h"
-#include "keyevent.h"
 
 int
 main()
@@ -48,42 +47,18 @@ main()
 	struct imagebuffer *dog_scaled =
 		new_imagebuffer(caretwidth * charset->width, caretheight * charset->height);
 	
-	scale_bilinear(dog_bg_scaled, dog_bg);
-	scale_bilinear(dog_scaled, dog);
+	scale_bilinear(dog2, dog);
 
-	size_t i = 0;
-	struct keyevent keyevent;
-	keyevent_start();
-	for (;;)
-		{
-			keyevent = keyevent_getenvent();
-			switch (keyevent.tag)
-				{
-				case UP:
-					render_fill(asciibuffer, dog2, "");
-					flatten(asciibuffer);
-					show_asciibuffer(asciibuffer);
-					break;
-				case DOWN:
-					render_ssim_charset_unsafe(asciibuffer2, dog2, charset);
-					flatten(asciibuffer2);
-					show_asciibuffer(asciibuffer2);
-					break;
-				case CHAR:
-					if (keyevent.character == 'q') goto end;
-					break;
-				}
-		}
- end:
-	keyevent_end();
+	render_ssim_charset_unsafe(asciibuffer2, dog2, charset);
+	flatten(asciibuffer2);
+	show_asciibuffer(asciibuffer2);
 
 	free(asciibuffer);
 	free(asciibuffer2);
 
 	free_charset(charset);
 	free(dog2);
-	free(dog_bg);
 	free(dog);
-
+	
 	return 0;
 }
