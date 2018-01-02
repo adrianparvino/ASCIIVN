@@ -46,8 +46,6 @@ main()
 		new_imagebuffer(caretwidth * charset->width, caretheight * charset->height);
 	struct imagebuffer *dog_scaled =
 		new_imagebuffer(caretwidth * charset->width, caretheight * charset->height);
-	
-	scale_bilinear(dog2, dog);
 
 	render_ssim_charset_unsafe(asciibuffer2, dog2, charset);
 	flatten(asciibuffer2);
