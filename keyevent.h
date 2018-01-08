@@ -30,7 +30,7 @@ struct keyevent {
 };
 	
 void keyevent_start();
-struct keyevent keyevent_getenvent();
+struct keyevent keyevent_getevent();
 void keyevent_end();
 
 #endif
