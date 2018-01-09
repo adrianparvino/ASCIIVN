@@ -144,36 +144,45 @@ ssim_imagebuffer(size_t column_offset,
 
 	float mean_x = 0,
 		mean_y = 0;
-	float comoment_xx = 0,
-		comoment_yy = 0,
-		comoment_xy = 0;
 
 	size_t n = y->height * y->width;
 
-	// Online computation for covariance, adapted for variance.
-	// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online
+	float xarray[n] __attribute__ ((aligned (32)));
+	float yarray[n] __attribute__ ((aligned (32)));
+
 	for (size_t j = 0; j < y->height; ++j)
 		{
 			for (size_t i = 0; i < y->width; ++i)
 				{
 					size_t xi = i + column_offset;
 					size_t xj = j + row_offset;
-
-					float dx = *index(x, xi, xj) - mean_x;
-					float dy = *index(y, i, j) - mean_y;
-
-					mean_x += dx / (j * y->width + i + 1);
-					mean_y += dy / (j * y->width + i + 1);
-
-					comoment_xx += dx * (*index(x, xi, xj) - mean_x);
-					comoment_yy += dy * (*index(y, i, j) - mean_y);
-					comoment_xy += dx * (*index(y, i, j) - mean_y);
+					
+					mean_x += xarray[j*y->width + i] = *index(x, xi, xj);
+					mean_y += yarray[j*y->width + i] = *index(y,  i,  j);
 				}
 		}
 
-	float var_x = comoment_xx / n,
-		var_y = comoment_yy / n,
-		covar_xy = comoment_xy / n;
+	mean_x /= n;
+	mean_y /= n;
+	
+	float var_x = 0,
+		var_y = 0,
+		covar_xy = 0;
+	
+	for (size_t j = 0; j < y->height; ++j)
+		{
+			for (size_t i = 0; i < y->width; ++i)
+				{
+					var_x += pow2(xarray[j*y->width + i] - mean_x);
+					var_y += pow2(yarray[j*y->width + i] - mean_y);
+					
+					covar_xy += (xarray[j*y->width + i] - mean_x)*(yarray[j*y->width + i] - mean_y);
+				}
+		}
+
+	covar_xy /= n;
+	var_x /= n;
+	var_y /= n;
 
 	float L = 255,
 		k_1 = 0.01,
