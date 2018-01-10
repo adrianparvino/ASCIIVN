@@ -4,33 +4,37 @@
 #include <stddef.h>
 #include "imagebuffer.h"
 
-void scale_bilinear_prepare(unsigned char *(*index)(struct imagebuffer *image,
-                                                    size_t x,
-                                                    size_t y),
-                            unsigned char      *in_x0y0,
-                            unsigned char      *in_x0y1,
-                            unsigned char      *in_x1y0,
-                            unsigned char      *in_x1y1,
-                            float              *in_xf,
-                            float              *in_yf,
+void
+scale_bilinear_prepare(unsigned char *
+                       (*index)(struct imagebuffer *image,
+                                size_t x,
+                                size_t y),
+                       unsigned char      *out_x0y0,
+                       unsigned char      *out_x0y1,
+                       unsigned char      *out_x1y0,
+                       unsigned char      *out_x1y1,
+                       float              *out_xf,
+                       float              *out_yf,
                             
-                            struct imagebuffer *dest,
-                            struct imagebuffer *src,
+                       struct imagebuffer *dest,
+                       struct imagebuffer *src,
                             
-                            float               stepx,
-                            float               stepy);
+                       float               stepx,
+                       float               stepy);
 
-static inline void scale_bilinear_kernel(unsigned char *in_x0y0,
-                                         unsigned char *in_x0y1,
-                                         unsigned char *in_x1y0,
-                                         unsigned char *in_x1y1,
-                                         
-                                         float *in_xf,
-                                         float *in_yf,
 
-                                         size_t n,
+static inline void
+scale_bilinear_kernel(unsigned char *in_x0y0,
+                      unsigned char *in_x0y1,
+                      unsigned char *in_x1y0,
+                      unsigned char *in_x1y1,
                                          
-                                         unsigned char *out)
+                      float *in_xf,
+                      float *in_yf,
+
+                      size_t n,
+                                         
+                      unsigned char *out)
 {
 	for (size_t i = 0; i < n; ++i)
 		{

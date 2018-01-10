@@ -1,20 +1,22 @@
 #include "imagemanip_kernel.h"
 
-void scale_bilinear_prepare(unsigned char *(*index)(struct imagebuffer *image,
-                                                    size_t x,
-                                                    size_t y),
-                            unsigned char      *in_x0y0,
-                            unsigned char      *in_x0y1,
-                            unsigned char      *in_x1y0,
-                            unsigned char      *in_x1y1,
-                            float              *in_xf,
-                            float              *in_yf,
+void
+scale_bilinear_prepare(unsigned char *
+                       (*index)(struct imagebuffer *image,
+                                size_t x,
+                                size_t y),
+                       unsigned char      *out_x0y0,
+                       unsigned char      *out_x0y1,
+                       unsigned char      *out_x1y0,
+                       unsigned char      *out_x1y1,
+                       float              *out_xf,
+                       float              *out_yf,
                             
-                            struct imagebuffer *dest,
-                            struct imagebuffer *src,
+                       struct imagebuffer *dest,
+                       struct imagebuffer *src,
                             
-                            float               stepx,
-                            float               stepy)
+                       float               stepx,
+                       float               stepy)
 {
 	float y = 0;
 	float yi = 0;
@@ -39,13 +41,32 @@ void scale_bilinear_prepare(unsigned char *(*index)(struct imagebuffer *image,
 					const float xi_ = xi + 1;
 					const float yi_ = yi + 1;
 
-					in_xf[k] = x;
-					in_yf[k] = y;
+					out_xf[k] = x;
+					out_yf[k] = y;
 
-					in_x0y0[k] = (*index(src, xi , yi ));
-					in_x1y0[k] = (*index(src, xi_, yi ));
-					in_x0y1[k] = (*index(src, xi , yi_));
-					in_x1y1[k] = (*index(src, xi_, yi_));
+					out_x0y0[k] = (*index(src, xi , yi ));
+					out_x1y0[k] = (*index(src, xi_, yi ));
+					out_x0y1[k] = (*index(src, xi , yi_));
+					out_x1y1[k] = (*index(src, xi_, yi_));
+				}
+		}
+}
+
+
+void
+scale_bilinear_store(unsigned char *
+                     (*index)(struct imagebuffer *image,
+                              size_t x,
+                              size_t y),
+                     unsigned char *in,
+                     struct imagebuffer *dest)
+{
+	
+	for (size_t j = 0; j < dest->height; ++j)
+		{
+			for (size_t i = 0; i < dest->width; ++i)
+				{
+					*index(dest, i, j) = in[j*dest->width + i];
 				}
 		}
 }
