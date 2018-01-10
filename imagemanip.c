@@ -98,8 +98,8 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 	float         *inbufferyf   = aligned_alloc(32, n * sizeof *inbufferyf);
 	unsigned char *outbuffer    = aligned_alloc(32, n * sizeof *outbuffer);
 
-	const float stepx = (float) src->width  / denominatorx;
-	const float stepy = (float) src->height / denominatory;
+	const float stepx = (float) (src->width  - 2) / (denominatorx - 1);
+	const float stepy = (float) (src->height - 2) / (denominatory - 1);
  
 	scale_bilinear_prepare
 		(index,
