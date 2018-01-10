@@ -31,6 +31,7 @@
 #define pow2(x) ((x)*(x))
 #define signpow2(x) ((x)*fabsf(x))
 #define pow3(x) ((x)*(x)*(x))
+#define length(array) sizeof(array)/sizeof(*array)
 
 int
 render_ssim(struct asciibuffer *dest,
@@ -140,99 +141,96 @@ ssim_imagebuffer(size_t column_offset,
 	assert(y->height + row_offset <= x->height);
 
 	size_t n = y->height * y->width;
-	if (n == 0)
-		{
-			fprintf(stderr, "Warning: The sizes of the compared images is 0");
-			return 1;
-		}
+	assert(n > 0); 
 
-  float mean_x = 0,
-		mean_y = 0;
+	float mean_x = 0;
+	float mean_y = 0;
 
-  float xarray[n] __attribute__ ((aligned (32)));
-  float yarray[n] __attribute__ ((aligned (32)));
+  float xarray[((n + 7)/8)*8] __attribute__ ((aligned (32)));
+  float yarray[((n + 7)/8)*8] __attribute__ ((aligned (32)));
 
-  float partialsumx[8] __attribute__ ((aligned (32))) = {0};
-  float partialsumy[8] __attribute__ ((aligned (32))) = {0};
+  float partialsumx [8] __attribute__ ((aligned (32))) = {0};
+  float partialsumy [8] __attribute__ ((aligned (32))) = {0};
   float partialsumxy[8] __attribute__ ((aligned (32))) = {0};
-  
+
+  size_t k = 0;
   for (size_t j = 0; j < y->height; ++j)
 		{
-			for (size_t i = 0; i < y->width; ++i)
+			for (size_t i = 0; i < y->width; ++i, ++k)
 				{
 					size_t xi = i + column_offset;
 					size_t xj = j + row_offset;
 					
-					xarray[j*y->width + i] = *index(x, xi, xj);
-					yarray[j*y->width + i] = *index(y,  i,  j);
+					xarray[k] = *index(x, xi, xj);
+					yarray[k] = *index(y,  i,  j);
 				}
 		}
-  
-  size_t i, i_;
-  for (i = 0; i + 7 < n;)
+
+  assert(k <= length(xarray));
+  size_t pad = length(xarray) - k;
+  for (;k < length(xarray); ++k)
 	  {
-		  for (i_ = 0;
-		       i_ < 8;
-		       ++i, ++i_)
+		  xarray[k] = 0;
+		  yarray[k] = 0;
+	  }
+  
+  size_t i, i_ = 0;
+  for (i = 0;
+       i < length(xarray);
+       i += 8)
+	  {
+		  for (i_ = 0; i_ < length(partialsumx); ++i_)
 			  {
-				  partialsumx[i_] += xarray[i];
-				  partialsumy[i_] += yarray[i];
+				  partialsumx[i_] += xarray[i + i_];
+				  partialsumy[i_] += yarray[i + i_];
 			  }
 	  }
-  for (i_ = 0; i < n; ++i, ++i_)
-	  {
-		  mean_x += xarray[i] + partialsumx[i_];
-		  mean_y += yarray[i] + partialsumy[i_];
-	  }
-  for (; i_ < 8; ++i_)
+  for (i_ = 0; i_ < length(partialsumx); ++i_)
 	  {
 		  mean_x += partialsumx[i_];
+	  }
+  for (i_ = 0; i_ < length(partialsumx); ++i_)
+	  {
 		  mean_y += partialsumy[i_];
 	  }
 	mean_x /= n;
 	mean_y /= n;
-	
-  float var_x = 0,
-		var_y = 0;
+
+	// Calculate variances and covariance
+	float var_x = 0;
+	float	var_y = 0;
   float covar_xy = 0;
   for (i = 0;
-       i < 8;
+       i < length(partialsumx);
        ++i)
 	  {
 		  partialsumx[i] = 0;
 		  partialsumy[i] = 0;
 	  }
-  for (i = 0; i + 7 < n;)
-		{
-			for (i_ = 0;
-			     i_ < 8;
-			     ++i, ++i_)
-				{
-					float xdiff = xarray[i] - mean_x;
-					float ydiff = yarray[i] - mean_y;
-
-					partialsumx [i_] += xdiff*xdiff;
-					partialsumy [i_] += ydiff*ydiff;
-					partialsumxy[i_] += xdiff*ydiff;
-				}
-		}
-
-  for (i_ = 0; i < n; ++i, ++i_)
-		{
-		  float xdiff = xarray[i] - mean_x;
-		  float ydiff = yarray[i] - mean_y;
-		  
-		  var_x += xdiff*xdiff + partialsumx[i_];
-		  var_y += xdiff*ydiff + partialsumy[i_];
-		  covar_xy += xdiff*ydiff + partialsumxy[i_];
-		}
-	for (; i_ < 8; ++i_)
-		{
-			var_x += partialsumx[i_];
-			var_y += partialsumy[i_];
-			covar_xy += partialsumxy[i_];
-		}
-	
+  for (i = 0;
+       i < length(xarray);
+       i += 8)
+	  {
+		  for (i_ = 0; i_ < length(partialsumx); ++i_)
+			  {
+				  float xdiff = xarray[i + i_] - mean_x;
+				  float ydiff = yarray[i + i_] - mean_y;
+					
+				  partialsumx [i_] += xdiff*xdiff;
+				  partialsumy [i_] += ydiff*ydiff;
+				  partialsumxy[i_] += xdiff*ydiff;
+			  }
+	  }
+  for (i_ = 0; i_ < length(partialsumx); ++i_)
+	  {
+		  var_x    += partialsumx [i_];
+		  var_y    += partialsumy [i_];
+		  covar_xy += partialsumxy[i_];
+	  }
+  var_x    += pad*mean_x*mean_x;
+  var_y    += pad*mean_y*mean_y;
+  covar_xy += pad*mean_x*mean_y;
+  
 	var_x /= n;
 	var_y /= n;
 	covar_xy /= n;
