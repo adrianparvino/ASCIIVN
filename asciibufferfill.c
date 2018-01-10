@@ -96,5 +96,5 @@ render_fill(struct asciibuffer *dest,
 				}
 		}
 
-	// free_charset(font_charset);
+	free_charset(font_charset);
 }

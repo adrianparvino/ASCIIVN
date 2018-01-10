@@ -193,19 +193,20 @@ new_imagebuffer_from_png(char image_name[])
 	const int buffer_size = height * rowbytes;
 
 	struct imagebuffer *imagebuffer =
-		malloc(sizeof(*imagebuffer) + height * rowbytes);
+		malloc(sizeof(*imagebuffer) + buffer_size);
 
 	*imagebuffer = (struct imagebuffer)
 	{
 		.width = width,
 		.height = height,
-		.buffer = imagebuffer->in_buffer,
 		.color_type = color_type,
-		.pixel_size = color_type_to_bytes(color_type)
+		.pixel_size = color_type_to_bytes(color_type),
+		.buffer = imagebuffer->in_buffer,
 	};
+	
 	for (size_t i = 0; i < height; ++i)
 		{
-			row_pointers[i] = imagebuffer->buffer + i * rowbytes;
+			row_pointers[i] = &imagebuffer->buffer[i * rowbytes];
 		}
 
 	png_read_image(png_ptr, row_pointers);

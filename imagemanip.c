@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "imagemanip.h"
+#include "imagemanip_kernel.h"
 
 #define min(x, n) ((x) < (n) ? (x) : (n))
 #define max(x, n) ((x) > (n) ? (x) : (n))
@@ -80,53 +81,114 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 }
 
 /* NB: Probably Broken Implementation */
+/* NB: Probably only works when `dest` > `src`. */
 void
 scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 {
+	int n = dest->width*dest->height;
+	
+	const size_t denominatorx = dest->width;
+	const size_t denominatory = dest->height;
+
+	unsigned char *inbufferx0y0 = aligned_alloc(32, n * sizeof *inbufferx0y0);
+	unsigned char *inbufferx0y1 = aligned_alloc(32, n * sizeof *inbufferx0y1);
+	unsigned char *inbufferx1y0 = aligned_alloc(32, n * sizeof *inbufferx1y0);
+	unsigned char *inbufferx1y1 = aligned_alloc(32, n * sizeof *inbufferx1y1);
+	float         *inbufferxf   = aligned_alloc(32, n * sizeof *inbufferxf);
+	float         *inbufferyf   = aligned_alloc(32, n * sizeof *inbufferyf);
+	unsigned char *outbuffer    = aligned_alloc(32, n * sizeof *outbuffer);
+
+	const float stepx = (float) src->width  / denominatorx;
+	const float stepy = (float) src->height / denominatory;
+ 
+	scale_bilinear_prepare
+		(index,
+		 inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
+		 inbufferxf,
+		 inbufferyf,
+		 
+		 dest,
+		 src,
+		 
+		 stepx,
+		 stepy);
+
+	scale_bilinear_kernel
+		(inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
+
+		 inbufferxf,
+		 inbufferyf,
+
+		 n,
+
+		 outbuffer);
+	
 	for (size_t j = 0; j < dest->height; ++j)
 		{
 			for (size_t i = 0; i < dest->width; ++i)
 				{
-					const size_t numeratorx = i * (src->width - 1);
-					const size_t numeratory = j * (src->height - 1);
-					const size_t denominatorx = (dest->width - 1);
-					const size_t denominatory = (dest->height - 1);
-					
-					const size_t xi = numeratorx/denominatorx;
-					const size_t yi = numeratory/denominatory;
-					
-					const size_t xf = numeratorx%denominatorx;
-					const size_t yf = numeratory%denominatory;
-					
-					const size_t xi_ = min(xi + 1, src->width - 1);
-					const size_t yi_ = min(yi + 1, src->height - 1);
-					
-
-					*index(dest, i, j) =
-						((*index(src, xi , yi )*(denominatorx - xf) +
-						  *index(src, xi_, yi )*               xf)*(denominatory - yf)  +
-						 (*index(src, xi , yi_)*(denominatorx - xf) +
-						  *index(src, xi_, yi_)*               xf)*yf)/
-						(denominatorx * denominatory);
-						
-					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-						{
-							unsigned char alpha = 0xff;
-							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-								{
-									alpha =
-										((*index_alpha(src, xi , yi )*(denominatorx - xf) +
-										  *index_alpha(src, xi_, yi )*               xf)*(denominatory - yf)  +
-										 (*index_alpha(src, xi , yi_)*(denominatorx - xf) +
-										  *index_alpha(src, xi_, yi_)*               xf)*yf)/
-										(denominatorx * denominatory);
-								}
-
-							*index_alpha(dest, i, j) = alpha;
-						}
-					
+					*index(dest, i, j) = outbuffer[j*dest->width + i];
 				}
 		}
+
+	if (dest->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) goto cleanup;
+	if (src->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) {
+		for (size_t i = 0; i < n; ++i)
+			{
+				outbuffer[i] = 0xff;
+			}
+		goto cleanup;
+	}
+
+	scale_bilinear_prepare
+		(index_alpha,
+		 inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
+		 inbufferxf,
+		 inbufferyf,
+
+		 dest,
+		 src,
+		 
+		 stepx,
+		 stepy);
+
+	scale_bilinear_kernel
+		(inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
+
+		 inbufferxf,
+		 inbufferyf,
+
+		 n,
+
+		 outbuffer);
+
+	for (size_t j = 0; j < dest->height; ++j)
+		{
+			for (size_t i = 0; i < dest->width; ++i)
+				{
+					*index_alpha(dest, i, j) = outbuffer[j*dest->width + i];
+				}
+		}
+ cleanup:
+	free(inbufferx0y0);
+	free(inbufferx0y1);
+	free(inbufferx1y0);
+	free(inbufferx1y1);
+	free(inbufferxf);
+	free(inbufferyf);
+	free(outbuffer);
 }
 
 struct imagebuffer *

@@ -40,20 +40,20 @@ struct imagebuffer *new_imagebuffer_from_png(char image_name[]);
 
 int color_type_to_bytes(int color_type);
 
-inline unsigned char *
+static inline unsigned char *
 index_offset(struct imagebuffer *image, size_t x, size_t y, size_t offset)
 {
 	return &image->buffer[image->pixel_size*(image->width*y + x) + offset];
 }
 
-inline unsigned char *
+static inline unsigned char *
 index(struct imagebuffer *image, size_t x, size_t y)
 {
 	return &image->buffer[image->pixel_size*(image->width*y + x)];
 	return index_offset(image, x, y, 0);
 }
 
-inline unsigned char *
+static inline unsigned char *
 index_alpha(struct imagebuffer *image, size_t x, size_t y)
 {
 	return index_offset(image, x, y, 1);
