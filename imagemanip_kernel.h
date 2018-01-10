@@ -23,6 +23,14 @@ scale_bilinear_prepare(unsigned char *
                        float               stepy);
 
 
+void
+scale_bilinear_store(unsigned char *
+                       (*index)(struct imagebuffer *image,
+                                size_t x,
+                                size_t y),
+                     unsigned char *in,
+                     struct imagebuffer *dest);
+
 static inline void
 scale_bilinear_kernel(unsigned char *in_x0y0,
                       unsigned char *in_x0y1,

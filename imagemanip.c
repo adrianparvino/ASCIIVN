@@ -129,13 +129,10 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 
 		 outbuffer);
 	
-	for (size_t j = 0; j < dest->height; ++j)
-		{
-			for (size_t i = 0; i < dest->width; ++i)
-				{
-					*index(dest, i, j) = outbuffer[j*dest->width + i];
-				}
-		}
+	scale_bilinear_store
+		(index,
+		 outbuffer,
+		 dest);
 
 	if (dest->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) goto cleanup;
 	if (src->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) {
@@ -174,13 +171,11 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 
 		 outbuffer);
 
-	for (size_t j = 0; j < dest->height; ++j)
-		{
-			for (size_t i = 0; i < dest->width; ++i)
-				{
-					*index_alpha(dest, i, j) = outbuffer[j*dest->width + i];
-				}
-		}
+	scale_bilinear_store
+		(index_alpha,
+		 outbuffer,
+		 dest);
+	
  cleanup:
 	free(inbufferx0y0);
 	free(inbufferx0y1);
