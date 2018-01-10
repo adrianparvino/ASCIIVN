@@ -83,7 +83,7 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 /* NB: Probably Broken Implementation */
 /* NB: Probably only works when `dest` > `src`. */
 void
-scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
+scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 {
 	int n = dest->width*dest->height;
 	

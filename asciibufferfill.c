@@ -79,7 +79,6 @@ render_fill(struct asciibuffer *dest,
 		{
 			for (size_t j = 0; j < dest->height; ++j)
 				{
-					float best_value = 0;
 					char best_character = 0;
 
 					for (size_t k = 0; k < LENGTH(cache); ++k)
@@ -89,7 +88,6 @@ render_fill(struct asciibuffer *dest,
 									break;
 								}
 
-							best_value = cache[k].value;
 							best_character = cache[k].character;
 						}
 

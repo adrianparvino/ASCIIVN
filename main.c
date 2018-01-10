@@ -54,7 +54,6 @@ main()
 	struct asciibuffer *asciibuffer = new_asciibuffer_alpha(caretwidth, caretheight);
 	struct asciibuffer *asciibuffer_bg = new_asciibuffer(caretwidth, caretheight);
 
-	size_t i = 0;
 	struct keyevent keyevent;
 	keyevent_start();
 	for (;;)
