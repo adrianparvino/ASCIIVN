@@ -87,27 +87,27 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 		{
 			for (size_t i = 0; i < dest->width; ++i)
 				{
-					div_t x = div(i * (src->width - 1), dest->width - 1);
-					div_t y = div(j * (src->height - 1), dest->height - 1);
-
-					const int denominator = (dest->width - 1);
+					const size_t numeratorx = i * (src->width - 1);
+					const size_t numeratory = j * (src->height - 1);
+					const size_t denominatorx = (dest->width - 1);
+					const size_t denominatory = (dest->height - 1);
 					
-					const int xi = x.quot;
-					const int yi = y.quot;
+					const size_t xi = numeratorx/denominatorx;
+					const size_t yi = numeratory/denominatory;
 					
-					const int xf = x.rem;// /(dest->width - 1);
-					const int	yf = y.rem;// /(dest->height - 1);
+					const size_t xf = numeratorx%denominatorx;
+					const size_t yf = numeratory%denominatory;
 					
-					const int xi_ = min(xi + 1, src->width - 1);
-					const int yi_ = min(yi + 1, src->height - 1);
+					const size_t xi_ = min(xi + 1, src->width - 1);
+					const size_t yi_ = min(yi + 1, src->height - 1);
 					
 
 					*index(dest, i, j) =
-						((*index(src, xi , yi )*(denominator - xf) +
-						  *index(src, xi_, yi )*               xf)*(denominator - yf)  +
-						 (*index(src, xi , yi_)*(denominator - xf) +
+						((*index(src, xi , yi )*(denominatorx - xf) +
+						  *index(src, xi_, yi )*               xf)*(denominatory - yf)  +
+						 (*index(src, xi , yi_)*(denominatorx - xf) +
 						  *index(src, xi_, yi_)*               xf)*yf)/
-						(denominator * denominator);
+						(denominatorx * denominatory);
 						
 					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
@@ -115,11 +115,11 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 								{
 									alpha =
-										((*index_alpha(src, xi , yi )*(denominator - xf) +
-										  *index_alpha(src, xi_, yi )*               xf)*(denominator - yf)  +
-										 (*index_alpha(src, xi , yi_)*(denominator - xf) +
+										((*index_alpha(src, xi , yi )*(denominatorx - xf) +
+										  *index_alpha(src, xi_, yi )*               xf)*(denominatory - yf)  +
+										 (*index_alpha(src, xi , yi_)*(denominatorx - xf) +
 										  *index_alpha(src, xi_, yi_)*               xf)*yf)/
-										(denominator * denominator);
+										(denominatorx * denominatory);
 								}
 
 							*index_alpha(dest, i, j) = alpha;
