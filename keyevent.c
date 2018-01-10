@@ -80,8 +80,8 @@ keyevent_getevent()
 
 					switch (c = getchar())
 						{
-						case 'A':
-						case 'B':
+						case UP: // 'A'
+						case DOWN: // 'B'
 							return (struct keyevent) { .tag = c };
 						}
 				}
