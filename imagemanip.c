@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "imagemanip.h"
 
 #define min(x, n) ((x) < (n) ? (x) : (n))
@@ -86,33 +87,39 @@ scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
 		{
 			for (size_t i = 0; i < dest->width; ++i)
 				{
-					float x = ((float) i) / (dest->width - 1) * (src->width - 1);
-					float y = ((float) j) / (dest->height - 1) * (src->height - 1);
+					div_t x = div(i * (src->width - 1), dest->width - 1);
+					div_t y = div(j * (src->height - 1), dest->height - 1);
 
-					float xi,
-					  yi;
-					float xf = modff(x, &xi),
-						yf = modff(y, &yi);
-
+					const int denominator = (dest->width - 1);
+					
+					const int xi = x.quot;
+					const int yi = y.quot;
+					
+					const int xf = x.rem;// /(dest->width - 1);
+					const int	yf = y.rem;// /(dest->height - 1);
+					
 					const int xi_ = min(xi + 1, src->width - 1);
 					const int yi_ = min(yi + 1, src->height - 1);
+					
 
 					*index(dest, i, j) =
-						*index(src, xi, yi) * (1 - xf) * (1 - yf) +
-						*index(src, xi_, yi) * (1 - yf) * xf +
-						*index(src, xi, yi_) * yf * (1 - xf) +
-						*index(src, xi_, yi_) * xf * yf;
-
+						((*index(src, xi , yi )*(denominator - xf) +
+						  *index(src, xi_, yi )*               xf)*(denominator - yf)  +
+						 (*index(src, xi , yi_)*(denominator - xf) +
+						  *index(src, xi_, yi_)*               xf)*yf)/
+						(denominator * denominator);
+						
 					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
 							unsigned char alpha = 0xff;
 							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 								{
 									alpha =
-										*index_alpha(src, xi, yi) * (1 - xf) * (1 - yf) +
-										*index_alpha(src, xi_, yi) * (1 - yf) * xf +
-										*index_alpha(src, xi, yi_) * yf * (1 - xf) +
-										*index_alpha(src, xi_, yi_) * xf * yf;
+										((*index_alpha(src, xi , yi )*(denominator - xf) +
+										  *index_alpha(src, xi_, yi )*               xf)*(denominator - yf)  +
+										 (*index_alpha(src, xi , yi_)*(denominator - xf) +
+										  *index_alpha(src, xi_, yi_)*               xf)*yf)/
+										(denominator * denominator);
 								}
 
 							*index_alpha(dest, i, j) = alpha;

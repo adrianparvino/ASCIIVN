@@ -216,21 +216,3 @@ new_imagebuffer_from_png(char image_name[])
 
 	return imagebuffer;
 }
-
-unsigned char *
-index_offset(struct imagebuffer *image, int x, int y, int offset)
-{
-	return &image->buffer[image->pixel_size*(image->width*y + x) + offset];
-}
-
-unsigned char *
-index(struct imagebuffer *image, int x, int y)
-{
-	return index_offset(image, x, y, 0);
-}
-
-unsigned char *
-index_alpha(struct imagebuffer *image, int x, int y)
-{
-	return index_offset(image, x, y, 1);
-}
