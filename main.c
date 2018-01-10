@@ -52,28 +52,28 @@ main()
 
 	size_t i = 0;
 	struct keyevent keyevent;
-	keyevent_start();
-	for (;;)
-		{
-			keyevent = keyevent_getenvent();
-			switch (keyevent.tag)
-				{
-				case UP:
-				case DOWN:
+//	keyevent_start();
+//	for (;;)
+//		{
+//			keyevent = keyevent_getenvent();
+//			switch (keyevent.tag)
+//				{
+//				case UP:
+//				case DOWN:
 					render_ssim_charset_unsafe(asciibuffer, dog_scaled, charset);
 					render_fill(asciibuffer_bg, dog_bg_scaled, "");
 					compose((struct imagebuffer *) asciibuffer_bg,
 					        (struct imagebuffer *) asciibuffer, 0 ,0);
 					flatten(asciibuffer_bg);
 					show_asciibuffer(asciibuffer_bg);
-					break;
-				case CHAR:
-					if (keyevent.character == 'q') goto end;
-					break;
-				}
-		}
- end:
-	keyevent_end();
+//					break;
+//				case CHAR:
+//					if (keyevent.character == 'q') goto end;
+//					break;
+//				}
+//		}
+// end:
+//	keyevent_end();
 
 	free(asciibuffer_bg);
 	free(asciibuffer);
