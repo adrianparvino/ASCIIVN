@@ -126,7 +126,7 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 				}
 		}
 
-	return 0;
+	return 0; 
 }
 
 float
@@ -136,53 +136,104 @@ ssim_imagebuffer(size_t column_offset,
 {
 	assert(y->width + column_offset <= x->width);
 	assert(y->height + row_offset <= x->height);
-	if (y->height * y->width == 0)
+
+	size_t n = y->height * y->width;
+	if (n == 0)
 		{
 			fprintf(stderr, "Warning: The sizes of the compared images is 0");
 			return 1;
 		}
 
-	float mean_x = 0,
+  float mean_x = 0,
 		mean_y = 0;
 
-	size_t n = y->height * y->width;
+  float xarray[n] __attribute__ ((aligned (32)));
+  float yarray[n] __attribute__ ((aligned (32)));
 
-	float xarray[n] __attribute__ ((aligned (32)));
-	float yarray[n] __attribute__ ((aligned (32)));
-
-	for (size_t j = 0; j < y->height; ++j)
+  float partialsumx[8] __attribute__ ((aligned (32))) = {0};
+  float partialsumy[8] __attribute__ ((aligned (32))) = {0};
+  float partialsumxy[8] __attribute__ ((aligned (32))) = {0};
+  
+  for (size_t j = 0; j < y->height; ++j)
 		{
 			for (size_t i = 0; i < y->width; ++i)
 				{
 					size_t xi = i + column_offset;
 					size_t xj = j + row_offset;
 					
-					mean_x += xarray[j*y->width + i] = *index(x, xi, xj);
-					mean_y += yarray[j*y->width + i] = *index(y,  i,  j);
+					xarray[j*y->width + i] = *index(x, xi, xj);
+					yarray[j*y->width + i] = *index(y,  i,  j);
 				}
 		}
-
+  
+  size_t i, i_;
+  for (i = 0; i + 7 < n;)
+	  {
+		  for (i_ = 0;
+		       i_ < 8;
+		       ++i, ++i_)
+			  {
+				  partialsumx[i_] += xarray[i];
+				  partialsumy[i_] += yarray[i];
+			  }
+	  }
+  for (i_ = 0; i < n; ++i, ++i_)
+	  {
+		  mean_x += xarray[i] + partialsumx[i_];
+		  mean_y += yarray[i] + partialsumy[i_];
+	  }
+  for (; i_ < 8; ++i_)
+	  {
+		  mean_x += partialsumx[i_];
+		  mean_y += partialsumy[i_];
+	  }
 	mean_x /= n;
 	mean_y /= n;
 	
-	float var_x = 0,
-		var_y = 0,
-		covar_xy = 0;
-	
-	for (size_t j = 0; j < y->height; ++j)
+  float var_x = 0,
+		var_y = 0;
+  float covar_xy = 0;
+  for (i = 0;
+       i < 8;
+       ++i)
+	  {
+		  partialsumx[i] = 0;
+		  partialsumy[i] = 0;
+	  }
+  for (i = 0; i + 7 < n;)
 		{
-			for (size_t i = 0; i < y->width; ++i)
+			for (i_ = 0;
+			     i_ < 8;
+			     ++i, ++i_)
 				{
-					var_x += pow2(xarray[j*y->width + i] - mean_x);
-					var_y += pow2(yarray[j*y->width + i] - mean_y);
-					
-					covar_xy += (xarray[j*y->width + i] - mean_x)*(yarray[j*y->width + i] - mean_y);
+					float xdiff = xarray[i] - mean_x;
+					float ydiff = yarray[i] - mean_y;
+
+					partialsumx [i_] += xdiff*xdiff;
+					partialsumy [i_] += ydiff*ydiff;
+					partialsumxy[i_] += xdiff*ydiff;
 				}
 		}
 
-	covar_xy /= n;
+  for (i_ = 0; i < n; ++i, ++i_)
+		{
+		  float xdiff = xarray[i] - mean_x;
+		  float ydiff = yarray[i] - mean_y;
+		  
+		  var_x += xdiff*xdiff + partialsumx[i_];
+		  var_y += xdiff*ydiff + partialsumy[i_];
+		  covar_xy += xdiff*ydiff + partialsumxy[i_];
+		}
+	for (; i_ < 8; ++i_)
+		{
+			var_x += partialsumx[i_];
+			var_y += partialsumy[i_];
+			covar_xy += partialsumxy[i_];
+		}
+	
 	var_x /= n;
 	var_y /= n;
+	covar_xy /= n;
 
 	float L = 255,
 		k_1 = 0.01,
