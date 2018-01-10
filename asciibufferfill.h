@@ -22,5 +22,6 @@
 #include "asciibuffer.h"
 
 void render_fill(struct asciibuffer *dest,
-								 struct imagebuffer *src, char fontname[]);
+								 const struct imagebuffer *src,
+                 const char fontname[]);
 #endif

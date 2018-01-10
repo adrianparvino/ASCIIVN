@@ -34,7 +34,8 @@
 
 int
 render_ssim(struct asciibuffer *dest,
-						struct imagebuffer *src, char fontname[])
+						const struct imagebuffer *src,
+            char fontname[])
 {
 	struct charset *font_charset = NULL;
 
@@ -68,8 +69,8 @@ render_ssim(struct asciibuffer *dest,
 
 int
 render_ssim_charset_unsafe(struct asciibuffer *dest,
-													 struct imagebuffer *src,
-													 struct charset *font_charset)
+													 const struct imagebuffer *src,
+													 const struct charset *font_charset)
 {
 	assert(src->width % font_charset->width == 0 &&
 				 src->height % font_charset->height == 0);
@@ -132,7 +133,8 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 float
 ssim_imagebuffer(size_t column_offset,
 								 size_t row_offset,
-								 struct imagebuffer *x, struct imagebuffer *y)
+								 const struct imagebuffer *x,
+                 const struct imagebuffer *y)
 {
 	assert(y->width + column_offset <= x->width);
 	assert(y->height + row_offset <= x->height);

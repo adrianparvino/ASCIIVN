@@ -41,7 +41,8 @@ cmp_cache(const void *x, const void *y)
 
 void
 render_fill(struct asciibuffer *dest,
-						struct imagebuffer *src, char fontname[])
+						const struct imagebuffer *src,
+            const char fontname[])
 {
 	struct charset *font_charset = NULL;
 

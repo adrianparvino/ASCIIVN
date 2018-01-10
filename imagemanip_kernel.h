@@ -6,18 +6,18 @@
 
 void
 scale_bilinear_prepare(unsigned char *
-                       (*index)(struct imagebuffer *image,
+                       (*index)(const struct imagebuffer *image,
                                 size_t x,
                                 size_t y),
-                       unsigned char      *out_x0y0,
-                       unsigned char      *out_x0y1,
-                       unsigned char      *out_x1y0,
-                       unsigned char      *out_x1y1,
-                       float              *out_xf,
-                       float              *out_yf,
+                       unsigned char      *restrict out_x0y0,
+                       unsigned char      *restrict out_x0y1,
+                       unsigned char      *restrict out_x1y0,
+                       unsigned char      *restrict out_x1y1,
+                       float              *restrict out_xf,
+                       float              *restrict out_yf,
                             
-                       struct imagebuffer *dest,
-                       struct imagebuffer *src,
+                       const struct imagebuffer *dest,
+                       const struct imagebuffer *src,
                             
                        float               stepx,
                        float               stepy);
@@ -25,24 +25,24 @@ scale_bilinear_prepare(unsigned char *
 
 void
 scale_bilinear_store(unsigned char *
-                       (*index)(struct imagebuffer *image,
-                                size_t x,
-                                size_t y),
-                     unsigned char *in,
+                     (*index)(const struct imagebuffer *image,
+                              size_t x,
+                              size_t y),
+                     const unsigned char *in,
                      struct imagebuffer *dest);
 
 static inline void
-scale_bilinear_kernel(unsigned char *in_x0y0,
-                      unsigned char *in_x0y1,
-                      unsigned char *in_x1y0,
-                      unsigned char *in_x1y1,
+scale_bilinear_kernel(const unsigned char *restrict in_x0y0,
+                      const unsigned char *restrict in_x0y1,
+                      const unsigned char *restrict in_x1y0,
+                      const unsigned char *restrict in_x1y1,
                                          
-                      float *in_xf,
-                      float *in_yf,
+                      const float *restrict in_xf,
+                      const float *restrict in_yf,
 
                       size_t n,
                                          
-                      unsigned char *out)
+                      unsigned char *restrict out)
 {
 	for (size_t i = 0; i < n; ++i)
 		{

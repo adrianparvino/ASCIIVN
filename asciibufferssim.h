@@ -23,14 +23,16 @@
 #include "charset.h"
 
 int render_ssim(struct asciibuffer *dest,
-								struct imagebuffer *source, char fontname[]);
+								const struct imagebuffer *source,
+                char fontname[]);
 
 int render_ssim_charset_unsafe(struct asciibuffer *dest,
-															 struct imagebuffer *source,
-															 struct charset *font_charset);
+															 const struct imagebuffer *source,
+															 const struct charset *font_charset);
 
 float ssim_imagebuffer(size_t column_offset,
 											 size_t row_offset,
-											 struct imagebuffer *x, struct imagebuffer *y);
+											 const struct imagebuffer *x,
+                       const struct imagebuffer *y);
 
 #endif

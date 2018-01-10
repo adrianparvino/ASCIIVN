@@ -2,7 +2,7 @@
 
 void
 scale_bilinear_prepare(unsigned char *
-                       (*index)(struct imagebuffer *image,
+                       (*index)(const struct imagebuffer *image,
                                 size_t x,
                                 size_t y),
                        unsigned char      *out_x0y0,
@@ -12,8 +12,8 @@ scale_bilinear_prepare(unsigned char *
                        float              *out_xf,
                        float              *out_yf,
                             
-                       struct imagebuffer *dest,
-                       struct imagebuffer *src,
+                       const struct imagebuffer *dest,
+                       const struct imagebuffer *src,
                             
                        float               stepx,
                        float               stepy)
@@ -55,10 +55,10 @@ scale_bilinear_prepare(unsigned char *
 
 void
 scale_bilinear_store(unsigned char *
-                     (*index)(struct imagebuffer *image,
+                     (*index)(const struct imagebuffer *image,
                               size_t x,
                               size_t y),
-                     unsigned char *in,
+                     const unsigned char *in,
                      struct imagebuffer *dest)
 {
 	
