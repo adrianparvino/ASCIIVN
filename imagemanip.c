@@ -81,25 +81,19 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 }
 
 /* NB: Probably Broken Implementation */
-/* NB: Probably only works when `dest` > `src`. */
+/* NB: Probably only works when `dest` ~ `src`. */
 void
 scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 {
 	int n = dest->width*dest->height;
 	
-	const size_t denominatorx = dest->width;
-	const size_t denominatory = dest->height;
-
 	unsigned char *inbufferx0y0 = aligned_alloc(32, n * sizeof *inbufferx0y0);
 	unsigned char *inbufferx0y1 = aligned_alloc(32, n * sizeof *inbufferx0y1);
 	unsigned char *inbufferx1y0 = aligned_alloc(32, n * sizeof *inbufferx1y0);
 	unsigned char *inbufferx1y1 = aligned_alloc(32, n * sizeof *inbufferx1y1);
-	float         *inbufferxf   = aligned_alloc(32, n * sizeof *inbufferxf);
-	float         *inbufferyf   = aligned_alloc(32, n * sizeof *inbufferyf);
+	size_t        *inbufferxf   = aligned_alloc(32, n * sizeof *inbufferxf);
+	size_t        *inbufferyf   = aligned_alloc(32, n * sizeof *inbufferyf);
 	unsigned char *outbuffer    = aligned_alloc(32, n * sizeof *outbuffer);
-
-	const float stepx = (float) (src->width  - 2) / (denominatorx - 1);
-	const float stepy = (float) (src->height - 2) / (denominatory - 1);
  
 	scale_bilinear_prepare
 		(index,
@@ -110,11 +104,10 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 inbufferxf,
 		 inbufferyf,
 		 
-		 dest,
 		 src,
 		 
-		 stepx,
-		 stepy);
+		 dest->width,
+		 dest->height);
 
 	scale_bilinear_kernel
 		(inbufferx0y0,
@@ -125,7 +118,8 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 inbufferxf,
 		 inbufferyf,
 
-		 n,
+		 dest->width,
+		 dest->height,
 
 		 outbuffer);
 	
@@ -140,6 +134,10 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 			{
 				outbuffer[i] = 0xff;
 			}
+		scale_bilinear_store
+			(index_alpha,
+			 outbuffer,
+			 dest);
 		goto cleanup;
 	}
 
@@ -152,12 +150,11 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 inbufferxf,
 		 inbufferyf,
 
-		 dest,
 		 src,
 		 
-		 stepx,
-		 stepy);
-
+		 dest->width,
+		 dest->height);
+	
 	scale_bilinear_kernel
 		(inbufferx0y0,
 		 inbufferx0y1,
@@ -167,7 +164,8 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 inbufferxf,
 		 inbufferyf,
 
-		 n,
+		 dest->width,
+		 dest->height,
 
 		 outbuffer);
 
@@ -205,7 +203,6 @@ extract(size_t column_offset,
 	return extract_buffer;
 }
 
-// TODO: Compose with alpha awareness, done correctly.
 void
 compose(struct imagebuffer *bg,
 				struct imagebuffer *fg,
@@ -234,8 +231,8 @@ compose(struct imagebuffer *bg,
 								fgalpha + bgalpha*(0xff - fgalpha)/0xff;
 						}
 
-					unsigned char fg_ = (*index(fg, i, j) * fgalpha)/0xff;
-					unsigned char bg_ = (*index(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
+					unsigned int fg_ = (((unsigned int) *index(fg, i, j)) * fgalpha)/0xff;
+					unsigned int bg_ = (((unsigned int) *index(bg, column_offset + i, row_offset + j)) * bgalpha)/0xff;
 						
 					*index(bg, column_offset + i, row_offset + j) =
 						fg_ + bg_*(0xff - fgalpha)/0xff;

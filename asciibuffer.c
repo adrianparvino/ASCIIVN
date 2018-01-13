@@ -81,7 +81,8 @@ flatten(struct asciibuffer *asciibuffer)
 void
 clear(struct asciibuffer *asciibuffer)
 {
-	memset(asciibuffer->buffer, 0, asciibuffer->height * asciibuffer->width);
+	memset(asciibuffer->buffer, 0,
+	       asciibuffer->height * asciibuffer->width * asciibuffer->pixel_size);
 }
 
 void

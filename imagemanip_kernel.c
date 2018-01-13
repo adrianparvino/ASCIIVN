@@ -9,40 +9,42 @@ scale_bilinear_prepare(unsigned char *
                        unsigned char      *restrict out_x0y1,
                        unsigned char      *restrict out_x1y0,
                        unsigned char      *restrict out_x1y1,
-                       float              *restrict out_xf,
-                       float              *restrict out_yf,
+                       size_t             *restrict out_xf,
+                       size_t             *restrict out_yf,
                             
-                       const struct imagebuffer *dest,
                        const struct imagebuffer *src,
                             
-                       float               stepx,
-                       float               stepy)
+                       size_t               width,
+                       size_t               height)
 {
-	float y = 0;
-	float yi = 0;
-	for (size_t k = 0, j = 0; j < dest->height; ++j, y += stepy)
+	size_t stepx = src->width  - 2;
+	size_t stepy = src->height - 2;
+	
+	size_t yerror = 0;
+	size_t yi = 0;
+	for (size_t k = 0, j = 0; j < height; ++j, yerror += stepy)
 		{
-			while (y >= 1)
+			while (yerror >= height - 1)
 				{
+					yerror -= height - 1;
 					++yi;
-					--y;
 				}
 			
-			float x = 0;
-			float xi = 0;
-			for (size_t i = 0; i < dest->width; ++i, ++k, x += stepx)
+			size_t xerror = 0;
+			size_t xi = 0;
+			for (size_t i = 0; i < width; ++i, ++k, xerror += stepx)
 				{
-					while (x >= 1)
+					while (xerror >= width - 1)
 						{
+							xerror -= width - 1;
 							++xi;
-							--x;
 						}
 					
-					const float xi_ = xi + 1;
-					const float yi_ = yi + 1;
+					const size_t xi_ = xi + 1;
+					const size_t yi_ = yi + 1;
 
-					out_xf[k] = x;
-					out_yf[k] = y;
+					out_xf[k] = xerror;
+					out_yf[k] = yerror;
 
 					out_x0y0[k] = (*index(src, xi , yi ));
 					out_x1y0[k] = (*index(src, xi_, yi ));

@@ -47,8 +47,8 @@ main()
 	struct imagebuffer *dog_bg_scaled =
 		new_imagebuffer(caretwidth * charset->width, caretheight * charset->height);
 	
-	scale_bilinear(dog_scaled, dog);
 	scale_bilinear(ehr_scaled, ehr);
+	scale_bilinear(dog_scaled, dog);
 	scale_bilinear(dog_bg_scaled, dog_bg);
 
 	struct asciibuffer *asciibuffer = new_asciibuffer_alpha(caretwidth, caretheight);
