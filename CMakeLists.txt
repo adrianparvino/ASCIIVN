@@ -2,6 +2,20 @@
 cmake_minimum_required(VERSION 3.1)
 project(asciivn LANGUAGES C)
 
+set(HEADERS
+  asciibuffer.h
+  asciibufferfill.h
+  asciibufferssim.h
+  xbmutils.h
+  charset.h
+  imagebuffer.h
+  imagemanip.h
+  imagemanip_kernel.h
+  keyevent.h
+  terminal.h
+  slides.h
+  dialog.h
+  testimage.h)
 set(SOURCES
   main.c
   asciibuffer.c
@@ -11,9 +25,11 @@ set(SOURCES
   charset.c
   imagebuffer.c
   imagemanip.c
+  imagemanip_kernel.c
   keyevent.c
   terminal.c
   slides.c
+  dialog.c
   testimage.c)
 
 find_package(PNG REQUIRED)
@@ -22,5 +38,5 @@ find_package(ZLIB REQUIRED)
 add_executable(asciivn ${SOURCES})
 target_include_directories(asciivn PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 set_property(TARGET asciivn PROPERTY C_STANDARD 11)
-target_compile_options(asciivn PRIVATE "-O0" "-Wall")
+target_compile_options(asciivn PRIVATE "-O0" "-Wall" "-g3")
 target_link_libraries(asciivn PRIVATE PNG::PNG ZLIB::ZLIB m)

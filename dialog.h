@@ -8,20 +8,35 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ASCII_BUFFER_FILL_H
-#define ASCII_BUFFER_FILL_H
+#ifndef DIALOG_H
+#define DIALOG_H
 
-#include "imagebuffer.h"
 #include "asciibuffer.h"
+#include "imagebuffer.h"
 
-void render_fill(struct asciibuffer *dest,
-								 const struct imagebuffer *src,
-                 const char fontname[]);
+struct dialog
+{
+	struct slide *next;
+	char *message;
+	char in_message[];
+};
+
+size_t
+render_dialogs(struct asciibuffer *asciibuffer,
+               char *message,
+               struct dialog *dialogs[],
+               size_t dialogs_count,
+               size_t option);
+
+struct dialog *
+make_dialog(struct slide *next,
+            char *message);
+
 #endif

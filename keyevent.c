@@ -40,7 +40,6 @@ keyevent_start()
 #else
 	/* Taken from https://www.gnu.org/software/libc/manual/html_node/Noncanon-Example.html */
 	struct termios tattr;
-	char *name;
 	
 	/* Make sure stdin is a terminal. */
 	if (!isatty (STDIN_FILENO))

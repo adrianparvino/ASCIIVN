@@ -16,55 +16,107 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "slides.h"
-
+#include "dialog.h"
 
 void
-render_slides(struct slides *slides, int width, int height)
+render_slides(struct slide *slide, int width, int height)
 {
+	if (slide->cache_composed != NULL) free(slide->cache_composed);
+	if (slide->cache_background != NULL) free(slide->cache_background);
+	if (slide->cache_foreground != NULL) free(slide->cache_foreground);
+	if (slide->cache_dialog != NULL) free(slide->cache_dialog);
 	
+	slide->cache_composed = new_asciibuffer(width, height);
+	slide->cache_background = new_asciibuffer(width, height);
+	slide->cache_foreground = new_asciibuffer(width, height);
+	slide->cache_dialog = new_asciibuffer(width, height);
+	
+	render_fill(slide->cache_background, slide->image_background, "");
+	render_ssim(slide->cache_foreground, slide->image_foreground, "");
+	render_dialogs(slide->cache_dialog,
+	               slide->message,
+	               slide->dialogs,
+	               slide->dialogs_count,
+	               0);
+	
+	compose((struct imagebuffer *) slide->cache_composed,
+	        (struct imagebuffer *) slide->cache_background, 0, 0);
+	compose((struct imagebuffer *) slide->cache_composed,
+	        (struct imagebuffer *) slide->cache_foreground, 0, 0);
+	compose((struct imagebuffer *) slide->cache_composed,
+	        (struct imagebuffer *) slide->cache_dialog,
+	        0, height - slide->cache_dialog->height);
+	
+	flatten(slide->cache_background);
 }
 
-struct slides_context *
-slides_init(struct slides *slides)
+struct slide_context *
+slides_init(struct slide *slide)
 {
-	struct slides_context *context = malloc(sizeof *context);
+	struct slide_context *context = malloc(sizeof *context);
 
-	*context = (struct slides_context) {
-		.current = slides,
+	*context = (struct slide_context) {
+		.current = slide,
 		.width = 0,
 		.height = 0
 	};
 
-	
 	return context;
 }
 
 void
-slides_loop(struct slides_context *context)
+slides_loop(struct slide_context *context)
 {
 	
 }
 
 void
-slides_end(struct slides_context *context)
+slides_end(struct slide_context *context)
 {
 
 }
 
-struct slides *
+struct slide *
 make_slide(struct imagebuffer *image_background,
-           struct imagebuffer *image_foreground)
+           struct imagebuffer *image_foreground,
+           char *message,
+           struct dialog *dialogs[],
+           size_t dialogs_count)
 {
-	struct slides *slides = malloc(sizeof *slides);
-	*slides = (struct slides) {
-		.prev = NULL,
+	struct slide *slide = malloc(sizeof *slide +
+	                               dialogs_count*sizeof(struct dialog *));
+	char *message_ = malloc(strlen(message) + 1);
+	
+	*slide = (struct slide) {
 		.image_background = image_background,
 		.image_foreground = image_foreground,
 		.cache_background = NULL,
 		.cache_foreground = NULL,
-		.next = NULL
+		.cache_composed = NULL,
+		.cache_dialog = NULL,
+		.message = message_,
+		.dialogs_count = dialogs_count,
+		.dialogs = slide->in_dialogs
 	};
 
-	return slides;
+	strcpy(slide->message, message);
+	for(size_t i = 0; i < dialogs_count; ++i)
+		{
+			slide->dialogs[i] = dialogs[i];
+		}
+
+	return slide;
+}
+
+void
+free_slide(struct slide *slide)
+{
+	free(slide->message);
+	if (slide->cache_background != NULL) free(slide->cache_background);
+	if (slide->cache_foreground != NULL) free(slide->cache_foreground);
+	if (slide->cache_composed != NULL) free(slide->cache_composed);
+	if (slide->cache_dialog != NULL) free(slide->cache_dialog);
+	free(slide);
 }

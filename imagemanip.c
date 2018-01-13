@@ -18,7 +18,9 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "imagemanip.h"
+#include "imagemanip_kernel.h"
 
 #define min(x, n) ((x) < (n) ? (x) : (n))
 #define max(x, n) ((x) > (n) ? (x) : (n))
@@ -63,7 +65,7 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 					size_t x = i * (src->width) / (dest->width);
 					size_t y = j * (src->height) / (dest->height);
 
-					*index(dest, i, j) = *index(src, x, y);
+					*index_gray(dest, i, j) = *index_gray(src, x, y);
 					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
 							unsigned char alpha = 0xff;
@@ -79,60 +81,130 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 }
 
 /* NB: Probably Broken Implementation */
+/* NB: Probably only works when `dest` > `src`. */
 void
-scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src)
+scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 {
-	for (size_t j = 0; j < dest->height; ++j)
-		{
-			for (size_t i = 0; i < dest->width; ++i)
-				{
-					float x = ((float) i) / (dest->width - 1) * (src->width - 1);
-					float y = ((float) j) / (dest->height - 1) * (src->height - 1);
+	int n = dest->width*dest->height;
+	
+	const size_t denominatorx = dest->width;
+	const size_t denominatory = dest->height;
 
-					float xi,
-					  yi;
-					float xf = modff(x, &xi),
-						yf = modff(y, &yi);
+	unsigned char *inbufferx0y0 = aligned_alloc(32, n * sizeof *inbufferx0y0);
+	unsigned char *inbufferx0y1 = aligned_alloc(32, n * sizeof *inbufferx0y1);
+	unsigned char *inbufferx1y0 = aligned_alloc(32, n * sizeof *inbufferx1y0);
+	unsigned char *inbufferx1y1 = aligned_alloc(32, n * sizeof *inbufferx1y1);
+	float         *inbufferxf   = aligned_alloc(32, n * sizeof *inbufferxf);
+	float         *inbufferyf   = aligned_alloc(32, n * sizeof *inbufferyf);
+	unsigned char *outbuffer    = aligned_alloc(32, n * sizeof *outbuffer);
 
-					const int xi_ = min(xi + 1, src->width - 1);
-					const int yi_ = min(yi + 1, src->height - 1);
+	const float stepx = (float) (src->width  - 2) / (denominatorx - 1);
+	const float stepy = (float) (src->height - 2) / (denominatory - 1);
+ 
+	scale_bilinear_prepare
+		(index_gray,
+		 inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
+		 inbufferxf,
+		 inbufferyf,
+		 
+		 dest,
+		 src,
+		 
+		 stepx,
+		 stepy);
 
-					*index(dest, i, j) =
-						*index(src, xi, yi) * (1 - xf) * (1 - yf) +
-						*index(src, xi_, yi) * (1 - yf) * xf +
-						*index(src, xi, yi_) * yf * (1 - xf) +
-						*index(src, xi_, yi_) * xf * yf;
+	scale_bilinear_kernel
+		(inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
 
-					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-						{
-							unsigned char alpha = 0xff;
-							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-								{
-									alpha =
-										*index_alpha(src, xi, yi) * (1 - xf) * (1 - yf) +
-										*index_alpha(src, xi_, yi) * (1 - yf) * xf +
-										*index_alpha(src, xi, yi_) * yf * (1 - xf) +
-										*index_alpha(src, xi_, yi_) * xf * yf;
-								}
+		 inbufferxf,
+		 inbufferyf,
 
-							*index_alpha(dest, i, j) = alpha;
-						}
-					
-				}
-		}
+		 n,
+
+		 outbuffer);
+	
+	scale_bilinear_store
+		(index_gray,
+		 outbuffer,
+		 dest);
+
+	if (dest->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) goto cleanup;
+	if (src->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) {
+		for (size_t i = 0; i < n; ++i)
+			{
+				outbuffer[i] = 0xff;
+			}
+	scale_bilinear_store
+		(index_alpha,
+		 outbuffer,
+		 dest);
+	
+		goto cleanup;
+	}
+
+	scale_bilinear_prepare
+		(index_alpha,
+		 inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
+		 inbufferxf,
+		 inbufferyf,
+
+		 dest,
+		 src,
+		 
+		 stepx,
+		 stepy);
+
+	scale_bilinear_kernel
+		(inbufferx0y0,
+		 inbufferx0y1,
+		 inbufferx1y0,
+		 inbufferx1y1,
+
+		 inbufferxf,
+		 inbufferyf,
+
+		 n,
+
+		 outbuffer);
+
+	scale_bilinear_store
+		(index_alpha,
+		 outbuffer,
+		 dest);
+	
+ cleanup:
+	free(inbufferx0y0);
+	free(inbufferx0y1);
+	free(inbufferx1y0);
+	free(inbufferx1y1);
+	free(inbufferxf);
+	free(inbufferyf);
+	free(outbuffer);
 }
 
 struct imagebuffer *
 extract(size_t column_offset,
-				size_t row_offset, size_t width, size_t height, struct imagebuffer *x)
+        size_t row_offset,
+        size_t width,
+        size_t height,
+        struct imagebuffer *x)
 {
 	struct imagebuffer *extract_buffer = new_imagebuffer(width, height);
 
 	for (size_t i = 0; i < width; ++i)
 		for (size_t j = 0; j < height; ++j)
 			{
-				*index(extract_buffer, i, j) =
-					*index(x, column_offset + i, row_offset + j);
+				*index_gray(extract_buffer, i, j) =
+					*index_gray(x, column_offset + i, row_offset + j);
 			}
 
 	return extract_buffer;
@@ -167,10 +239,10 @@ compose(struct imagebuffer *bg,
 								fgalpha + bgalpha*(0xff - fgalpha)/0xff;
 						}
 
-					unsigned char fg_ = (*index(fg, i, j) * fgalpha)/0xff;
-					unsigned char bg_ = (*index(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
+					unsigned char fg_ = (*index_gray(fg, i, j) * fgalpha)/0xff;
+					unsigned char bg_ = (*index_gray(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
 						
-					*index(bg, column_offset + i, row_offset + j) =
+					*index_gray(bg, column_offset + i, row_offset + j) =
 						fg_ + bg_*(0xff - fgalpha)/0xff;
 				}
 		}

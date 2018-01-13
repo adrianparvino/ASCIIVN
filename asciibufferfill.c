@@ -40,7 +40,8 @@ cmp_cache(const void *x, const void *y)
 
 void
 render_fill(struct asciibuffer *dest,
-						struct imagebuffer *src, char fontname[])
+						const struct imagebuffer *src,
+            const char fontname[])
 {
 	struct charset *font_charset = NULL;
 
@@ -77,23 +78,21 @@ render_fill(struct asciibuffer *dest,
 		{
 			for (size_t j = 0; j < dest->height; ++j)
 				{
-					float best_value = 0;
 					char best_character = 0;
 
 					for (size_t k = 0; k < LENGTH(cache); ++k)
 						{
-							if (*index((struct imagebuffer *) dest, i, j) < cache[k].value)
+							if (*index_gray((struct imagebuffer *) dest, i, j) < cache[k].value)
 								{
 									break;
 								}
 
-							best_value = cache[k].value;
 							best_character = cache[k].character;
 						}
 
-					*index((struct imagebuffer *) dest, i, j) = best_character;
+					*index_gray((struct imagebuffer *) dest, i, j) = best_character;
 				}
 		}
 
-	// free_charset(font_charset);
+	free_charset(font_charset);
 }

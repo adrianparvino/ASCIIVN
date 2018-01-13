@@ -19,6 +19,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<png.h>
 
 struct asciibuffer *
@@ -69,9 +70,9 @@ flatten(struct asciibuffer *asciibuffer)
 		{
 			for (size_t j = 0; j < asciibuffer->height; ++j)
 				{
-					if (*index((struct imagebuffer*) asciibuffer, i, j) == '\0')
+					if (*index_gray((struct imagebuffer*) asciibuffer, i, j) == '\0')
 						{
-							*index((struct imagebuffer*) asciibuffer, i, j) = ' ';
+							*index_gray((struct imagebuffer*) asciibuffer, i, j) = ' ';
 						}
 				}
 		}

@@ -33,7 +33,7 @@ struct imagebuffer *extract(size_t column_offset,
 
 void scale_nearest(struct imagebuffer *dest, struct imagebuffer *src);
 
-void scale_bilinear(struct imagebuffer *dest, struct imagebuffer *src);
+void scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src);
 
 void compose(struct imagebuffer *bg,
 						 struct imagebuffer *fg,

@@ -23,6 +23,10 @@
 #include <png.h>
 
 #include "imagebuffer.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<png.h>
 
 int
 color_type_to_bytes(int color_type)
@@ -188,19 +192,20 @@ new_imagebuffer_from_png(char image_name[])
 	const int buffer_size = height * rowbytes;
 
 	struct imagebuffer *imagebuffer =
-		malloc(sizeof(*imagebuffer) + height * rowbytes);
+		malloc(sizeof(*imagebuffer) + buffer_size);
 
 	*imagebuffer = (struct imagebuffer)
 	{
 		.width = width,
 		.height = height,
-		.buffer = imagebuffer->in_buffer,
 		.color_type = color_type,
-		.pixel_size = color_type_to_bytes(color_type)
+		.pixel_size = color_type_to_bytes(color_type),
+		.buffer = imagebuffer->in_buffer,
 	};
+	
 	for (size_t i = 0; i < height; ++i)
 		{
-			row_pointers[i] = imagebuffer->buffer + i * rowbytes;
+			row_pointers[i] = &imagebuffer->buffer[i * rowbytes];
 		}
 
 	png_read_image(png_ptr, row_pointers);
@@ -210,22 +215,4 @@ new_imagebuffer_from_png(char image_name[])
 	fclose(image_file);
 
 	return imagebuffer;
-}
-
-unsigned char *
-index_offset(struct imagebuffer *image, int x, int y, int offset)
-{
-	return &image->buffer[image->pixel_size*(image->width*y + x) + offset];
-}
-
-unsigned char *
-index(struct imagebuffer *image, int x, int y)
-{
-	return index_offset(image, x, y, 0);
-}
-
-unsigned char *
-index_alpha(struct imagebuffer *image, int x, int y)
-{
-	return index_offset(image, x, y, 1);
 }

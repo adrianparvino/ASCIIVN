@@ -18,32 +18,46 @@ n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #ifndef SLIDES_H
 #define SLIDES_H
 
+#include "asciibufferfill.h"
+#include "asciibufferssim.h"
 #include "asciibuffer.h"
 #include "imagebuffer.h"
 
-struct slides
+struct slide
 {
-	struct slides *prev;
 	struct imagebuffer *image_background,
 	  *image_foreground;
-	struct asciibuffer *cache_background,
+	struct asciibuffer *cache_composed,
+		*cache_background,
 		*cache_foreground,
-		*cache_composed;
-	struct slides *next;
+		*cache_dialog;
+
+	char *message;
+	size_t dialogs_count;
+	struct dialog **dialogs;
+	struct dialog *in_dialogs[];
 };
 
-struct slides_context
+struct slide_context
 {
-	struct slides *current;
+	struct slide *current;
 	int width, height;
 };
 
-struct slides_context *slides_init(struct slides *slides);
-void slides_loop(struct slides_context *context);
-void slides_next(struct slides_context *context);
-void slides_prev(struct slides_context *context);
-void slides_end(struct slides_context *context);
-struct slides *make_slide(struct imagebuffer *image_background,
-                          struct imagebuffer *image_foreground);
+struct slide_context *
+slides_init(struct slide *slides);
+
+void slides_loop(struct slide_context *context);
+void slides_next(struct slide_context *context);
+void slides_prev(struct slide_context *context);
+void slides_end(struct slide_context *context);
+
+struct slide *
+make_slide(struct imagebuffer *image_background,
+           struct imagebuffer *image_foreground,
+           char *message,
+           struct dialog *dialogs[],
+           size_t dialogs_count);
+void free_slide(struct slide *slide);
 
 #endif

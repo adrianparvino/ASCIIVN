@@ -30,10 +30,12 @@
 #define pow2(x) ((x)*(x))
 #define signpow2(x) ((x)*fabsf(x))
 #define pow3(x) ((x)*(x)*(x))
+#define length(array) sizeof(array)/sizeof(*array)
 
 int
 render_ssim(struct asciibuffer *dest,
-						struct imagebuffer *src, char fontname[])
+						const struct imagebuffer *src,
+            char fontname[])
 {
 	struct charset *font_charset = NULL;
 
@@ -43,7 +45,7 @@ render_ssim(struct asciibuffer *dest,
 		{
 			fprintf(stderr, "Warning: no fontname provided. Using fallback.\n");
 
-			font_charset = charset_read_from_directory("./fonts/FixedsysExcelsior");
+			font_charset = charset_read_from_directory("./fonts/Monaco-10");
 			defaultfont = true;
 		}
 	else
@@ -67,8 +69,8 @@ render_ssim(struct asciibuffer *dest,
 
 int
 render_ssim_charset_unsafe(struct asciibuffer *dest,
-													 struct imagebuffer *src,
-													 struct charset *font_charset)
+													 const struct imagebuffer *src,
+													 const struct charset *font_charset)
 {
 	assert(src->width % font_charset->width == 0 &&
 				 src->height % font_charset->height == 0);
@@ -103,7 +105,7 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 
 						}
 
-					*index((struct imagebuffer *) dest, x_, y_) = best_ssim_char;
+					*index_gray((struct imagebuffer *) dest, x_, y_) = best_ssim_char;
 					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
 							float alpha = 0xff;
@@ -125,54 +127,112 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 				}
 		}
 
-	return 0;
+	return 0; 
 }
 
 float
 ssim_imagebuffer(size_t column_offset,
 								 size_t row_offset,
-								 struct imagebuffer *x, struct imagebuffer *y)
+								 const struct imagebuffer *x,
+                 const struct imagebuffer *y)
 {
 	assert(y->width + column_offset <= x->width);
 	assert(y->height + row_offset <= x->height);
-	if (y->height * y->width == 0)
-		{
-			fprintf(stderr, "Warning: The sizes of the compared images is 0");
-			return 1;
-		}
-
-	float mean_x = 0,
-		mean_y = 0;
-	float comoment_xx = 0,
-		comoment_yy = 0,
-		comoment_xy = 0;
 
 	size_t n = y->height * y->width;
+	assert(n > 0); 
 
-	// Online computation for covariance, adapted for variance.
-	// https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Online
-	for (size_t j = 0; j < y->height; ++j)
+	float mean_x = 0;
+	float mean_y = 0;
+
+  float xarray[((n + 7)/8)*8] __attribute__ ((aligned (32)));
+  float yarray[((n + 7)/8)*8] __attribute__ ((aligned (32)));
+
+  float partialsumx [8] __attribute__ ((aligned (32))) = {0};
+  float partialsumy [8] __attribute__ ((aligned (32))) = {0};
+  float partialsumxy[8] __attribute__ ((aligned (32))) = {0};
+
+  size_t k = 0;
+  for (size_t j = 0; j < y->height; ++j)
 		{
-			for (size_t i = 0; i < y->width; ++i)
+			for (size_t i = 0; i < y->width; ++i, ++k)
 				{
 					size_t xi = i + column_offset;
 					size_t xj = j + row_offset;
-
-					float dx = *index(x, xi, xj) - mean_x;
-					float dy = *index(y, i, j) - mean_y;
-
-					mean_x += dx / (j * y->width + i + 1);
-					mean_y += dy / (j * y->width + i + 1);
-
-					comoment_xx += dx * (*index(x, xi, xj) - mean_x);
-					comoment_yy += dy * (*index(y, i, j) - mean_y);
-					comoment_xy += dx * (*index(y, i, j) - mean_y);
+					
+					xarray[k] = *index_gray(x, xi, xj);
+					yarray[k] = *index_gray(y,  i,  j);
 				}
 		}
 
-	float var_x = comoment_xx / n,
-		var_y = comoment_yy / n,
-		covar_xy = comoment_xy / n;
+  assert(k <= length(xarray));
+  size_t pad = length(xarray) - k;
+  for (;k < length(xarray); ++k)
+	  {
+		  xarray[k] = 0;
+		  yarray[k] = 0;
+	  }
+  
+  size_t i, i_ = 0;
+  for (i = 0;
+       i < length(xarray);
+       i += 8)
+	  {
+		  for (i_ = 0; i_ < length(partialsumx); ++i_)
+			  {
+				  partialsumx[i_] += xarray[i + i_];
+				  partialsumy[i_] += yarray[i + i_];
+			  }
+	  }
+  for (i_ = 0; i_ < length(partialsumx); ++i_)
+	  {
+		  mean_x += partialsumx[i_];
+	  }
+  for (i_ = 0; i_ < length(partialsumx); ++i_)
+	  {
+		  mean_y += partialsumy[i_];
+	  }
+	mean_x /= n;
+	mean_y /= n;
+
+	// Calculate variances and covariance
+	float var_x = 0;
+	float	var_y = 0;
+  float covar_xy = 0;
+  for (i = 0;
+       i < length(partialsumx);
+       ++i)
+	  {
+		  partialsumx[i] = 0;
+		  partialsumy[i] = 0;
+	  }
+  for (i = 0;
+       i < length(xarray);
+       i += 8)
+	  {
+		  for (i_ = 0; i_ < length(partialsumx); ++i_)
+			  {
+				  float xdiff = xarray[i + i_] - mean_x;
+				  float ydiff = yarray[i + i_] - mean_y;
+					
+				  partialsumx [i_] += xdiff*xdiff;
+				  partialsumy [i_] += ydiff*ydiff;
+				  partialsumxy[i_] += xdiff*ydiff;
+			  }
+	  }
+  for (i_ = 0; i_ < length(partialsumx); ++i_)
+	  {
+		  var_x    += partialsumx [i_];
+		  var_y    += partialsumy [i_];
+		  covar_xy += partialsumxy[i_];
+	  }
+  var_x    += pad*mean_x*mean_x;
+  var_y    += pad*mean_y*mean_y;
+  covar_xy += pad*mean_x*mean_y;
+  
+	var_x /= n;
+	var_y /= n;
+	covar_xy /= n;
 
 	float L = 255,
 		k_1 = 0.01,
