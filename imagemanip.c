@@ -140,6 +140,11 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 			{
 				outbuffer[i] = 0xff;
 			}
+	scale_bilinear_store
+		(index_alpha,
+		 outbuffer,
+		 dest);
+	
 		goto cleanup;
 	}
 

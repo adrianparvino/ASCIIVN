@@ -22,7 +22,12 @@
 void
 render_slides(struct slides *slides, int width, int height)
 {
-	
+	render_ssim(slides->cache_foreground, slides->image_foreground, "");
+	render_fill(slides->cache_background, slides->image_foreground, "");
+	compose((struct imagebuffer *) asciibuffer_bg,
+	        (struct imagebuffer *) asciibuffer, 0 ,0);
+	flatten(asciibuffer_bg);
+	show_asciibuffer(asciibuffer_bg);
 }
 
 struct slides_context *
@@ -54,7 +59,9 @@ slides_end(struct slides_context *context)
 
 struct slides *
 make_slide(struct imagebuffer *image_background,
-           struct imagebuffer *image_foreground)
+           struct imagebuffer *image_foreground,
+           struct dialog *dialogs,
+           size_t dialogs_count)
 {
 	struct slides *slides = malloc(sizeof *slides);
 	*slides = (struct slides) {

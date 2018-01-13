@@ -15,37 +15,23 @@ n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SLIDES_H
-#define SLIDES_H
+#ifndef DIALOG_H
+#define DIALOG_H
 
 #include "asciibuffer.h"
 #include "imagebuffer.h"
 
-struct slides
+struct dialog
 {
-	struct slides *prev;
-	struct imagebuffer *image_background,
-	  *image_foreground;
-	struct asciibuffer *cache_background,
-		*cache_foreground,
-		*cache_dialog,
-		*cache_composed;
-	size_t dialogs_count;
-	struct dialog dialogs[];
+	struct slides *next;
+	char message[];
 };
 
-struct slides_context
-{
-	struct slides *current;
-	int width, height;
-};
-
-struct slides_context *slides_init(struct slides *slides);
-void slides_loop(struct slides_context *context);
-void slides_next(struct slides_context *context);
-void slides_prev(struct slides_context *context);
-void slides_end(struct slides_context *context);
-struct slides *make_slide(struct imagebuffer *image_background,
-                          struct imagebuffer *image_foreground);
+void
+render_dialogs(struct dialog *dialogs,
+               size_t dialogs_count,
+               int option,
+               int width,
+               int height);
 
 #endif
