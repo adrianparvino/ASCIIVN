@@ -23,15 +23,20 @@ n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 
 struct dialog
 {
-	struct slides *next;
-	char message[];
+	struct slide *next;
+	char *message;
+	char in_message[];
 };
 
 void
-render_dialogs(struct dialog *dialogs,
+render_dialogs(struct asciibuffer *asciibuffer,
+               char *message,
+               struct dialog *dialogs[],
                size_t dialogs_count,
-               int option,
-               int width,
-               int height);
+               size_t option);
+
+struct dialog *
+make_dialog(struct slide *next,
+            char *message);
 
 #endif

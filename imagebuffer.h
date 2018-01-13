@@ -19,6 +19,7 @@
 #define IMAGE_BUFFER_H
 
 #include <stddef.h>
+#include <png.h>
 
 #define IMAGEBUFFER_BODY \
 	size_t width, height; \

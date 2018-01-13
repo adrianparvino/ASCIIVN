@@ -46,7 +46,7 @@ render_ssim(struct asciibuffer *dest,
 		{
 			fprintf(stderr, "Warning: no fontname provided. Using fallback.\n");
 
-			font_charset = charset_read_from_directory("./fonts/FixedsysExcelsior");
+			font_charset = charset_read_from_directory("./fonts/Monaco-10");
 			defaultfont = true;
 		}
 	else

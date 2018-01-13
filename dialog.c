@@ -1,27 +1,150 @@
+#include <stdlib.h>
+#include <assert.h>
+#include <string.h>
 #include "dialog.h"
 
 void
-render_dialogs(struct asciibuffer *asciibuffer)
-               struct dialog *dialogs,
+render_dialogs(struct asciibuffer *asciibuffer,
+               char *message,
+               struct dialog *dialogs[],
                size_t dialogs_count,
-               int option)
+               size_t option)
 {
+	clear(asciibuffer);
+		
 	size_t offsetx = 2;
 	size_t offsety = 2;
 
 	size_t paddingx = 2;
 	size_t paddingy = 2;
+	size_t paddingchoice = 2;
+	size_t paddingmessage = 2;
 
-	size_t y = asciibuffer->height - 2*offsety - 2*paddingy;
+	size_t y = offsety;
+	size_t x = offsetx;
 
-	for (size_t x = offsetx;
-	     x < asciibuffer->width - 2;
+	// Add top border
+	for (x = offsetx;
+	     x < asciibuffer->width - offsetx;
 	     ++x)
 		{
-			printf("+");
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
 		}
-	printf("\n");
-	i < asciibuffer->height - offsety;
-	++i;
-	     
+	++y;
+	
+	for (size_t i = 1;
+	     i < paddingy;
+	     ++i, ++y)
+		{
+			// Add left border
+			x = offsetx;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			
+			//Add right border
+			x = asciibuffer->width - offsetx - 1;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+		}
+
+	// Add message
+	// Add left border
+	x = offsetx;
+	*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+
+	// Add text
+	size_t j;
+	for (j = 0, x += paddingx + paddingchoice;
+	     message[j] != '\0' &&
+		     x < asciibuffer->width - offsetx - paddingx + paddingchoice;
+	     ++x, ++j)
+		{
+			*index((struct imagebuffer *) asciibuffer, x, y) = message[j];
+		}
+
+	//Add right border
+	x = asciibuffer->width - offsetx - 1;
+	*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+	++y;
+
+	// Add message-response padding
+	for (size_t i = 1;
+	     i < paddingmessage;
+	     ++i, ++y)
+		{
+			// Add left border
+			x = offsetx;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			
+			//Add right border
+			x = asciibuffer->width - offsetx - 1;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+		}
+
+	// Add responses
+	for (size_t i = 0;
+	     i < dialogs_count;
+	     ++i, ++y)
+		{
+			// Add left border
+			x = offsetx;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+
+			// Add text
+			size_t j;
+			for (j = 0, x += paddingx + paddingchoice;
+			     dialogs[i]->message[j] != '\0' &&
+				     x < asciibuffer->width - offsetx - paddingx + paddingchoice;
+			     ++x, ++j)
+				{
+					*index((struct imagebuffer *) asciibuffer, x, y) = dialogs[i]->message[j];
+				}
+
+			//Add right border
+			x = asciibuffer->width - offsetx - 1;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+		}
+
+	// Add bottom border
+	for (size_t i = 1;
+	     i < paddingy;
+	     ++i, ++y)
+		{
+			// Add left border
+			x = offsetx;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			
+			//Add right border
+			x = asciibuffer->width - offsetx - 1;
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+		}
+	
+	for (x = offsetx;
+	     x < asciibuffer->width - offsetx;
+	     ++x)
+		{
+			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+		}
+	
+	y += offsety;
+
+	flatten(asciibuffer);
+	
+	asciibuffer->height = y;
+	if (asciibuffer->buffer != asciibuffer->in_buffer) return;
+	asciibuffer = realloc(asciibuffer, sizeof *asciibuffer + y*asciibuffer->pixel_size);
+}
+
+struct dialog *
+make_dialog(struct slide *next,
+            char *message)
+{
+	int n = strlen(message);
+
+	struct dialog *dialog = malloc(sizeof *dialog + n + 1);
+	*dialog = (struct dialog) {
+		.next = next,
+		.message = dialog->in_message
+	};
+	strcpy(dialog->in_message, message);
+
+	return dialog;
 }

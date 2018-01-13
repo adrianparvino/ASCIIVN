@@ -15,6 +15,7 @@ set(HEADERS
   keyevent.h
   terminal.h
   slides.h
+  dialog.h
   testimage.h)
 set(SOURCES
   main.c
@@ -29,6 +30,7 @@ set(SOURCES
   keyevent.c
   terminal.c
   slides.c
+  dialog.c
   testimage.c)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g3 -lpng -lm -std=c11 -Wall -Werror=incompatible-pointer-types")
