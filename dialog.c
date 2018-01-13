@@ -28,7 +28,7 @@ render_dialogs(struct asciibuffer *asciibuffer,
 	     x < asciibuffer->width - offsetx;
 	     ++x)
 		{
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 		}
 	++y;
 	
@@ -38,17 +38,17 @@ render_dialogs(struct asciibuffer *asciibuffer,
 		{
 			// Add left border
 			x = offsetx;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 			
 			//Add right border
 			x = asciibuffer->width - offsetx - 1;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 		}
 
 	// Add message
 	// Add left border
 	x = offsetx;
-	*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+	*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 
 	// Add text
 	size_t j;
@@ -57,12 +57,12 @@ render_dialogs(struct asciibuffer *asciibuffer,
 		     x < asciibuffer->width - offsetx - paddingx + paddingchoice;
 	     ++x, ++j)
 		{
-			*index((struct imagebuffer *) asciibuffer, x, y) = message[j];
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = message[j];
 		}
 
 	//Add right border
 	x = asciibuffer->width - offsetx - 1;
-	*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+	*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 	++y;
 
 	// Add message-response padding
@@ -72,11 +72,11 @@ render_dialogs(struct asciibuffer *asciibuffer,
 		{
 			// Add left border
 			x = offsetx;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 			
 			//Add right border
 			x = asciibuffer->width - offsetx - 1;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 		}
 
 	// Add responses
@@ -86,7 +86,7 @@ render_dialogs(struct asciibuffer *asciibuffer,
 		{
 			// Add left border
 			x = offsetx;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 
 			// Add text
 			size_t j;
@@ -95,12 +95,12 @@ render_dialogs(struct asciibuffer *asciibuffer,
 				     x < asciibuffer->width - offsetx - paddingx + paddingchoice;
 			     ++x, ++j)
 				{
-					*index((struct imagebuffer *) asciibuffer, x, y) = dialogs[i]->message[j];
+					*index_gray((struct imagebuffer *) asciibuffer, x, y) = dialogs[i]->message[j];
 				}
 
 			//Add right border
 			x = asciibuffer->width - offsetx - 1;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 		}
 
 	// Add bottom border
@@ -110,18 +110,18 @@ render_dialogs(struct asciibuffer *asciibuffer,
 		{
 			// Add left border
 			x = offsetx;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 			
 			//Add right border
 			x = asciibuffer->width - offsetx - 1;
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 		}
 	
 	for (x = offsetx;
 	     x < asciibuffer->width - offsetx;
 	     ++x)
 		{
-			*index((struct imagebuffer *) asciibuffer, x, y) = '+';
+			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 		}
 	
 	y += offsety;

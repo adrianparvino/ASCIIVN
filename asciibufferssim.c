@@ -105,7 +105,7 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 
 						}
 
-					*index((struct imagebuffer *) dest, x_, y_) = best_ssim_char;
+					*index_gray((struct imagebuffer *) dest, x_, y_) = best_ssim_char;
 					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
 							float alpha = 0xff;
@@ -160,8 +160,8 @@ ssim_imagebuffer(size_t column_offset,
 					size_t xi = i + column_offset;
 					size_t xj = j + row_offset;
 					
-					xarray[k] = *index(x, xi, xj);
-					yarray[k] = *index(y,  i,  j);
+					xarray[k] = *index_gray(x, xi, xj);
+					yarray[k] = *index_gray(y,  i,  j);
 				}
 		}
 

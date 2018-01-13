@@ -65,7 +65,7 @@ scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)
 					size_t x = i * (src->width) / (dest->width);
 					size_t y = j * (src->height) / (dest->height);
 
-					*index(dest, i, j) = *index(src, x, y);
+					*index_gray(dest, i, j) = *index_gray(src, x, y);
 					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
 							unsigned char alpha = 0xff;
@@ -102,7 +102,7 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 	const float stepy = (float) (src->height - 2) / (denominatory - 1);
  
 	scale_bilinear_prepare
-		(index,
+		(index_gray,
 		 inbufferx0y0,
 		 inbufferx0y1,
 		 inbufferx1y0,
@@ -130,7 +130,7 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 outbuffer);
 	
 	scale_bilinear_store
-		(index,
+		(index_gray,
 		 outbuffer,
 		 dest);
 
@@ -203,8 +203,8 @@ extract(size_t column_offset,
 	for (size_t i = 0; i < width; ++i)
 		for (size_t j = 0; j < height; ++j)
 			{
-				*index(extract_buffer, i, j) =
-					*index(x, column_offset + i, row_offset + j);
+				*index_gray(extract_buffer, i, j) =
+					*index_gray(x, column_offset + i, row_offset + j);
 			}
 
 	return extract_buffer;
@@ -239,10 +239,10 @@ compose(struct imagebuffer *bg,
 								fgalpha + bgalpha*(0xff - fgalpha)/0xff;
 						}
 
-					unsigned char fg_ = (*index(fg, i, j) * fgalpha)/0xff;
-					unsigned char bg_ = (*index(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
+					unsigned char fg_ = (*index_gray(fg, i, j) * fgalpha)/0xff;
+					unsigned char bg_ = (*index_gray(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
 						
-					*index(bg, column_offset + i, row_offset + j) =
+					*index_gray(bg, column_offset + i, row_offset + j) =
 						fg_ + bg_*(0xff - fgalpha)/0xff;
 				}
 		}

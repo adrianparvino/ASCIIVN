@@ -82,7 +82,7 @@ render_fill(struct asciibuffer *dest,
 
 					for (size_t k = 0; k < LENGTH(cache); ++k)
 						{
-							if (*index((struct imagebuffer *) dest, i, j) < cache[k].value)
+							if (*index_gray((struct imagebuffer *) dest, i, j) < cache[k].value)
 								{
 									break;
 								}
@@ -90,7 +90,7 @@ render_fill(struct asciibuffer *dest,
 							best_character = cache[k].character;
 						}
 
-					*index((struct imagebuffer *) dest, i, j) = best_character;
+					*index_gray((struct imagebuffer *) dest, i, j) = best_character;
 				}
 		}
 

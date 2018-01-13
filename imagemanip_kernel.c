@@ -44,10 +44,10 @@ scale_bilinear_prepare(unsigned char *
 					out_xf[k] = x;
 					out_yf[k] = y;
 
-					out_x0y0[k] = (*index(src, xi , yi ));
-					out_x1y0[k] = (*index(src, xi_, yi ));
-					out_x0y1[k] = (*index(src, xi , yi_));
-					out_x1y1[k] = (*index(src, xi_, yi_));
+					out_x0y0[k] = (*index_gray(src, xi , yi ));
+					out_x1y0[k] = (*index_gray(src, xi_, yi ));
+					out_x0y1[k] = (*index_gray(src, xi , yi_));
+					out_x1y1[k] = (*index_gray(src, xi_, yi_));
 				}
 		}
 }
@@ -66,7 +66,7 @@ scale_bilinear_store(unsigned char *
 		{
 			for (size_t i = 0; i < dest->width; ++i)
 				{
-					*index(dest, i, j) = in[j*dest->width + i];
+					*index_gray(dest, i, j) = in[j*dest->width + i];
 				}
 		}
 }
