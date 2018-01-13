@@ -44,16 +44,20 @@ struct slide_context
 	int width, height;
 };
 
-struct slide_context *slides_init(struct slide *slides);
+struct slide_context *
+slides_init(struct slide *slides);
+
 void slides_loop(struct slide_context *context);
 void slides_next(struct slide_context *context);
 void slides_prev(struct slide_context *context);
 void slides_end(struct slide_context *context);
+
 struct slide *
 make_slide(struct imagebuffer *image_background,
            struct imagebuffer *image_foreground,
            char *message,
            struct dialog *dialogs[],
            size_t dialogs_count);
+void free_slide(struct slide *slide);
 
 #endif

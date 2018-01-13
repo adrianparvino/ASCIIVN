@@ -3,7 +3,7 @@
 #include <string.h>
 #include "dialog.h"
 
-void
+size_t
 render_dialogs(struct asciibuffer *asciibuffer,
                char *message,
                struct dialog *dialogs[],
@@ -129,8 +129,8 @@ render_dialogs(struct asciibuffer *asciibuffer,
 	flatten(asciibuffer);
 	
 	asciibuffer->height = y;
-	if (asciibuffer->buffer != asciibuffer->in_buffer) return;
-	asciibuffer = realloc(asciibuffer, sizeof *asciibuffer + y*asciibuffer->pixel_size);
+
+	return y;
 }
 
 struct dialog *

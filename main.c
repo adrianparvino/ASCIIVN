@@ -32,8 +32,8 @@
 int
 main()
 {
-	int caretwidth = 128;
-	int caretheight = 64;
+	int caretwidth = 32;
+	int caretheight = 16;
 
 	struct charset *charset =
 		charset_read_from_directory("./fonts/Monaco-10");
@@ -91,6 +91,14 @@ main()
 		}
  end:
 	keyevent_end();
+
+	for (size_t i = 0; i < LENGTH(dialogs); ++i)
+		{
+			free_slide(dialogs[i]->next);
+			free(dialogs[i]);
+		}
+	
+	free_slide(initial_slide);
 
 	free(asciibuffer_bg);
 	free(asciibuffer);

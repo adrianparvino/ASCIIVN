@@ -28,7 +28,7 @@ struct dialog
 	char in_message[];
 };
 
-void
+size_t
 render_dialogs(struct asciibuffer *asciibuffer,
                char *message,
                struct dialog *dialogs[],

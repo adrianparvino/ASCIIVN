@@ -63,7 +63,6 @@ slides_init(struct slide *slide)
 		.height = 0
 	};
 
-	
 	return context;
 }
 
@@ -95,6 +94,8 @@ make_slide(struct imagebuffer *image_background,
 		.image_foreground = image_foreground,
 		.cache_background = NULL,
 		.cache_foreground = NULL,
+		.cache_composed = NULL,
+		.cache_dialog = NULL,
 		.message = message_,
 		.dialogs_count = dialogs_count,
 		.dialogs = slide->in_dialogs
@@ -107,4 +108,15 @@ make_slide(struct imagebuffer *image_background,
 		}
 
 	return slide;
+}
+
+void
+free_slide(struct slide *slide)
+{
+	free(slide->message);
+	if (slide->cache_background != NULL) free(slide->cache_background);
+	if (slide->cache_foreground != NULL) free(slide->cache_foreground);
+	if (slide->cache_composed != NULL) free(slide->cache_composed);
+	if (slide->cache_dialog != NULL) free(slide->cache_dialog);
+	free(slide);
 }
