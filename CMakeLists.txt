@@ -1,7 +1,6 @@
-#Specify the version being used aswell as the language
-cmake_minimum_required(VERSION 2.6)
-#Name your project here
-project(ASCIIVN)
+# lower the required version only if tested to be working
+cmake_minimum_required(VERSION 3.1)
+project(asciivn LANGUAGES C)
 
 set(HEADERS
   asciibuffer.h
@@ -33,7 +32,11 @@ set(SOURCES
   dialog.c
   testimage.c)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g3 -lpng -lm -std=c11 -Wall -Werror=incompatible-pointer-types")
-# add_definitions(-lm -std=c11 -g -Wall -Werror=incompatible-pointer-types)
-# This tells CMake to main.c and name it asciivn
-add_executable(asciivn main.c ${SOURCES})
+find_package(PNG REQUIRED)
+find_package(ZLIB REQUIRED)
+
+add_executable(asciivn ${SOURCES})
+target_include_directories(asciivn PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+set_property(TARGET asciivn PROPERTY C_STANDARD 11)
+target_compile_options(asciivn PRIVATE "-O0" "-Wall")
+target_link_libraries(asciivn PRIVATE PNG::PNG ZLIB::ZLIB m)

@@ -62,7 +62,7 @@ keyevent_start()
 }
 
 struct keyevent
-keyevent_getenvent()
+keyevent_getevent()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #else

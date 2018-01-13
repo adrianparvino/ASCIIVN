@@ -69,7 +69,7 @@ main()
 	keyevent_start();
 	for (;;)
 		{
-			keyevent = keyevent_getenvent();
+			keyevent = keyevent_getevent();
 			switch (keyevent.tag)
 				{
 				case UP:
