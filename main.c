@@ -32,8 +32,8 @@
 int
 main()
 {
-	int caretwidth = 32;
-	int caretheight = 16;
+	int caretwidth = 128;
+	int caretheight = 64;
 
 	struct charset *charset =
 		charset_read_from_directory("./fonts/Monaco-10");
