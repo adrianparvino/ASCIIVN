@@ -17,37 +17,63 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "slides.h"
+#include "terminal.h"
 #include "dialog.h"
 
 void
-render_slides(struct slide *slide, int width, int height)
+render_slides(struct slide *slide, int choice, int width, int height)
 {
-	if (slide->cache_composed != NULL) free(slide->cache_composed);
-	if (slide->cache_background != NULL) free(slide->cache_background);
-	if (slide->cache_foreground != NULL) free(slide->cache_foreground);
-	if (slide->cache_dialog != NULL) free(slide->cache_dialog);
+	bool dirty;
+	if (!(slide->cache_composed != NULL &&
+	      slide->cache_composed->width == width &&
+	      slide->cache_composed->height == height))
+		{
+			free(slide->cache_composed);
+			slide->cache_composed = new_asciibuffer(width, height);
+			dirty = true;
+		}
 	
-	slide->cache_composed = new_asciibuffer(width, height);
-	slide->cache_background = new_asciibuffer(width, height);
-	slide->cache_foreground = new_asciibuffer(width, height);
+	if (!(slide->cache_background != NULL &&
+	      slide->cache_background->width == width &&
+	      slide->cache_background->height == height))
+		{
+			free(slide->cache_background);
+			slide->cache_background = new_asciibuffer(width, height);
+			dirty = true;
+			render_fill(slide->cache_background, slide->image_background, "");
+		}
+	    
+	if (!(slide->cache_foreground != NULL &&
+	      slide->cache_foreground->width == width &&
+	      slide->cache_foreground->height == height))
+		{
+			free(slide->cache_foreground);
+			slide->cache_foreground = new_asciibuffer(width, height);
+			dirty = true;
+			render_ssim(slide->cache_foreground, slide->image_foreground, "");
+		}
+
+	free(slide->cache_dialog);
 	slide->cache_dialog = new_asciibuffer(width, height);
-	
-	render_fill(slide->cache_background, slide->image_background, "");
-	render_ssim(slide->cache_foreground, slide->image_foreground, "");
+	dirty = true;
 	render_dialogs(slide->cache_dialog,
 	               slide->message,
 	               slide->dialogs,
 	               slide->dialogs_count,
-	               0);
-	
-	compose((struct imagebuffer *) slide->cache_composed,
-	        (struct imagebuffer *) slide->cache_background, 0, 0);
-	compose((struct imagebuffer *) slide->cache_composed,
-	        (struct imagebuffer *) slide->cache_foreground, 0, 0);
-	compose((struct imagebuffer *) slide->cache_composed,
-	        (struct imagebuffer *) slide->cache_dialog,
-	        0, height - slide->cache_dialog->height);
+	               choice);
+
+	if (dirty)
+		{
+			compose((struct imagebuffer *) slide->cache_background,
+			        (struct imagebuffer *) slide->cache_background, 0, 0);
+			compose((struct imagebuffer *) slide->cache_composed,
+			        (struct imagebuffer *) slide->cache_foreground, 0, 0);
+			compose((struct imagebuffer *) slide->cache_composed,
+			        (struct imagebuffer *) slide->cache_dialog,
+			        0, height - slide->cache_dialog->height);
+		}
 	
 	flatten(slide->cache_background);
 }
@@ -60,16 +86,37 @@ slides_init(struct slide *slide)
 	*context = (struct slide_context) {
 		.current = slide,
 		.width = 0,
-		.height = 0
+		.height = 0,
+		.choice = 0
 	};
 
 	return context;
 }
 
-void
-slides_loop(struct slide_context *context)
+int
+slides_loop(struct slide_context *context, struct keyevent keyevent)
 {
+	switch (keyevent.tag)
+		{
+		case UP:
+			if (context->choice > 0)
+				--context->choice;
+			break;
+		case DOWN:
+			if (context->choice < context->current->dialogs_count - 1)
+				++context->choice;
+			break;
+		case CHAR:
+			if (keyevent.character == 'q') return 1;
+		}
+
+	render_slides(context->current,
+	              context->choice,
+	              get_terminal_width(),
+	              get_terminal_height());
+	show_asciibuffer(context->current->cache_composed);
 	
+	return 0;
 }
 
 void

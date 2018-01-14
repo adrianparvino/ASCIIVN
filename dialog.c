@@ -88,6 +88,12 @@ render_dialogs(struct asciibuffer *asciibuffer,
 			x = offsetx;
 			*index_gray((struct imagebuffer *) asciibuffer, x, y) = '+';
 
+			// Add bullet
+			if (i == option)
+				{
+					*index_gray((struct imagebuffer *) asciibuffer, x + paddingx , y) = '*';
+				}
+				
 			// Add text
 			size_t j;
 			for (j = 0, x += paddingx + paddingchoice;
