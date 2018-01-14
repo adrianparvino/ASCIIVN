@@ -186,7 +186,6 @@ new_imagebuffer_from_png(char image_name[])
 
 	assert(color_type == PNG_COLOR_TYPE_GRAY ||
 				 color_type == PNG_COLOR_TYPE_GRAY_ALPHA);
-	assert(bit_depth == 8);
 
 	png_bytep row_pointers[height];
 

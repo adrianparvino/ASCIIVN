@@ -43,7 +43,6 @@ render_fill(struct asciibuffer *dest,
 						const struct imagebuffer *src,
             const char fontname[])
 {
-	clear(dest);
 	struct charset *font_charset = NULL;
 
 	if (!strcmp(fontname, ""))
