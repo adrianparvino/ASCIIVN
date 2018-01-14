@@ -32,8 +32,8 @@
 int
 main()
 {
-	int caretwidth = 32;
-	int caretheight = 16;
+	int caretwidth = 64;
+	int caretheight = 32;
 
 	struct charset *charset =
 		charset_read_from_directory("./fonts/Monaco-10");
@@ -67,27 +67,12 @@ main()
 
 	struct keyevent keyevent;
 	keyevent_start();
+	struct slides_context *context =
+		slides_init(initial_slide);
 	for (;;)
 		{
 			keyevent = keyevent_getevent();
-			switch (keyevent.tag)
-				{
-				case UP:
-					render_slides(initial_slide, caretwidth, caretheight);
-					show_asciibuffer(initial_slide->cache_composed);
-					break;
-				case DOWN:
-					render_ssim_charset_unsafe(asciibuffer, dog_scaled, charset);
-					render_fill(asciibuffer_bg, dog_bg_scaled, "");
-					compose((struct imagebuffer *) asciibuffer_bg,
-					        (struct imagebuffer *) asciibuffer, 0 ,0);
-					flatten(asciibuffer_bg);
-					show_asciibuffer(asciibuffer_bg);
-					break;
-				case CHAR:
-					if (keyevent.character == 'q') goto end;
-					break;
-				}
+			if (slides_loop(context, keyevent) == 1) break;
 		}
  end:
 	keyevent_end();
