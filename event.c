@@ -99,7 +99,6 @@ event_getevent()
 					if (resized > 0)
 						{
 							--resized;
-							printf("arstoiebnioarsteinart\n");
 							return (struct event) { .tag = RESIZE };
 						}
 					break;

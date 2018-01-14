@@ -50,7 +50,7 @@ render_slides(struct slide *slide, int choice, int width, int height)
 	      slide->cache_foreground->height == height))
 		{
 			free(slide->cache_foreground);
-			slide->cache_foreground = new_asciibuffer(width, height);
+			slide->cache_foreground = new_asciibuffer_alpha(width, height);
 			dirty = true;
 			render_ssim(slide->cache_foreground, slide->image_foreground, "");
 		}
@@ -66,7 +66,7 @@ render_slides(struct slide *slide, int choice, int width, int height)
 
 	if (dirty)
 		{
-			compose((struct imagebuffer *) slide->cache_background,
+			compose((struct imagebuffer *) slide->cache_composed,
 			        (struct imagebuffer *) slide->cache_background, 0, 0);
 			compose((struct imagebuffer *) slide->cache_composed,
 			        (struct imagebuffer *) slide->cache_foreground, 0, 0);

@@ -68,7 +68,7 @@ main()
 
 	struct event event;
 	event_start();
-	struct slides_context *context =
+	struct slide_context *context =
 		slides_init(initial_slide);
 	event = (struct event) { .tag = NONE };
 	for (;;)
