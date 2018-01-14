@@ -111,10 +111,13 @@ slides_loop(struct slide_context *context, struct event event)
 		case CHAR:
 			if (event.character == 'q') return 1;
 		}
+
+	size_t width  = get_terminal_width();
+	size_t height = get_terminal_height();
 	render_slides(context->current,
 	              context->choice,
-	              get_terminal_width(),
-	              get_terminal_height());
+	              width  == 0 ? 64 : width,
+	              height == 0 ? 32 : height);
 	show_asciibuffer(context->current->cache_composed);
 	return 0;
 }
