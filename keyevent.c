@@ -70,8 +70,9 @@ keyevent_getevent()
 		{
 			char c = getchar();
 			
-			if (c == '\x1b') // ESC
+			switch (c)
 				{
+				case '\x1b': // ESC
 					if (getchar() != '[') // CSI
 						{
 							continue;
@@ -83,6 +84,9 @@ keyevent_getevent()
 						case DOWN: // 'B'
 							return (struct keyevent) { .tag = c };
 						}
+					break;
+				case RET:
+					return (struct keyevent) { .tag = RET };
 				}
 			
 			return (struct keyevent) { .tag = CHAR, .character = c };

@@ -22,6 +22,7 @@ enum KEYEVENT_TAG {
 	NONE,
 	UP = 'A',
 	DOWN = 'B',
+	RET = '\n,',
 	CHAR
 };
 

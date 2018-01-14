@@ -106,6 +106,8 @@ slides_loop(struct slide_context *context, struct keyevent keyevent)
 			if (context->choice < context->current->dialogs_count - 1)
 				++context->choice;
 			break;
+		case RET:
+			context->current = context->current->dialogs[context->choice]->next;
 		case CHAR:
 			if (keyevent.character == 'q') return 1;
 		}
