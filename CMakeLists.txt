@@ -15,6 +15,7 @@ set(HEADERS
   terminal.h
   slides.h
   dialog.h
+  kernels.h
   testimage.h)
 set(SOURCES
   main.c
@@ -30,6 +31,7 @@ set(SOURCES
   terminal.c
   slides.c
   dialog.c
+  kernels.c
   testimage.c)
 
 find_package(PNG REQUIRED)

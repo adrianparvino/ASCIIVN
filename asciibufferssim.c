@@ -21,6 +21,7 @@
 #include <stdbool.h>
 
 #include "imagemanip.h"
+#include "kernels.h"
 
 #include "asciibufferssim.h"
 #include "asciibufferfill.h"
@@ -109,26 +110,25 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 						}
 
 					*index_gray((struct imagebuffer *) dest, x_, y_) = best_ssim_char;
-					if (dest->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+					
+					if (dest->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) continue;
+					
+					float alpha = 0xff;
+					if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
-							float alpha = 0xff;
-							if (src->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+							alpha = 0;
+							for (size_t j = 0; j < font_charset->height; ++j)
 								{
-									alpha = 0;
-									for (size_t j = 0; j < font_charset->height; ++j)
+									for (size_t i = 0; i < font_charset->width; ++i)
 										{
-											for (size_t i = 0; i < font_charset->width; ++i)
-												{
-													alpha += *index_alpha(src, x + i, y + j);
-												}
+											alpha += *index_alpha(src, x + i, y + j);
 										}
-									
-									alpha /= font_charset->height * font_charset->width;
 								}
-
-							alpha = alpha > 0 ? 0xff : 0;
-							*index_alpha((struct imagebuffer *) dest, x_, y_) = (unsigned char) alpha;
+							alpha /= font_charset->height*font_charset->width;
 						}
+
+					alpha = alpha > 0 ? 0xff : 0;
+					*index_alpha((struct imagebuffer *) dest, x_, y_) = (unsigned char) alpha;
 				}
 		}
 
@@ -155,7 +155,10 @@ ssim_imagebuffer(size_t column_offset,
 
   float partialsumx [8] __attribute__ ((aligned (32))) = {0};
   float partialsumy [8] __attribute__ ((aligned (32))) = {0};
-  float partialsumxy[8] __attribute__ ((aligned (32))) = {0};
+  
+  float partialsumvarx   [8] __attribute__ ((aligned (32))) = {0};
+  float partialsumvary   [8] __attribute__ ((aligned (32))) = {0};
+  float partialsumcovarxy[8] __attribute__ ((aligned (32))) = {0};
 
   size_t k = 0;
   for (size_t j = 0; j < y->height; ++j)
@@ -172,7 +175,7 @@ ssim_imagebuffer(size_t column_offset,
 
   assert(k <= length(xarray));
   size_t pad = length(xarray) - k;
-  for (;k < length(xarray); ++k)
+  for (; k < length(xarray); ++k)
 	  {
 		  xarray[k] = 0;
 		  yarray[k] = 0;
@@ -189,48 +192,47 @@ ssim_imagebuffer(size_t column_offset,
 				  partialsumy[i_] += yarray[i + i_];
 			  }
 	  }
-  for (i_ = 0; i_ < length(partialsumx); ++i_)
+  for (int i = 0; i < 3; ++i)
 	  {
-		  mean_x += partialsumx[i_];
+		  
+		  hadd(partialsumx);
+		  hadd(partialsumy);
 	  }
-  for (i_ = 0; i_ < length(partialsumx); ++i_)
+  for (int i = 0; i < 8; ++i)
 	  {
-		  mean_y += partialsumy[i_];
+		  partialsumx[i] /= n;
+		  partialsumy[i] /= n;
 	  }
-	mean_x /= n;
-	mean_y /= n;
+
+  
+  mean_x = partialsumx[0];
+  mean_y = partialsumy[0];
 
 	// Calculate variances and covariance
 	float var_x = 0;
 	float	var_y = 0;
   float covar_xy = 0;
   for (i = 0;
-       i < length(partialsumx);
-       ++i)
-	  {
-		  partialsumx[i] = 0;
-		  partialsumy[i] = 0;
-	  }
-  for (i = 0;
        i < length(xarray);
        i += 8)
 	  {
 		  for (i_ = 0; i_ < length(partialsumx); ++i_)
 			  {
-				  float xdiff = xarray[i + i_] - mean_x;
-				  float ydiff = yarray[i + i_] - mean_y;
+				  float xdiff = xarray[i + i_] - partialsumx[i_];
+				  float ydiff = yarray[i + i_] - partialsumy[i_];
 					
-				  partialsumx [i_] += xdiff*xdiff;
-				  partialsumy [i_] += ydiff*ydiff;
-				  partialsumxy[i_] += xdiff*ydiff;
+				  partialsumvarx   [i_] += xdiff*xdiff;
+				  partialsumvary   [i_] += ydiff*ydiff;
+				  partialsumcovarxy[i_] += xdiff*ydiff;
 			  }
 	  }
-  for (i_ = 0; i_ < length(partialsumx); ++i_)
+  for (int i = 0; i < 8; ++i)
 	  {
-		  var_x    += partialsumx [i_];
-		  var_y    += partialsumy [i_];
-		  covar_xy += partialsumxy[i_];
+		  var_x    += partialsumvarx   [i];
+		  var_y    += partialsumvary   [i];
+		  covar_xy += partialsumcovarxy[i];
 	  }
+  // Account for 0-padding
   var_x    += pad*mean_x*mean_x;
   var_y    += pad*mean_y*mean_y;
   covar_xy += pad*mean_x*mean_y;
@@ -249,8 +251,7 @@ ssim_imagebuffer(size_t column_offset,
 	// Direct translation of SSIM formula
 	// https://en.wikipedia.org/wiki/Structural_similarity#Algorithm
 
-	float luminance =
-		(2 * mean_x * mean_y + c_1) / (pow2(mean_x) + pow2(mean_y) + c_1),
+	float luminance = (2 * mean_x * mean_y + c_1) / (pow2(mean_x) + pow2(mean_y) + c_1),
 		contrast = (2 * sqrt(var_x) * sqrt(var_y) + c_2) / (var_x + var_y + c_2),
 		structure = (covar_xy + c_3) / (sqrt(var_x) * sqrt(var_y) + c_3);
 

@@ -232,8 +232,9 @@ compose(struct imagebuffer *bg,
 								fgalpha + bgalpha*(0xff - fgalpha)/0xff;
 						}
 
-					unsigned char fg_ = (*index_gray(fg, i, j) * fgalpha)/0xff;
-					unsigned char bg_ = (*index_gray(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
+					// TODO: Do not rely on float.
+					float fg_ = ((float) *index_gray(fg, i, j) * fgalpha)/0xff;
+					float bg_ = ((float) *index_gray(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
 						
 					*index_gray(bg, column_offset + i, row_offset + j) =
 						fg_ + bg_*(0xff - fgalpha)/0xff;

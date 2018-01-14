@@ -57,23 +57,19 @@ render_slides(struct slide *slide, int choice, int width, int height)
 
 	free(slide->cache_dialog);
 	slide->cache_dialog = new_asciibuffer(width, height);
-	dirty = true;
 	render_dialogs(slide->cache_dialog,
 	               slide->message,
 	               slide->dialogs,
 	               slide->dialogs_count,
 	               choice);
 
-	if (dirty)
-		{
-			compose((struct imagebuffer *) slide->cache_composed,
-			        (struct imagebuffer *) slide->cache_background, 0, 0);
-			compose((struct imagebuffer *) slide->cache_composed,
-			        (struct imagebuffer *) slide->cache_foreground, 0, 0);
-			compose((struct imagebuffer *) slide->cache_composed,
-			        (struct imagebuffer *) slide->cache_dialog,
-			        0, height - slide->cache_dialog->height);
-		}
+	compose((struct imagebuffer *) slide->cache_composed,
+	        (struct imagebuffer *) slide->cache_background, 0, 0);
+	compose((struct imagebuffer *) slide->cache_composed,
+	        (struct imagebuffer *) slide->cache_foreground, 0, 0);
+	compose((struct imagebuffer *) slide->cache_composed,
+	        (struct imagebuffer *) slide->cache_dialog,
+	        0, height - slide->cache_dialog->height);
 	
 	flatten(slide->cache_background);
 }
@@ -111,10 +107,13 @@ slides_loop(struct slide_context *context, struct event event)
 		case CHAR:
 			if (event.character == 'q') return 1;
 		}
+
+	size_t width  = get_terminal_width();
+	size_t height = get_terminal_height();
 	render_slides(context->current,
 	              context->choice,
-	              get_terminal_width(),
-	              get_terminal_height());
+	              width  == 0 ? 64 : width,
+	              height == 0 ? 32 : height);
 	show_asciibuffer(context->current->cache_composed);
 	return 0;
 }
