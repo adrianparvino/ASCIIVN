@@ -21,6 +21,7 @@
 #include <stdbool.h>
 
 #include "imagemanip.h"
+#include "kernels.h"
 
 #include "asciibufferssim.h"
 #include "asciibufferfill.h"
@@ -153,7 +154,10 @@ ssim_imagebuffer(size_t column_offset,
 
   float partialsumx [8] __attribute__ ((aligned (32))) = {0};
   float partialsumy [8] __attribute__ ((aligned (32))) = {0};
-  float partialsumxy[8] __attribute__ ((aligned (32))) = {0};
+  
+  float partialsumvarx   [8] __attribute__ ((aligned (32))) = {0};
+  float partialsumvary   [8] __attribute__ ((aligned (32))) = {0};
+  float partialsumcovarxy[8] __attribute__ ((aligned (32))) = {0};
 
   size_t k = 0;
   for (size_t j = 0; j < y->height; ++j)
@@ -187,48 +191,44 @@ ssim_imagebuffer(size_t column_offset,
 				  partialsumy[i_] += yarray[i + i_];
 			  }
 	  }
-  for (i_ = 0; i_ < length(partialsumx); ++i_)
+  for (int i = 0; i < 3; ++i)
 	  {
-		  mean_x += partialsumx[i_];
+		  hadd(partialsumx);
+		  hadd(partialsumy);
 	  }
-  for (i_ = 0; i_ < length(partialsumx); ++i_)
+  for (int i = 0; i < 8; ++i)
 	  {
-		  mean_y += partialsumy[i_];
+		  partialsumx[i] /= n;
+		  partialsumy[i] /= n;
 	  }
-	mean_x /= n;
-	mean_y /= n;
+  mean_x = partialsumx[0];
+  mean_y = partialsumy[0];
 
 	// Calculate variances and covariance
 	float var_x = 0;
 	float	var_y = 0;
   float covar_xy = 0;
   for (i = 0;
-       i < length(partialsumx);
-       ++i)
-	  {
-		  partialsumx[i] = 0;
-		  partialsumy[i] = 0;
-	  }
-  for (i = 0;
        i < length(xarray);
        i += 8)
 	  {
 		  for (i_ = 0; i_ < length(partialsumx); ++i_)
 			  {
-				  float xdiff = xarray[i + i_] - mean_x;
-				  float ydiff = yarray[i + i_] - mean_y;
+				  float xdiff = xarray[i + i_] - partialsumx[i_];
+				  float ydiff = yarray[i + i_] - partialsumy[i_];
 					
-				  partialsumx [i_] += xdiff*xdiff;
-				  partialsumy [i_] += ydiff*ydiff;
-				  partialsumxy[i_] += xdiff*ydiff;
+				  partialsumvarx   [i_] += xdiff*xdiff;
+				  partialsumvary   [i_] += ydiff*ydiff;
+				  partialsumcovarxy[i_] += xdiff*ydiff;
 			  }
 	  }
-  for (i_ = 0; i_ < length(partialsumx); ++i_)
+  for (int i = 0; i < 8; ++i)
 	  {
-		  var_x    += partialsumx [i_];
-		  var_y    += partialsumy [i_];
-		  covar_xy += partialsumxy[i_];
+		  var_x    += partialsumvarx   [i_];
+		  var_y    += partialsumvary   [i_];
+		  covar_xy += partialsumcovarxy[i_];
 	  }
+  // Account for 0-padding
   var_x    += pad*mean_x*mean_x;
   var_y    += pad*mean_y*mean_y;
   covar_xy += pad*mean_x*mean_y;
