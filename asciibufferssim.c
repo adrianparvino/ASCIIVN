@@ -50,14 +50,14 @@ render_ssim(struct asciibuffer *dest,
 		}
 	else
 		{
-			// TODO: custom fontset loading
-			fprintf(stderr, "Custom fontset loading is not yet implemented\n");
-			exit(EXIT_FAILURE);
+			font_charset = charset_read_from_directory(fontname);
 		}
 
+	struct imagebuffer *src_scaled =
+		new_imagebuffer(dest->width * font_charset->width, dest->height * font_charset->height);
+	scale_bilinear(src_scaled, src);
 
-
-	int result = render_ssim_charset_unsafe(dest, src, font_charset);
+	int result = render_ssim_charset_unsafe(dest, src_scaled, font_charset);
 
 	if (defaultfont)
 		{
