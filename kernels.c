@@ -1,8 +1,10 @@
+#ifdef __x86_64__
 #include <immintrin.h>
+#endif
 #include <string.h>
 #include <kernels.h>
 
-void
+inline void
 hadd_(float * restrict x, float * restrict y)
 {
 	x = __builtin_assume_aligned (x, 32);
@@ -25,7 +27,7 @@ hadd_(float * restrict x, float * restrict y)
 #endif
 }
 
-void
+inline void
 hadd(float *x)
 {
 	x = __builtin_assume_aligned (x, 32);
