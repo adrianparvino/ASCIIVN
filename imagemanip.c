@@ -137,10 +137,10 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 			{
 				outbuffer[i] = 0xff;
 			}
-	scale_bilinear_store
-		(index_alpha,
-		 outbuffer,
-		 dest);
+		scale_bilinear_store
+			(index_alpha,
+			 outbuffer,
+			 dest);
 		goto cleanup;
 	}
 
@@ -234,8 +234,9 @@ compose(struct imagebuffer *bg,
 								fgalpha + bgalpha*(0xff - fgalpha)/0xff;
 						}
 
-					unsigned char fg_ = (*index_gray(fg, i, j) * fgalpha)/0xff;
-					unsigned char bg_ = (*index_gray(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
+					// TODO: Do not rely on float.
+					float fg_ = ((float) *index_gray(fg, i, j) * fgalpha)/0xff;
+					float bg_ = ((float) *index_gray(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
 						
 					*index_gray(bg, column_offset + i, row_offset + j) =
 						fg_ + bg_*(0xff - fgalpha)/0xff;

@@ -2,7 +2,7 @@
 #include <string.h>
 #include <kernels.h>
 
-inline void
+void
 hadd_(float * restrict x, float * restrict y)
 {
 	x = __builtin_assume_aligned (x, 32);
@@ -13,7 +13,6 @@ hadd_(float * restrict x, float * restrict y)
 	mx = _mm256_hadd_ps(mx, my);
 	_mm256_store_ps(x, mx);
 #else
-
 	int i = 0;
 	for (; i < 4; ++i)
 		{
@@ -26,7 +25,7 @@ hadd_(float * restrict x, float * restrict y)
 #endif
 }
 
-inline void
+void
 hadd(float *x)
 {
 	x = __builtin_assume_aligned (x, 32);
@@ -35,7 +34,7 @@ hadd(float *x)
 	mx = _mm256_hadd_ps(mx, mx);
 	_mm256_store_ps(x, mx);
 #else
-	float y [8] __attribute__ ((aligned (32))) = {0};
+	float y[8] __attribute__ ((aligned (32)));
 	memcpy(y, x, 8 * sizeof *y);
 
 	hadd_(x, y);
