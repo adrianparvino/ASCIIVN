@@ -111,13 +111,11 @@ slides_loop(struct slide_context *context, struct event event)
 		case CHAR:
 			if (event.character == 'q') return 1;
 		}
-
 	render_slides(context->current,
 	              context->choice,
 	              get_terminal_width(),
 	              get_terminal_height());
 	show_asciibuffer(context->current->cache_composed);
-	
 	return 0;
 }
 

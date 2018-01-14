@@ -59,8 +59,8 @@ main()
 	struct asciibuffer *asciibuffer_bg = new_asciibuffer(caretwidth, caretheight);
 
 	struct dialog *dialogs[] = {
-		make_dialog(make_slide(dog_bg_scaled, wae_scaled, "", NULL, 0), "Yes"),
-		make_dialog(make_slide(dog_bg_scaled, wae_scaled, "", NULL, 0), "No"),
+		make_dialog(make_slide(dog_bg_scaled, dog_scaled, "", NULL, 0), "Yes"),
+		make_dialog(make_slide(dog_bg_scaled, dog_scaled, "", NULL, 0), "No"),
 	};
 
 	struct slide *initial_slide =
@@ -70,10 +70,11 @@ main()
 	event_start();
 	struct slides_context *context =
 		slides_init(initial_slide);
+	event = (struct event) { .tag = NONE };
 	for (;;)
 		{
-			event = event_getevent();
 			if (slides_loop(context, event) == 1) break;
+			event = event_getevent();
 		}
  end:
 	event_end();

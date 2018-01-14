@@ -21,6 +21,7 @@
 #include <stdbool.h>
 #include <stdatomic.h>
 #include <errno.h>
+#include <string.h>
 
 _Atomic size_t resized = 0; // Semaphore-like
 
@@ -90,20 +91,19 @@ event_getevent()
 			errno = 0;
 			int c = getchar();
 
-			if (c == -1 && errno == EINTR)
+			switch (c)
 				{
+				case -1:
 					if (errno != EINTR) exit(EXIT_FAILURE);
 
 					if (resized > 0)
 						{
-							return (struct event) { .tag = RESIZE };
 							--resized;
+							printf("arstoiebnioarsteinart\n");
+							return (struct event) { .tag = RESIZE };
 						}
-				}
+					break;
 #endif
-			
-			switch (c)
-				{
 				case '\x1b': // ESC
 					if (getchar() != '[') // CSI
 						{
