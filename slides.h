@@ -22,7 +22,7 @@ n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #include "asciibufferssim.h"
 #include "asciibuffer.h"
 #include "imagebuffer.h"
-#include "keyevent.h"
+#include "event.h"
 
 struct slide
 {
@@ -49,7 +49,7 @@ struct slide_context
 struct slide_context *
 slides_init(struct slide *slides);
 
-int slides_loop(struct slide_context *context, struct keyevent keyevent);
+int slides_loop(struct slide_context *context, struct event event);
 void slides_next(struct slide_context *context);
 void slides_prev(struct slide_context *context);
 void slides_end(struct slide_context *context);

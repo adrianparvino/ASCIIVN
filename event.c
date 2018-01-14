@@ -15,14 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "keyevent.h"
+#include "event.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdatomic.h>
+#include <errno.h>
+
+_Atomic size_t resized = 0; // Semaphore-like
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #else
 #include<unistd.h>
 #include<termios.h>
+#include<signal.h>
 #endif
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
@@ -31,7 +37,13 @@ struct termios saved_attributes;
 #endif
 
 void
-keyevent_start()
+signal_resize(int signo)
+{
+	++resized;
+}
+
+void
+event_start()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	// TODO: Support Windows
@@ -50,25 +62,45 @@ keyevent_start()
 	
 	/* Save the terminal attributes so we can restore them later. */
 	tcgetattr (STDIN_FILENO, &saved_attributes);
-	atexit (keyevent_end);
+	atexit (event_end);
 	
 	/* Set the funny terminal modes. */
 	tcgetattr (STDIN_FILENO, &tattr);
 	tattr.c_lflag &= ~(ICANON|ECHO); /* Clear ICANON and ECHO. */
 	tattr.c_cc[VMIN] = 1;
 	tattr.c_cc[VTIME] = 0;
-	tcsetattr (STDIN_FILENO, TCSAFLUSH, &tattr);	
+	tcsetattr (STDIN_FILENO, TCSAFLUSH, &tattr);
+
+	struct sigaction sa;
+	memset(&sa, 0, sizeof sa);
+	sa.sa_handler = signal_resize;
+	sa.sa_flags = 0;
+	
+	sigaction(SIGWINCH, &sa, NULL);
 #endif
 }
 
-struct keyevent
-keyevent_getevent()
+struct event
+event_getevent()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #else
 	for (;;)
 		{
-			char c = getchar();
+			errno = 0;
+			int c = getchar();
+
+			if (c == -1 && errno == EINTR)
+				{
+					if (errno != EINTR) exit(EXIT_FAILURE);
+
+					if (resized > 0)
+						{
+							return (struct event) { .tag = RESIZE };
+							--resized;
+						}
+				}
+#endif
 			
 			switch (c)
 				{
@@ -82,20 +114,19 @@ keyevent_getevent()
 						{
 						case UP: // 'A'
 						case DOWN: // 'B'
-							return (struct keyevent) { .tag = c };
+							return (struct event) { .tag = c };
 						}
 					break;
 				case RET:
-					return (struct keyevent) { .tag = RET };
+					return (struct event) { .tag = RET };
 				}
 			
-			return (struct keyevent) { .tag = CHAR, .character = c };
+			return (struct event) { .tag = CHAR, .character = c };
 		}
-#endif
 }
 
 void
-keyevent_end()
+event_end()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	fprintf(stderr, "Windows is not yet supported.\n");

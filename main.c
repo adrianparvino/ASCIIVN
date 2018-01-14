@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <stdatomic.h>
 #include <stdlib.h>
 #include "asciibufferfill.h"
 #include "asciibufferssim.h"
@@ -24,7 +25,7 @@
 #include "xbmutils.h"
 #include "imagemanip.h"
 #include "testimage.h"
-#include "keyevent.h"
+#include "event.h"
 #include "dialog.h"
 #include "slides.h"
 
@@ -65,17 +66,17 @@ main()
 	struct slide *initial_slide =
 		make_slide(dog_bg_scaled, wae_scaled, "Do you know the wae?", dialogs, LENGTH(dialogs));
 
-	struct keyevent keyevent;
-	keyevent_start();
+	struct event event;
+	event_start();
 	struct slides_context *context =
 		slides_init(initial_slide);
 	for (;;)
 		{
-			keyevent = keyevent_getevent();
-			if (slides_loop(context, keyevent) == 1) break;
+			event = event_getevent();
+			if (slides_loop(context, event) == 1) break;
 		}
  end:
-	keyevent_end();
+	event_end();
 
 	for (size_t i = 0; i < LENGTH(dialogs); ++i)
 		{

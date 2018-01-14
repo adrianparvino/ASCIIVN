@@ -11,7 +11,7 @@ set(HEADERS
   imagebuffer.h
   imagemanip.h
   imagemanip_kernel.h
-  keyevent.h
+  event.h
   terminal.h
   slides.h
   dialog.h
@@ -26,7 +26,7 @@ set(SOURCES
   imagebuffer.c
   imagemanip.c
   imagemanip_kernel.c
-  keyevent.c
+  event.c
   terminal.c
   slides.c
   dialog.c

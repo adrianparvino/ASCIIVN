@@ -15,24 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KEYEVENT_H
-#define KEYEVENT_H
+#ifndef EVENT_H
+#define EVENT_H
 
-enum KEYEVENT_TAG {
+enum EVENT_TAG {
 	NONE,
 	UP = 'A',
 	DOWN = 'B',
-	RET = '\n,',
-	CHAR
+	RET = '\n',
+	CHAR,
+	RESIZE
 };
 
-struct keyevent {
-	enum KEYEVENT_TAG tag;
+struct event {
+	enum EVENT_TAG tag;
 	char character;
 };
 	
-void keyevent_start();
-struct keyevent keyevent_getevent();
-void keyevent_end();
+void event_start();
+struct event event_getevent();
+void event_end();
 
 #endif

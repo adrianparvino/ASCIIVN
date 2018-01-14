@@ -94,9 +94,9 @@ slides_init(struct slide *slide)
 }
 
 int
-slides_loop(struct slide_context *context, struct keyevent keyevent)
+slides_loop(struct slide_context *context, struct event event)
 {
-	switch (keyevent.tag)
+	switch (event.tag)
 		{
 		case UP:
 			if (context->choice > 0)
@@ -109,7 +109,7 @@ slides_loop(struct slide_context *context, struct keyevent keyevent)
 		case RET:
 			context->current = context->current->dialogs[context->choice]->next;
 		case CHAR:
-			if (keyevent.character == 'q') return 1;
+			if (event.character == 'q') return 1;
 		}
 
 	render_slides(context->current,
