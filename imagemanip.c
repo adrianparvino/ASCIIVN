@@ -136,22 +136,23 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 dest);
 
 	if (dest->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) goto cleanup;
-	if (src->color_type != PNG_COLOR_TYPE_GRAY_ALPHA) {
-		for (size_t i = 0; i < n; ++i)
-			{
-				outbuffer[i] = 0xff;
-			}
-		goto cleanup;
-	}
-
-	scale_bilinear_prepare
-		(index_alpha,
-		 inbufferx0y0,
-		 inbufferx0y1,
-		 inbufferx1y0,
-		 inbufferx1y1,
-		 inbufferxf,
-		 inbufferyf,
+	if (src->color_type != PNG_COLOR_TYPE_GRAY_ALPHA)
+		{
+			for (size_t i = 0; i < n; ++i)
+				{
+					outbuffer[i] = 0xff;
+				}
+		}
+	else
+		{
+			scale_bilinear_prepare
+				(index_alpha,
+				 inbufferx0y0,
+				 inbufferx0y1,
+				 inbufferx1y0,
+				 inbufferx1y1,
+				 inbufferxf,
+				 inbufferyf,
 
 		 dest,
 		 src,
@@ -165,12 +166,13 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 inbufferx1y0,
 		 inbufferx1y1,
 
-		 inbufferxf,
-		 inbufferyf,
+				 inbufferxf,
+				 inbufferyf,
 
 		 n,
 
-		 outbuffer);
+				 outbuffer);
+		}
 
 	scale_bilinear_store
 		(index_alpha,
