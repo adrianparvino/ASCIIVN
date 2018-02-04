@@ -8,7 +8,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -35,7 +35,11 @@ struct slide
 
 	char *message;
 	size_t dialogs_count;
-	struct dialog **dialogs;
+	union
+	{
+		struct dialog **dialogs;
+		struct slide *next;
+	};
 	struct dialog *in_dialogs[];
 };
 

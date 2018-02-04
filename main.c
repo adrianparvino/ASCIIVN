@@ -28,6 +28,7 @@
 #include "event.h"
 #include "dialog.h"
 #include "slides.h"
+#include "slidebuilder.h"
 
 #define LENGTH(x) (sizeof x / sizeof *x)
 int
@@ -63,13 +64,13 @@ main(int argc, char *argv[])
 			slides_loop(context, event);
 			goto end;
 		}
-	
 	for (;;)
 		{
 			if (slides_loop(context, event) == 1) break;
 			event = event_getevent();
 		}
  end:
+	slides_end(context);
 	event_end();
 
 	for (size_t i = 0; i < LENGTH(dialogs); ++i)

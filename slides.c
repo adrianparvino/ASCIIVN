@@ -103,7 +103,19 @@ slides_loop(struct slide_context *context, struct event event)
 				++context->choice;
 			break;
 		case RET:
-			context->current = context->current->dialogs[context->choice]->next;
+			switch (context->current->dialogs_count)
+				{
+				case 0:
+					context->current = context->current->next;
+					break;
+				default:
+					context->current = context->current->dialogs[context->choice]->next;
+					break;
+				}
+			if (context->current == NULL)
+				{
+					exit(1);
+				}
 		case CHAR:
 			if (event.character == 'q') return 1;
 		}
@@ -121,7 +133,7 @@ slides_loop(struct slide_context *context, struct event event)
 void
 slides_end(struct slide_context *context)
 {
-
+	free(context);
 }
 
 struct slide *
@@ -148,10 +160,7 @@ make_slide(struct imagebuffer *image_background,
 	};
 
 	strcpy(slide->message, message);
-	for(size_t i = 0; i < dialogs_count; ++i)
-		{
-			slide->dialogs[i] = dialogs[i];
-		}
+	slide->dialogs = dialogs;
 
 	return slide;
 }

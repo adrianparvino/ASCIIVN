@@ -14,6 +14,8 @@ set(HEADERS
   event.h
   terminal.h
   slides.h
+  slidebuilder.h
+  stringmap.h
   dialog.h
   kernels.h
   testimage.h)
@@ -30,6 +32,8 @@ set(SOURCES
   event.c
   terminal.c
   slides.c
+  slidebuilder.c
+  stringmap.c
   dialog.c
   kernels.c
   testimage.c)
@@ -40,5 +44,5 @@ find_package(ZLIB REQUIRED)
 add_executable(asciivn ${SOURCES})
 target_include_directories(asciivn PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 set_property(TARGET asciivn PROPERTY C_STANDARD 11)
-target_compile_options(asciivn BEFORE PRIVATE "-O3" "-Wall" "-ftree-vectorize" "-funroll-loops" "-march=native")
+target_compile_options(asciivn BEFORE PRIVATE "-O2" "-Wall" "-ftree-vectorize" "-funroll-loops" "-march=native")
 target_link_libraries(asciivn PRIVATE PNG::PNG ZLIB::ZLIB m)
