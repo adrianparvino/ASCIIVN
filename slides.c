@@ -156,11 +156,13 @@ make_slide(struct imagebuffer *image_background,
 		.cache_dialog = NULL,
 		.message = message_,
 		.dialogs_count = dialogs_count,
-		.dialogs = slide->in_dialogs
 	};
 
 	strcpy(slide->message, message);
-	slide->dialogs = dialogs;
+	for (size_t i = 0; i < dialogs_count; ++i)
+		{
+			slide->dialogs[i] = dialogs[i];
+		}
 
 	return slide;
 }

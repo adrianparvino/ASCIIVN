@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include "asciibufferfill.h"
 #include "asciibufferssim.h"
 #include "charset.h"
@@ -44,14 +45,13 @@ main(int argc, char *argv[])
 	struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
 	struct imagebuffer *dog_bg = new_imagebuffer_from_png("dog-background.png");
 
-	struct dialog *dialogs[] = {
-		make_dialog(make_slide(dog_bg, dog, "", NULL, 0), "Yes"),
-		make_dialog(make_slide(dog_bg, dog, "", NULL, 0), "No"),
-	};
-
+	struct slide_builder_context *builder_context =
+		slide_builder_init(wae,
+		                   dog_bg,
+		                   "Do you know the wae?");
 	struct slide *initial_slide =
-		make_slide(dog_bg, wae, "Do you know the wae?", dialogs, LENGTH(dialogs));
-
+		slide_builder_end(builder_context);
+		
 	struct event event;
 	event_start();
 	struct slide_context *context =
@@ -73,12 +73,6 @@ main(int argc, char *argv[])
 	slides_end(context);
 	event_end();
 
-	for (size_t i = 0; i < LENGTH(dialogs); ++i)
-		{
-			free_slide(dialogs[i]->next);
-			free(dialogs[i]);
-		}
-	
 	free_slide(initial_slide);
 
 	free(dog_bg);

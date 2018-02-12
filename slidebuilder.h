@@ -21,11 +21,9 @@
 #include "slides.h"
 #include "stringmap.h"
 
-struct slide *EOV_;
-#define EOV (&EOV_)
-
 struct slide_builder_context
 {
+	struct slide *root;
 	struct slide *current;
 	
 	struct string_map *map;
@@ -34,14 +32,24 @@ struct slide_builder_context
 	struct slide **current_fills[];
 };
 
-void slides_builder_scene(struct slide_builder_context *context,
+void 
+slide_builder_scene(struct slide_builder_context **context,
                          char *name);
-void slides_builder_slide(struct slide_builder_context *context,
+void 
+slide_builder_slide(struct slide_builder_context **context,
                           struct imagebuffer *image_background,
                           struct imagebuffer *image_foreground,
                           char *message);
-void slides_builder_slide_reply(struct slide_builder_context **context,
-                                char *reply,
-                                char *scene);
-	
+void 
+slide_builder_slide_reply(struct slide_builder_context **context,
+                          char *reply,
+                          char *scene);
+
+struct slide_builder_context *
+slide_builder_init(struct imagebuffer *image_background,
+                   struct imagebuffer *image_foreground,
+                   char *message);
+
+struct slide *
+slide_builder_end(struct slide_builder_context *context);
 #endif

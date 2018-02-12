@@ -35,12 +35,8 @@ struct slide
 
 	char *message;
 	size_t dialogs_count;
-	union
-	{
-		struct dialog **dialogs;
-		struct slide *next;
-	};
-	struct dialog *in_dialogs[];
+	struct slide *next;
+	struct dialog *dialogs[];
 };
 
 struct slide_context

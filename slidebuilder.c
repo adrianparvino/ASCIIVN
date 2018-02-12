@@ -16,20 +16,24 @@
  */
 
 #include "slides.h"
+#include "dialog.h"
 #include "slidebuilder.h"
+#include "stringmap.h"
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <inttypes.h>
 #include <string.h>
 
-void slides_builder_scene(struct slide_builder_context *context,
+void 
+slide_builder_scene(struct slide_builder_context **context,
                          char *name)
 {
-	context->fills = (struct slide ***) string_map_index(context->map, name);
+	(*context)->fills = string_map_index((*context)->map, name);
 }
 
-void slides_builder_slide(struct slide_builder_context *context,
+void 
+slide_builder_slide(struct slide_builder_context **context,
                           struct imagebuffer *image_background,
                           struct imagebuffer *image_foreground,
                           char *message)
@@ -42,23 +46,112 @@ void slides_builder_slide(struct slide_builder_context *context,
 		           NULL,
 		           0);
 
-	for (struct slide ***fill = context->current_fills;
-	     *fill != EOV && *fill != NULL;
+	for (struct slide ***fill = (*context)->current_fills;
+	     *fill != NULL;
 	     ++fill)
 		{
-			*fill = &slide;
+			**fill = slide;
+		}
+	
+	if ((*context)->fills != NULL)
+		{
+			for(struct slide ***fill = (*context)->fills;
+			    *fill != NULL;
+			    ++fill)
+				{
+			    **fill = slide;
+				}
+
+		}
+	(*context)->fills = NULL;
+	(*context)->current = slide;
+	
+	(*context)->current_fills[0] = &slide->next;
+	(*context)->current_fills[1] = NULL;
+}
+
+void 
+slide_builder_slide_reply(struct slide_builder_context **context,
+                          char *reply,
+                          char *scene)
+{
+	if ((*context)->current_fills[0] == &(*context)->current->next)
+		{
+			(*context)->current_fills[0] = NULL;
+		}
+	
+	(*context)->current = realloc((*context)->current,
+	                             sizeof *(*context)->current +
+	                             ((*context)->current->dialogs_count + 1)*
+	                             sizeof *(*context)->current->dialogs);
+	struct dialog *dialog = make_dialog(NULL, reply);
+	(*context)->current->dialogs[(*context)->current->dialogs_count] =
+		dialog;
+	if (scene != NULL)
+		{
+			string_map_append(&(*context)->map,
+			                  scene,
+			                  &dialog->next);
+		}
+	else
+		{
+			size_t i = 0;
+			for(struct slide ***slides = (*context)->current_fills;
+			    *slides != NULL;
+			    ++slides, ++i);
+			*context = realloc(*context,
+			                   sizeof *context +
+			                   (i + 1)*sizeof *(*context)->current_fills);
+			(*context)->current_fills[i] = &dialog->next;
+		}
+	(*context)->current->dialogs_count++;
+}
+
+struct slide_builder_context *
+slide_builder_init(struct imagebuffer *image_background,
+                   struct imagebuffer *image_foreground,
+                   char *message)
+{
+	struct slide_builder_context *context = malloc(sizeof *context +
+	                                               2*sizeof *context->current_fills);
+	*context = (struct slide_builder_context) {
+		.map = NULL,
+		.fills = NULL,
+	};
+	context->current_fills[0] = NULL;
+
+	slide_builder_slide(&context,
+	                    image_background,
+	                    image_foreground,
+	                    message);
+	context->root = context->current;
+
+	return context;
+}
+ 
+struct slide *
+slide_builder_end(struct slide_builder_context *context)
+{
+	struct slide *root = context->root;
+	
+	for (struct slide ***fill = context->current_fills;
+	     *fill != NULL;
+	     ++fill)
+		{
+			**fill = root;
 		}
 	
 	if (context->fills != NULL)
 		{
 			for(struct slide ***fill = context->fills;
-			    *fill != NULL && *fill != EOV;
+			    *fill != NULL;
 			    ++fill)
 				{
-			    *fill = &slide;
+			    **fill = root;
 				}
+
 		}
 	
-	context->current_fills[0] = &slide->next;
-	context->current_fills[1] = NULL;
+	free(context);
+	return root;
 }
