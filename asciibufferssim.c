@@ -75,9 +75,6 @@ render_ssim_charset_unsafe(struct asciibuffer *dest,
 {
 	assert(src->width % font_charset->width == 0 &&
 				 src->height % font_charset->height == 0);
-
-	clear(dest);
-	
 	for (size_t y_ = 0, y = 0; y < src->height; ++y_, y += font_charset->height)
 		{
 			for (size_t x_ = 0, x = 0; x < src->width;

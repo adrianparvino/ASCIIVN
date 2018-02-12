@@ -50,6 +50,7 @@ index_offset(const struct imagebuffer *image, size_t x, size_t y, size_t offset)
 static inline unsigned char *
 index_gray(const struct imagebuffer *image, size_t x, size_t y)
 {
+	return &image->buffer[image->pixel_size*(image->width*y + x)];
 	return index_offset(image, x, y, 0);
 }
 
