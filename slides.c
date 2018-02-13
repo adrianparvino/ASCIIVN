@@ -144,7 +144,7 @@ make_slide(struct imagebuffer *image_background,
            size_t dialogs_count)
 {
 	struct slide *slide = malloc(sizeof *slide +
-	                               dialogs_count*sizeof(struct dialog *));
+	                             dialogs_count * sizeof *slide->dialogs);
 	char *message_ = malloc(strlen(message) + 1);
 	
 	*slide = (struct slide) {

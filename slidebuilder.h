@@ -29,7 +29,6 @@ struct slide_builder_context
 	struct string_map *map;
 	struct slide ***fills;
 
-	struct slide **current_fills[];
 };
 
 void 

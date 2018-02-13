@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <string.h>
+#include <assert.h>
 
 void 
 slide_builder_scene(struct slide_builder_context **context,
@@ -79,14 +80,15 @@ slide_builder_slide_reply(struct slide_builder_context **context,
 		{
 			(*context)->current_fills[0] = NULL;
 		}
-	
+
 	(*context)->current = realloc((*context)->current,
-	                             sizeof *(*context)->current +
-	                             ((*context)->current->dialogs_count + 1)*
-	                             sizeof *(*context)->current->dialogs);
+	                              sizeof *(*context)->current + 
+	                              ((*context)->current->dialogs_count + 1)*
+	                              sizeof *(*context)->current->dialogs);
+
 	struct dialog *dialog = make_dialog(NULL, reply);
-	(*context)->current->dialogs[(*context)->current->dialogs_count] =
-		dialog;
+	(*context)->current->dialogs[(*context)->current->dialogs_count++] = dialog;
+	
 	if (scene != NULL)
 		{
 			string_map_append(&(*context)->map,
@@ -95,14 +97,16 @@ slide_builder_slide_reply(struct slide_builder_context **context,
 		}
 	else
 		{
+			// HOLY SHIT. FUCK REALLOC.
 			size_t i = 0;
 			for(struct slide ***slides = (*context)->current_fills;
 			    *slides != NULL;
 			    ++slides, ++i);
 			*context = realloc(*context,
-			                   sizeof *context +
-			                   (i + 1)*sizeof *(*context)->current_fills);
+			                   sizeof **context +
+			                   (i + 2)*sizeof *(*context)->current_fills);
 			(*context)->current_fills[i] = &dialog->next;
+			(*context)->current_fills[i+1] = NULL;
 		}
 	(*context)->current->dialogs_count++;
 }

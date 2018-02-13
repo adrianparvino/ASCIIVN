@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include <assert.h>
+#include <string.h>
 
 #include "asciibufferfill.h"
 #include "imagemanip.h"
@@ -45,10 +47,14 @@ render_fill(struct asciibuffer *dest,
 {
 	struct charset *font_charset = NULL;
 
-	if (!strcmp(fontname, ""))
+	if (strcmp(fontname, "") == 0)
 		{
 			fprintf(stderr, "Warning: no fontname provided. Using fallback.\n");
 
+			font_charset = charset_read_from_directory("./fonts/FixedsysExcelsior");
+		}
+	else
+		{
 			font_charset = charset_read_from_directory("./fonts/FixedsysExcelsior");
 		}
 
@@ -78,15 +84,14 @@ render_fill(struct asciibuffer *dest,
 		{
 			for (size_t j = 0; j < dest->height; ++j)
 				{
-					size_t k = 0;
-					while (k < LENGTH(cache) &&
-				       cache[k].value < *index_gray((struct imagebuffer *) dest, i, j))
+					for (size_t k = 0; k < LENGTH(cache); ++k)
 						{
-							++k;
+							if (*index_gray((struct imagebuffer *) dest, i, j) < cache[k].value)
+								{
+									*index_gray((struct imagebuffer *) dest, i, j) = cache[k].character;
+									break;
+								}
 						}
-					--k;
-
-					*index_gray((struct imagebuffer *) dest, i, j) = cache[k].character;
 				}
 		}
 
