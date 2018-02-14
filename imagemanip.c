@@ -25,6 +25,15 @@
 #define min(x, n) ((x) < (n) ? (x) : (n))
 #define max(x, n) ((x) > (n) ? (x) : (n))
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#include <malloc.h>
+#include <windows.h>
+void *aligned_alloc(size_t alignment, size_t size)
+{
+    return __mingw_aligned_malloc(size, alignment);
+}
+#endif
+
 struct imagebuffer *
 side_by_side(struct imagebuffer *x, struct imagebuffer *y)
 {
@@ -86,7 +95,7 @@ void
 scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 {
 	int n = dest->width*dest->height;
-	
+
 	const size_t denominatorx = dest->width;
 	const size_t denominatory = dest->height;
 
@@ -100,20 +109,20 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 
 	const float stepx = (float) (src->width  - 2) / (denominatorx - 1);
 	const float stepy = (float) (src->height - 2) / (denominatory - 1);
- 
+
 	scale_bilinear_prepare
 		(index_gray,
 		 inbufferx0y0,
 		 inbufferx0y1,
 		 inbufferx1y0,
 		 inbufferx1y1,
-		 
+
 		 inbufferxf,
 		 inbufferyf,
-		 
+
 		 dest,
 		 src,
-		 
+
 		 stepx,
 		 stepy);
 
@@ -129,7 +138,7 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		 n,
 
 		 outbuffer);
-	
+
 	scale_bilinear_store
 		(index_gray,
 		 outbuffer,
@@ -156,7 +165,7 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 
 		 dest,
 		 src,
-		 
+
 		 stepx,
 		 stepy);
 
@@ -178,8 +187,11 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 		(index_alpha,
 		 outbuffer,
 		 dest);
-	
+
  cleanup:
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#define free __mingw_aligned_free
+#endif
 	free(inbufferx0y0);
 	free(inbufferx0y1);
 	free(inbufferx1y0);
@@ -187,6 +199,9 @@ scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)
 	free(inbufferxf);
 	free(inbufferyf);
 	free(outbuffer);
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#undef free
+#endif
 }
 
 struct imagebuffer *
@@ -223,8 +238,8 @@ compose(struct imagebuffer *bg,
 			for (size_t j = 0; j < fg->height; ++j)
 				{
 					unsigned char fgalpha = 0xff;
-					unsigned char bgalpha = 0xff; 
-					
+					unsigned char bgalpha = 0xff;
+
 					if (fg->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
 							fgalpha = *index_alpha(fg, i, j);
@@ -232,7 +247,7 @@ compose(struct imagebuffer *bg,
 					if (bg->color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 						{
 							bgalpha = *index_alpha(bg, column_offset + i, row_offset + j);
-							
+
 							*index_alpha(bg, column_offset + i, row_offset + j) =
 								fgalpha + bgalpha*(0xff - fgalpha)/0xff;
 						}
@@ -240,7 +255,7 @@ compose(struct imagebuffer *bg,
 					// TODO: Do not rely on float.
 					float fg_ = ((float) *index_gray(fg, i, j) * fgalpha)/0xff;
 					float bg_ = ((float) *index_gray(bg, column_offset + i, row_offset + j) * bgalpha)/0xff;
-						
+
 					*index_gray(bg, column_offset + i, row_offset + j) =
 						fg_ + bg_*(0xff - fgalpha)/0xff;
 				}

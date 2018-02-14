@@ -29,14 +29,14 @@
 char eos;
 #define EOS (&eos)
 
-void 
+void
 slide_builder_scene(struct slide_builder_context **context,
                     char *name)
 {
 	(*context)->fill_scene = name;
 }
 
-void 
+void
 slide_builder_slide(struct slide_builder_context **context,
                     struct imagebuffer *image_background,
                     struct imagebuffer *image_foreground,
@@ -63,8 +63,6 @@ slide_builder_slide(struct slide_builder_context **context,
 					string_map_append_slide_next_ptr(&(*context)->map,
 					                                 (*context)->current_fills[i],
 					                                 &(*context)->current->dialogs[i]->next);
-					printf("%p %p\n", &(*context)->current->dialogs[i]->next,
-					       *string_map_index_slide_next_ptr((*context)->map, (*context)->current_fills[i]));
 				}
 		}
 	// If dialog is empty then it is linear.
@@ -80,7 +78,6 @@ slide_builder_slide(struct slide_builder_context **context,
 			    *fills != NULL;
 			    ++fills)
 				{
-					printf ("wtf\n");
 					**fills = slide;
 				}
 		}
@@ -90,7 +87,7 @@ slide_builder_slide(struct slide_builder_context **context,
 	(*context)->current_fills[0] = EOS;
 }
 
-void 
+void
 slide_builder_slide_reply(struct slide_builder_context **context,
                           char *reply,
                           char *scene)
@@ -137,7 +134,7 @@ slide_builder_init(struct imagebuffer *image_background,
 
 	return context;
 }
- 
+
 struct slide *
 slide_builder_end(struct slide_builder_context *context)
 {
@@ -166,7 +163,7 @@ slide_builder_end(struct slide_builder_context *context)
 					**fills = NULL;
 				}
 		}
-	
+
 	free(context);
 	return root;
 }

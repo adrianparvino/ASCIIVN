@@ -20,9 +20,15 @@
 
 enum EVENT_TAG {
 	NONE,
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+	UP = 72,
+	DOWN = 80,
+	RET = '\r',
+#else
 	UP = 'A',
 	DOWN = 'B',
 	RET = '\n',
+#endif
 	CHAR,
 	RESIZE
 };
@@ -31,7 +37,7 @@ struct event {
 	enum EVENT_TAG tag;
 	char character;
 };
-	
+
 void event_start();
 struct event event_getevent();
 void event_end();

@@ -34,7 +34,7 @@ render_slides(struct slide *slide, size_t choice, size_t width, size_t height)
 			slide->cache_composed = new_asciibuffer(width, height);
 			dirty = true;
 		}
-	
+
 	if (!(slide->cache_background != NULL &&
 	      slide->cache_background->width == width &&
 	      slide->cache_background->height == height))
@@ -44,7 +44,7 @@ render_slides(struct slide *slide, size_t choice, size_t width, size_t height)
 			dirty = true;
 			render_fill(slide->cache_background, slide->image_background, "");
 		}
-	    
+
 	if (!(slide->cache_foreground != NULL &&
 	      slide->cache_foreground->width == width &&
 	      slide->cache_foreground->height == height))
@@ -70,7 +70,7 @@ render_slides(struct slide *slide, size_t choice, size_t width, size_t height)
 	compose((struct imagebuffer *) slide->cache_composed,
 	        (struct imagebuffer *) slide->cache_dialog,
 	        0, height - slide->cache_dialog->height);
-	
+
 	flatten(slide->cache_background);
 }
 
@@ -114,7 +114,7 @@ slides_loop(struct slide_context *context, struct event event)
 				}
 			if (context->current == NULL)
 				{
-					exit(1);
+					exit(EXIT_FAILURE);
 				}
 		case CHAR:
 			if (event.character == 'q') return 1;
@@ -141,7 +141,7 @@ slide_add_dialog(struct slide *slide,
                  struct dialog *dialog)
 {
 	struct slide *slide_ =  realloc(slide,
-	                                sizeof *slide + 
+	                                sizeof *slide +
 	                                (slide->dialogs_count + 1)*
 	                                sizeof *slide->dialogs);
 	slide_->dialogs[slide_->dialogs_count++] = dialog;
@@ -159,7 +159,7 @@ make_slide(struct imagebuffer *image_background,
 	struct slide *slide = malloc(sizeof *slide +
 	                             dialogs_count * sizeof *slide->dialogs);
 	char *message_ = malloc(strlen(message) + 1);
-	
+
 	*slide = (struct slide) {
 		.image_background = image_background,
 		.image_foreground = image_foreground,

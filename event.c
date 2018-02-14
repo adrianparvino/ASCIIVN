@@ -22,6 +22,7 @@
 #include <stdatomic.h>
 #include <errno.h>
 #include <string.h>
+#include <conio.h>
 
 _Atomic size_t resized = 0; // Semaphore-like
 
@@ -47,24 +48,21 @@ void
 event_start()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	// TODO: Support Windows
-	fprintf(stderr, "Windows is not yet supported.\n");
-	exit(EXIT_FAILURE);
 #else
 	/* Taken from https://www.gnu.org/software/libc/manual/html_node/Noncanon-Example.html */
 	struct termios tattr;
-	
+
 	/* Make sure stdin is a terminal. */
 	if (!isatty (STDIN_FILENO))
 		{
 			fprintf (stderr, "Not a terminal.\n");
 			exit (EXIT_FAILURE);
 		}
-	
+
 	/* Save the terminal attributes so we can restore them later. */
 	tcgetattr (STDIN_FILENO, &saved_attributes);
 	atexit (event_end);
-	
+
 	/* Set the funny terminal modes. */
 	tcgetattr (STDIN_FILENO, &tattr);
 	tattr.c_lflag &= ~(ICANON|ECHO); /* Clear ICANON and ECHO. */
@@ -76,7 +74,7 @@ event_start()
 	memset(&sa, 0, sizeof sa);
 	sa.sa_handler = signal_resize;
 	sa.sa_flags = 0;
-	
+
 	sigaction(SIGWINCH, &sa, NULL);
 #endif
 }
@@ -84,12 +82,10 @@ event_start()
 struct event
 event_getevent()
 {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#else
 	for (;;)
 		{
 			errno = 0;
-			int c = getchar();
+			int c = getch();
 
 			switch (c)
 				{
@@ -102,7 +98,10 @@ event_getevent()
 							return (struct event) { .tag = RESIZE };
 						}
 					break;
-#endif
+				case RET:
+					return (struct event) { .tag = RET };
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#else
 				case '\x1b': // ESC
 					if (getchar() != '[') // CSI
 						{
@@ -111,15 +110,19 @@ event_getevent()
 
 					switch (c = getchar())
 						{
+#endif
 						case UP: // 'A'
 						case DOWN: // 'B'
 							return (struct event) { .tag = c };
+							break;
 						}
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#else
 					break;
-				case RET:
-					return (struct event) { .tag = RET };
 				}
-			
+#endif
+
 			return (struct event) { .tag = CHAR, .character = c };
 		}
 }
@@ -128,8 +131,6 @@ void
 event_end()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	fprintf(stderr, "Windows is not yet supported.\n");
-	exit(EXIT_FAILURE);
 #else
 	tcsetattr (STDIN_FILENO, TCSANOW, &saved_attributes);
 #endif
