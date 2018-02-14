@@ -35,6 +35,7 @@ struct slide
 
 	char *message;
 	size_t dialogs_count;
+	
 	struct slide *next;
 	struct dialog *dialogs[];
 };

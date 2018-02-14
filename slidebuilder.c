@@ -50,41 +50,54 @@ slide_builder_slide(struct slide_builder_context **context,
 		           0);
 
 	size_t i = 0;
+	// First batch is to fill old
 	for (;
-	     (*context)->current_fills[i] != EOS;
+	     i < (*context)->fill_start;
 	     ++i)
 		{
-			if ((*context)->current_fills[i] == NULL)
+			if ((*context)->fills[i] == NULL)
 				{
-					(*context)->current->dialogs[i]->next = slide;
+					(*context)->old->dialogs[i]->next = (*context)->current;
 				}
 			else
 				{
 					string_map_append_slide_next_ptr(&(*context)->map,
-					                                 (*context)->current_fills[i],
-					                                 &(*context)->current->dialogs[i]->next);
+					                                 (*context)->fills[i],
+					                                 &(*context)->old->dialogs[i]->next);
 				}
 		}
 	// If dialog is empty then it is linear.
-	if (i == 0)
+	if (i == 0 && (*context)->old != NULL)
 		{
-			(*context)->current->next = slide;
+			(*context)->old->next = (*context)->current;
+		}
+	
+	// Twice old is cleared
+	size_t fills_start = i;
+	size_t fills_length = 0;
+	while ((*context)->fills[fills_start] != EOS)
+		{
+			(*context)->fills[fills_length++] = (*context)->fills[fills_start++];
 		}
 
 	struct slide ***fills;
-	if ((fills = string_map_index_slide_next_ptr((*context)->map, (*context)->fill_scene)) != NULL)
+	if ((fills = string_map_index_slide_next_ptr((*context)->map, (*context)->old_fill_scene)) != NULL)
 		{
 			for(;
 			    *fills != NULL;
 			    ++fills)
 				{
-					**fills = slide;
+					**fills = (*context)->current;
 				}
 		}
 
+	(*context)->fill_start = fills_length;
+	(*context)->fills[fills_length] = EOS;
+	
+	(*context)->old = (*context)->current;
 	(*context)->current = slide;
+	(*context)->old_fill_scene = (*context)->fill_scene;
 	(*context)->fill_scene = NULL;
-	(*context)->current_fills[0] = EOS;
 }
 
 void
@@ -105,9 +118,9 @@ slide_builder_slide_reply(struct slide_builder_context **context,
 	size_t i = (*context)->current->dialogs_count - 1;
 	*context = realloc(*context,
 	                   sizeof **context +
-	                   (i + 2)*sizeof *(*context)->current_fills);
-	(*context)->current_fills[i  ] = scene;
-	(*context)->current_fills[i+1] = EOS;
+	                   ((*context)->fill_start + i + 2)*sizeof *(*context)->fills);
+	(*context)->fills[(*context)->fill_start + i  ] = scene;
+	(*context)->fills[(*context)->fill_start + i+1] = EOS;
 }
 
 struct slide_builder_context *
@@ -116,7 +129,7 @@ slide_builder_init(struct imagebuffer *image_background,
                    char *message)
 {
 	struct slide_builder_context *context = malloc(sizeof *context +
-	                                               sizeof *context->current_fills);
+	                                               sizeof *context->fills);
 	struct slide *slide =
 		make_slide(image_background,
 		           image_foreground,
@@ -125,12 +138,16 @@ slide_builder_init(struct imagebuffer *image_background,
 		           0);
 
 	*context = (struct slide_builder_context) {
+		.old = NULL,
 		.current = slide,
 		.root = slide,
 		.map = NULL,
-		.fill_scene = NULL
+		.fill_scene = NULL,
+		.old_fill_scene = NULL,
+		.fill_start = 0
 	};
-	context->current_fills[0] = EOS;
+	context->fills[0] = EOS;
+	// 2 arrays in one
 
 	return context;
 }
@@ -141,19 +158,53 @@ slide_builder_end(struct slide_builder_context *context)
 	struct slide *root = context->root;
 
 	size_t i = 0;
+	// First batch is to fill old
 	for (;
-	     context->current_fills[i] != EOS;
+	     i < context->fill_start;
 	     ++i)
 		{
-			context->current->dialogs[i]->next = NULL;
+			if (context->fills[i] == NULL)
+				{
+					context->old->dialogs[i]->next = context->current;
+				}
+			else
+				{
+					string_map_append_slide_next_ptr(&context->map,
+					                                 context->fills[i],
+					                                 &context->old->dialogs[i]->next);
+				}
 		}
 	// If dialog is empty then it is linear.
-	if (i == 0)
+	if (i == 0 && context->old != NULL)
+		{
+			context->old->next = context->current;
+		}
+	size_t j = i;
+	for (;
+	     context->fills[j] != EOS;
+	     ++j)
+		{
+			if (context->fills[i] == NULL && context->current != NULL)
+				{
+					context->current->dialogs[i]->next = NULL;
+				}
+		}
+	// If dialog is empty then it is linear.
+	if (i == j)
 		{
 			context->current->next = NULL;
 		}
 
 	struct slide ***fills;
+	if ((fills = string_map_index_slide_next_ptr(context->map, context->old_fill_scene)) != NULL)
+		{
+			for(;
+			    *fills != NULL;
+			    ++fills)
+				{
+					**fills = context->current;
+				}
+		}
 	if ((fills = string_map_index_slide_next_ptr(context->map, context->fill_scene)) != NULL)
 		{
 			for(;
@@ -163,6 +214,7 @@ slide_builder_end(struct slide_builder_context *context)
 					**fills = NULL;
 				}
 		}
+
 
 	free(context);
 	return root;
