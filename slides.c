@@ -23,7 +23,7 @@
 #include "dialog.h"
 
 void
-render_slides(struct slide *slide, int choice, int width, int height)
+render_slides(struct slide *slide, size_t choice, size_t width, size_t height)
 {
 	bool dirty;
 	if (!(slide->cache_composed != NULL &&
@@ -135,6 +135,19 @@ slides_end(struct slide_context *context)
 {
 	free(context);
 }
+
+struct slide*
+slide_add_dialog(struct slide *slide,
+                 struct dialog *dialog)
+{
+	struct slide *slide_ =  realloc(slide,
+	                                sizeof *slide + 
+	                                (slide->dialogs_count + 1)*
+	                                sizeof *slide->dialogs);
+	slide_->dialogs[slide_->dialogs_count++] = dialog;
+	return slide_;
+}
+
 
 struct slide *
 make_slide(struct imagebuffer *image_background,

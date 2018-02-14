@@ -18,17 +18,18 @@
 #ifndef SLIDE_BUILDER_H
 #define SLIDE_BUILDER_H
 
+#include <stdbool.h>
 #include "slides.h"
 #include "stringmap.h"
 
-struct slide_builder_context
-{
+struct slide_builder_context {
 	struct slide *root;
 	struct slide *current;
 	
-	struct string_map *map;
-	struct slide ***fills;
+	struct string_map_slide_next_ptr *map;
+	char *fill_scene;
 
+	char *current_fills[];
 };
 
 void 

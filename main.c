@@ -41,16 +41,17 @@ main(int argc, char *argv[])
 			benchmark = benchmark || strcmp(argv[i], "--benchmark") == 0;
 		}
 	
-	struct imagebuffer *wae = new_imagebuffer_from_png("wae.png");
-	struct imagebuffer *dog = new_imagebuffer_from_png("dog.png");
+	struct imagebuffer *wae    = new_imagebuffer_from_png("wae.png");
+	struct imagebuffer *dog    = new_imagebuffer_from_png("dog.png");
 	struct imagebuffer *dog_bg = new_imagebuffer_from_png("dog-background.png");
-
+		
 	struct slide_builder_context *builder_context =
-		slide_builder_init(dog_bg,
-		                   dog,
-		                   "Do you know the wae?");
+		slide_builder_init(dog_bg, dog, "Do you know the wae?");
 	slide_builder_slide_reply(&builder_context, "Yes", NULL);
-	slide_builder_slide_reply(&builder_context, "No", NULL);
+	slide_builder_slide_reply(&builder_context, "No", "dontknow");
+	slide_builder_slide(&builder_context, dog_bg, wae, "You know the wae.");
+	slide_builder_scene(&builder_context, "dontknow");
+	slide_builder_slide(&builder_context, dog_bg, wae, "You don't know the wae.");
 	struct slide *initial_slide =
 		slide_builder_end(builder_context);
 		

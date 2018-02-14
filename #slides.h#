@@ -35,8 +35,12 @@ struct slide
 
 	char *message;
 	size_t dialogs_count;
-	struct slide *next;
-	struct dialog *dialogs[];
+	union
+	{
+		struct dialog **dialogs;
+		struct slide *next;
+	};
+	struct dialog *in_dialogs[];
 };
 
 struct slide_context
@@ -60,9 +64,6 @@ make_slide(struct imagebuffer *image_background,
            char *message,
            struct dialog *dialogs[],
            size_t dialogs_count);
-struct slide *
-slide_add_dialog(struct slide *slide,
-                 struct dialog *dialog);
 void free_slide(struct slide *slide);
 
 #endif

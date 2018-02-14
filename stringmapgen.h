@@ -1,6 +1,6 @@
 /* This file is part of ASCIIVN.
  *
- * Copyright (C) 2017  Adrian Parvin D. Ouano
+ * Copyright (C) 2018  Adrian Parvin D. Ouano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,27 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIALOG_H
-#define DIALOG_H
+#ifndef STRING_MAP_GEN_H
+#define STRING_MAP_GEN_H
 
-#include "asciibuffer.h"
 #include "imagebuffer.h"
+#include "slides.h"
+#include <stddef.h>
 
-struct dialog
-{
-	struct slide *next;
-	char *message;
-};
-
-size_t
-render_dialogs(struct asciibuffer *asciibuffer,
-               char *message,
-               struct dialog *dialogs[],
-               size_t dialogs_count,
-               size_t option);
-
-struct dialog *
-make_dialog(struct slide *next,
-            char *message);
+#define STRING_MAP_GEN(TYPE, TYPENAME) \
+	struct string_map_ ## TYPENAME \
+	{ \
+	 struct string_map_ ## TYPENAME *left; \
+	 struct string_map_ ## TYPENAME *right; \
+	  \
+	 char *key; \
+	  \
+	 TYPE values[]; \
+	 }; \
+	  \
+	void \
+	string_map_append_ ## TYPENAME(struct string_map_ ## TYPENAME **map, \
+		                              char key[], \
+		                              TYPE value); \
+	TYPE * \
+	string_map_index_ ## TYPENAME(struct string_map_ ## TYPENAME *map, \
+		                                char key[]);
 
 #endif

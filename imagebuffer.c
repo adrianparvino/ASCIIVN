@@ -140,7 +140,6 @@ new_imagebuffer_from_png(char image_name[])
 				.gray = 0
 			};
 		}
-
 	int color_type = png_get_color_type(png_ptr, info_ptr),
 		bit_depth = png_get_bit_depth(png_ptr, info_ptr);
 

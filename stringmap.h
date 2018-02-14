@@ -18,26 +18,8 @@
 #ifndef STRING_MAP_H
 #define STRING_MAP_H
 
-#include "imagebuffer.h"
-#include "slides.h"
-#include <stddef.h>
+#include "stringmapgen.h"
 
-struct string_map
-{
-	struct string_map *left;
-	struct string_map *right;
-
-	char *key;
-	
-	struct slide **slides[];
-};
-
-void
-string_map_append(struct string_map **map,
-                  char key[],
-                  struct slide **value);
-struct slide ***
-string_map_index(struct string_map *map,
-                 char key[]);
+STRING_MAP_GEN(struct slide **, slide_next_ptr)
 
 #endif

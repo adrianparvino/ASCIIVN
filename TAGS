@@ -1,0 +1,196 @@
+
+asciibuffer.c,334
+new_asciibuffer(size_t width, size_t height)new_asciibuffer26,807
+new_asciibuffer_alpha(size_t width, size_t height)new_asciibuffer_alpha46,1310
+flatten(struct asciibuffer *asciibuffer)flatten67,1874
+clear(struct asciibuffer *asciibuffer)clear82,2200
+show_asciibuffer(struct asciibuffer *asciibuffer)show_asciibuffer88,2350
+
+asciibuffercharset.c,0
+
+asciibufferfill.c,232
+#define LENGTH(LENGTH26,820
+struct cachecache28,864
+	float value;value30,879
+	char character;character31,893
+cmp_cache(const void *x, const void *y)cmp_cache35,918
+render_fill(struct asciibuffer *dest,render_fill42,1060
+
+asciibufferssim.c,327
+#define pow2(pow231,892
+#define signpow2(signpow232,918
+#define pow3(pow333,953
+#define length(length34,983
+render_ssim(struct asciibuffer *dest,render_ssim37,1039
+render_ssim_charset_unsafe(struct asciibuffer *dest,render_ssim_charset_unsafe72,1800
+ssim_imagebuffer(size_t column_offset,ssim_imagebuffer139,3644
+
+charset.c,147
+charset_read_from_directory(const char directory[])charset_read_from_directory30,897
+free_charset(struct charset *charset)free_charset154,3329
+
+dialog.c,121
+render_dialogs(struct asciibuffer *asciibuffer,render_dialogs7,88
+make_dialog(struct slide *next,make_dialog143,3106
+
+event.c,240
+_Atomic size_t resized = 0; // Semaphore-likeresized26,829
+struct termios saved_attributes;saved_attributes37,1118
+signal_resize(int signo)signal_resize41,1164
+event_start()event_start47,1211
+event_getevent()event_getevent85,2196
+
+imagebuffer.c,239
+#define LENGTH(LENGTH18,687
+color_type_to_bytes(int color_type)color_type_to_bytes32,910
+new_imagebuffer(size_t width, size_t height)new_imagebuffer48,1172
+new_imagebuffer_from_png(char image_name[])new_imagebuffer_from_png68,1677
+
+imagemanip.c,481
+#define min(min25,820
+#define max(max26,862
+side_by_side(struct imagebuffer *x, struct imagebuffer *y)side_by_side29,926
+top_bottom(struct imagebuffer *x, struct imagebuffer *y)top_bottom44,1246
+scale_nearest(struct imagebuffer *dest, struct imagebuffer *src)scale_nearest59,1550
+scale_bilinear(struct imagebuffer *dest, const struct imagebuffer *src)scale_bilinear86,2244
+extract(size_t column_offset,extract189,4165
+compose(struct imagebuffer *bg,compose208,4584
+
+imagemanip_kernel.c,133
+scale_bilinear_prepare(unsigned char *scale_bilinear_prepare4,37
+scale_bilinear_store(unsigned char *scale_bilinear_store60,1603
+
+kernels.c,85
+hadd_(float * restrict x, float * restrict y)hadd_8,102
+hadd(float *x)hadd31,524
+
+main.c,72
+#define LENGTH(LENGTH32,975
+main(int argc, char *argv[])main34,1020
+
+slides.c,410
+render_slides(struct slide *slide, int choice, int width, int height)render_slides26,816
+slides_init(struct slide *slide)slides_init78,2543
+slides_loop(struct slide_context *context, struct event event)slides_loop93,2766
+slides_end(struct slide_context *context)slides_end122,3478
+make_slide(struct imagebuffer *image_background,make_slide128,3541
+free_slide(struct slide *slide)free_slide160,4354
+
+terminal.c,96
+get_terminal_width()get_terminal_width25,774
+get_terminal_height()get_terminal_height34,882
+
+testcharset.c,50
+struct charset testcharset = {testcharset21,727
+
+testimage.c,394
+unsigned char smiley[8][8] = {smiley27,969
+unsigned char half_smiley[64] = {half_smiley38,1411
+unsigned char smiley_flat[64] = {smiley_flat50,1841
+unsigned char blank[8][8] = {blank61,2270
+test_slash()test_slash73,2535
+test_backslash()test_backslash79,2642
+test_pipe()test_pipe86,2782
+test_dot()test_dot92,2885
+test_comma()test_comma98,2984
+test_dollar()test_dollar104,3091
+
+xbmutils.c,153
+#define rotr8(rotr822,730
+#define rotl8(rotl823,775
+xbm_to_unsigned_char_arr(char *src, size_t width, size_t height)xbm_to_unsigned_char_arr26,849
+
+asciibuffer.h,83
+#define ASCII_BUFFER_HASCII_BUFFER_H19,710
+struct asciibufferasciibuffer24,780
+
+asciibuffercharset.h,175
+#define ASCII_BUFFER_CHARSET_HASCII_BUFFER_CHARSET_H19,718
+struct charsetcharset23,771
+	size_t width,width25,788
+	  height;height26,803
+	char (*chars)[];chars27,814
+
+asciibufferfill.h,55
+#define ASCII_BUFFER_FILL_HASCII_BUFFER_FILL_H19,715
+
+asciibufferssim.h,55
+#define ASCII_BUFFER_SSIM_HASCII_BUFFER_SSIM_H19,715
+
+charset.h,301
+#define ASCII_CHARSET_HASCII_CHARSET_H19,711
+struct chardescchardesc25,795
+	char character;character27,813
+	unsigned char *glyph;glyph29,831
+struct charsetcharset32,858
+	size_t width,width34,875
+	  height;height35,890
+	size_t n;n37,902
+	struct chardesc characters[];characters38,913
+
+dialog.h,163
+#define DIALOG_HDIALOG_H19,705
+struct dialogdialog24,774
+	struct slide *next;next26,790
+	char *message;message27,811
+	char in_message[];in_message28,827
+
+event.h,289
+#define EVENT_HEVENT_H19,703
+enum EVENT_TAG {EVENT_TAG21,720
+	NONE,NONE22,737
+	UP = 'A',UP23,744
+	DOWN = 'B',DOWN24,755
+	RET = '\n',RET25,768
+	CHAR,CHAR26,781
+	RESIZERESIZE27,788
+struct event {event30,800
+	enum EVENT_TAG tag;tag31,815
+	char character;character32,836
+
+imagebuffer.h,458
+#define IMAGE_BUFFER_HIMAGE_BUFFER_H19,710
+#define IMAGEBUFFER_BODY IMAGEBUFFER_BODY24,772
+struct imagebufferimagebuffer34,945
+index_offset(const struct imagebuffer *image, size_t x, size_t y, size_t offset)index_offset45,1192
+index_gray(const struct imagebuffer *image, size_t x, size_t y)index_gray51,1381
+index_alpha(const struct imagebuffer *image, size_t x, size_t y)index_alpha57,1518
+#define DEFAULT_COLOR_TYPE DEFAULT_COLOR_TYPE62,1626
+
+imagemanip.h,41
+#define IMAGEMANIP_HIMAGEMANIP_H19,708
+
+imagemanip_kernel.h,144
+#define IMAGEMANIP_KERNEL_HIMAGEMANIP_KERNEL_H2,28
+scale_bilinear_kernel(const unsigned char *restrict in_x0y0,scale_bilinear_kernel35,1214
+
+kernels.h,33
+#define KERNELS_HKERNELS_H2,18
+
+slides.h,706
+#define SLIDES_HSLIDES_H19,705
+struct slideslide27,851
+	struct imagebuffer *image_background,image_background29,866
+	  *image_foreground;image_foreground30,905
+	struct asciibuffer *cache_composed,cache_composed31,927
+		*cache_background,cache_background32,964
+		*cache_foreground,cache_foreground33,985
+		*cache_dialog;cache_dialog34,1006
+	char *message;message36,1024
+	size_t dialogs_count;dialogs_count37,1040
+	struct dialog **dialogs;dialogs38,1063
+	struct dialog *in_dialogs[];in_dialogs39,1089
+struct slide_contextslide_context42,1123
+	struct slide *current;current44,1146
+	int width, height;width45,1170
+	int width, height;height45,1170
+	size_t choice;choice46,1190
+
+terminal.h,37
+#define TERMINAL_HTERMINAL_H19,706
+
+testimage.h,41
+#define TEST_IMAGE_HTEST_IMAGE_H19,708
+
+xbmutils.h,39
+#define XBM_UTILS_HXBM_UTILS_H19,707

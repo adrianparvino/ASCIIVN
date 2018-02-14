@@ -148,9 +148,8 @@ make_dialog(struct slide *next,
 	struct dialog *dialog = malloc(sizeof *dialog + n + 1);
 	*dialog = (struct dialog) {
 		.next = next,
-		.message = dialog->in_message
+		.message = message
 	};
-	strcpy(dialog->in_message, message);
 
 	return dialog;
 }
