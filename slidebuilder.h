@@ -24,12 +24,15 @@
 
 struct slide_builder_context {
 	struct slide *root;
+	struct slide *old;
 	struct slide *current;
 	
 	struct string_map_slide_next_ptr *map;
+	char *old_fill_scene;
 	char *fill_scene;
 
-	char *current_fills[];
+	size_t fill_start;
+	char *fills[];
 };
 
 void 

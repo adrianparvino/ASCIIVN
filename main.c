@@ -54,12 +54,19 @@ main(int argc, char *argv[])
 	
 	struct imagebuffer *dog    = new_imagebuffer_from_png("dog.png");
 	struct imagebuffer *dog_bg = new_imagebuffer_from_png("dog-background.png");
+	struct imagebuffer *christmas = new_imagebuffer_from_png("christmas-anime-lineart.png");
 		
 	slide_builder_slide_reply(&builder_context, "Yes", NULL);
 	slide_builder_slide_reply(&builder_context, "No", "dontknow");
+	
 	slide_builder_slide(&builder_context, dog_bg, wae, "You know the wae.");
+	slide_builder_slide_reply(&builder_context, "Thanks", "christmas");
+	
 	slide_builder_scene(&builder_context, "dontknow");
 	slide_builder_slide(&builder_context, dog_bg, wae, "You don't know the wae.");
+	
+	slide_builder_scene(&builder_context, "christmas");
+	slide_builder_slide(&builder_context, dog_bg, christmas, "Whatevs, merry christmas.");
 	struct slide *initial_slide =
 		slide_builder_end(builder_context);
 		

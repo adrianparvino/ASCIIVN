@@ -80,18 +80,20 @@ render_fill(struct asciibuffer *dest,
 
 	qsort(cache, font_charset->n, sizeof(*cache), cmp_cache);
 
+
 	for (size_t i = 0; i < dest->width; ++i)
 		{
 			for (size_t j = 0; j < dest->height; ++j)
 				{
-					for (size_t k = 0; k < LENGTH(cache); ++k)
+					size_t k = 0;
+					while (k < LENGTH(cache) &&
+				       cache[k].value < *index_gray((struct imagebuffer *) dest, i, j))
 						{
-							if (*index_gray((struct imagebuffer *) dest, i, j) < cache[k].value)
-								{
-									*index_gray((struct imagebuffer *) dest, i, j) = cache[k].character;
-									break;
-								}
+							++k;
 						}
+					--k;
+
+					*index_gray((struct imagebuffer *) dest, i, j) = cache[k].character;
 				}
 		}
 
