@@ -22,7 +22,11 @@
 #include <stdatomic.h>
 #include <errno.h>
 #include <string.h>
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <conio.h>
+#else
+#endif
 
 _Atomic size_t resized = 0; // Semaphore-like
 
@@ -85,7 +89,11 @@ event_getevent()
 	for (;;)
 		{
 			errno = 0;
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 			int c = getch();
+#else
+			int c = getchar();
+#endif
 
 			switch (c)
 				{

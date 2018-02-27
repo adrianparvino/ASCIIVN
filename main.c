@@ -36,17 +36,25 @@ int
 main(int argc, char *argv[])
 {
 	bool benchmark = false;
+	char *file = NULL;
+	
+	struct imagebuffer *wae    = new_imagebuffer_from_png("wae.png");
+	struct slide_builder_context *builder_context =
+		slide_builder_init(wae_bg, wae, "Do you know the wae?");
 	for (size_t i = 1; i < argc; ++i)
 		{
 			benchmark = benchmark || strcmp(argv[i], "--benchmark") == 0;
+			if (strcmp(argv[i], "--file") == 0)
+				{
+					file = argv[++i];
+					wae = new_imagebuffer_from_png(file);
+					builder_context = slide_builder_init(wae_bg, wae, "Do you know the wae?");
+				}
 		}
 	
-	struct imagebuffer *wae    = new_imagebuffer_from_png("wae.png");
 	struct imagebuffer *dog    = new_imagebuffer_from_png("dog.png");
 	struct imagebuffer *dog_bg = new_imagebuffer_from_png("dog-background.png");
 		
-	struct slide_builder_context *builder_context =
-		slide_builder_init(dog_bg, dog, "Do you know the wae?");
 	slide_builder_slide_reply(&builder_context, "Yes", NULL);
 	slide_builder_slide_reply(&builder_context, "No", "dontknow");
 	slide_builder_slide(&builder_context, dog_bg, wae, "You know the wae.");

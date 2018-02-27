@@ -17,16 +17,11 @@
 
 #define LENGTH(x) (sizeof(x) / sizeof(*x))
 
+#include "imagebuffer.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <png.h>
-
-#include "imagebuffer.h"
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<png.h>
 
 int
 color_type_to_bytes(int color_type)
