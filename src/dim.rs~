@@ -1,4 +1,0 @@
-pub struct Dim {
-    width: usize,
-    height: usize
-}
