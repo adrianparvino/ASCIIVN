@@ -1,18 +1,22 @@
 #+TITLE: ASCIIVN: An ASCII art visual novel engine written in C
 
-* Dependencies
+* Without Nix
+** Dependencies
   - libpng :: For loading of PNG files into imagebuffers.
 
-* Compiling
-  Use ~cmake~ to generate the Makefiles;
-the binaries and the images should be in the same location.
+** Compiling
+  Use ~cmake~ to generate the Makefiles.
 
   #+BEGIN_src bash
   cmake -H. -Bbuild                                    # Make separate build directory to have a clean repository
   bash -c "cd build && make VERBOSE=1 && cp ./asciivn" # Build under a bash subprocess in order to preserve pwd.
   #+END_src
 
-* Running
+** Running
   ~./asciivn~ accepts the following flags:
   - ~--benchmark~ :: Skips through all the choices; picking the first choice
   - ~--file FILE~ :: Changes all foreground images to the provided FILE
+
+  NB: The binaries and the images should be in the same location.
+  This is an architectural mishap and should be fixed once getopt is implemented
+  or ported to Rust.
