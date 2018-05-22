@@ -46,3 +46,7 @@ target_include_directories(asciivn PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 set_property(TARGET asciivn PROPERTY C_STANDARD 11)
 target_compile_options(asciivn BEFORE PRIVATE "-O3" "-Wall" "-g3" "-ftree-vectorize" "-march=native")
 target_link_libraries(asciivn PRIVATE PNG::PNG ZLIB::ZLIB m)
+
+install(FILES dog-background.png wae.png dog.png christmas-anime-lineart.png DESTINATION bin)
+install(DIRECTORY fonts DESTINATION bin)
+install(TARGETS asciivn DESTINATION bin)

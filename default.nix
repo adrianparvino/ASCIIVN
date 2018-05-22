@@ -4,12 +4,18 @@
 , libpng ? pkgs.libpng
 }:
 
-stdenv.mkDerivation rec {
-  name = "TamagoC";
+let asciivn = stdenv.mkDerivation rec {
+  name = "ASCIIVN";
   version = "0.0.1";
 
   src = ./.;
 
   buildInputs =
     [ cmake libpng ];
-}
+}; in
+pkgs.writeScriptBin "run-asciivn" ''
+  #!${pkgs.stdenv.shell}
+
+  cd ${asciivn}/bin
+  exec ./asciivn $@
+''
