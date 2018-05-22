@@ -1,4 +1,8 @@
 #+TITLE: ASCIIVN: An ASCII art visual novel engine written in C
+[[https://builtwithnix.org/badge.svg]]
+
+* With Nix
+  ~nix-build~ will produce the wrapper script, ~bin/run-asciivn~
 
 * Without Nix
 ** Dependencies
