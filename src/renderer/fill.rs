@@ -5,8 +5,8 @@ use dim::Dim;
 pub fn render_fill<'a>(dst: Imagebuffer,
                        dim: Dim) -> Option<Asciibuffer<'a>>
 {
-    if (dst.dim.width  % dim.width  != 0) { return None; }
-    if (dst.dim.height % dim.height != 0) { return None; }
+    if (dst.buffer.dim.width  % dim.width  != 0) { return None; }
+    if (dst.buffer.dim.height % dim.height != 0) { return None; }
 
     Some(Asciibuffer {
         dim,
@@ -16,4 +16,3 @@ pub fn render_fill<'a>(dst: Imagebuffer,
         buffer: ""
     })
 }
-               
