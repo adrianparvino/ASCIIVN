@@ -3,15 +3,14 @@ use buffer::asciibuffer::Asciibuffer;
 use buffer::imagebuffer::Imagebuffer;
 use buffer::buffer2d::Buffer2d;
 
-pub struct BlockIterator {
+pub struct BlockIterator<T> {
     pub stride: Dim,
     pub location: Dim,
 
-    pub buffer: Imagebuffer
+    pub buffer: T
 }
 
-
-impl Iterator for BlockIterator {
+impl Iterator for BlockIterator<Imagebuffer> {
     type Item = Imagebuffer;
 
     fn next(&mut self) -> Option<Imagebuffer> {

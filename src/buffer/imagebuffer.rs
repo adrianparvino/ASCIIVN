@@ -11,7 +11,7 @@ pub struct Imagebuffer {
 }
 
 fn into_iter(imagebuffer: Imagebuffer,
-             dim: Dim) -> BlockIterator
+             dim: Dim) -> BlockIterator<Imagebuffer>
 {
     BlockIterator {
         stride: dim,
@@ -21,7 +21,7 @@ fn into_iter(imagebuffer: Imagebuffer,
     }
 }
 
-fn from_iter(blockiter: BlockIterator) -> Imagebuffer
+fn from_iter(blockiter: BlockIterator<Imagebuffer>) -> Imagebuffer
 {
     blockiter.buffer
 }
