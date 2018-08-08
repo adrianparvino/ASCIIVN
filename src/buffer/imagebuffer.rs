@@ -1,6 +1,7 @@
 use dim::Dim;
 use buffer::buffer2d::Buffer2d;
 use buffer::block_iterator::BlockIterator;
+use buffer::block_iterator::IntoBlockIterator;
 
 pub struct Imagebuffer {
     pub background: u32,
@@ -10,18 +11,50 @@ pub struct Imagebuffer {
     pub buffer: Buffer2d<u8>
 }
 
-fn into_iter(imagebuffer: Imagebuffer,
-             dim: Dim) -> BlockIterator<Imagebuffer>
-{
-    BlockIterator {
-        stride: dim,
-        location: Dim { height: 0, width: 0 },
+impl IntoBlockIterator for Imagebuffer {
+    type BlockIter = BlockIterator<Imagebuffer>;
 
-        buffer: imagebuffer
+    fn into_iter(self, dim: Dim) -> Self::BlockIter
+    {
+        BlockIterator {
+            stride: dim,
+            location: Dim { height: 0, width: 0 },
+
+            buffer: self
+        }
+    }
+
+    fn from_iter(blockiter: Self::BlockIter) -> Imagebuffer
+    {
+        blockiter.buffer
     }
 }
 
-fn from_iter(blockiter: BlockIterator<Imagebuffer>) -> Imagebuffer
-{
-    blockiter.buffer
+impl Iterator for BlockIterator<Imagebuffer> {
+    type Item = Imagebuffer;
+
+    fn next(&mut self) -> Option<Imagebuffer> {
+        let x = self.location.width;
+        let y = self.location.height;
+        let w = self.stride.width;
+        let h = self.stride.height;
+
+        let ret = Imagebuffer {
+            background: self.buffer.background,
+            color_type: self.buffer.color_type,
+            pixel_size: self.buffer.pixel_size,
+
+            buffer: Buffer2d {
+                dim: Dim { height: self.stride.height, width: self.stride.width },
+                buffer: self.buffer.buffer.buffer[y..y+h]
+                            .iter()
+                            .map(|v| v[x..x+w].to_vec())
+                            .collect()
+            }
+        };
+
+        self.location.width += self.stride.width;
+
+        Some(ret)
+    }
 }
