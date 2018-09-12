@@ -1,5 +1,6 @@
 use buffer::imagebuffer::Imagebuffer;
 use buffer::asciibuffer::Asciibuffer;
+use scale::bilinear::bilinear_scale;
 use dim::Dim;
 
 pub fn render_fill<'a>(dst: Imagebuffer,
